@@ -1,0 +1,95 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>Рога и Копыта</TITLE>
+     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class='main'>
+    <div class='top'>Рога и Копыта</div>
+    <div class='content'>
+        <div class='g'>
+            <div class='centre'>
+                <div class='menu' data-group='first_menu'>
+                    <div data-click='in_first' title='Войти'></div>
+                    <div data-click='new_first' data-choose='0' title='Зарегистрироваться'></div>
+                </div>
+                <div class='menu' data-group='main_menu'>
+                    <div data-click='login' data-choose='0' title='Логин/Пароль'></div>
+                    <div data-click='domains' data-choose='0' title='Домен'></div>
+                    <div data-click='stafs' data-choose='0' title='Сотрудники'></div>
+                </div>
+                <div class='menu' data-group='login_menu'>
+                    <div data-click='in' title='Войти'></div>
+                    <div data-click='new_pass_open' title='Новый пароль'></div>
+                    <div data-click='out' title='Выйти'></div>
+                </div>                
+                <div class='article' data-group='table'>
+					<div data-title='centre'></div>
+                    <table data-id='centre'>
+            		</table>
+        			<div class='line'> 
+        				<div  data-click="recovery_staff"   title='Получить список '></div>
+        				<div  data-click="send"  data-many='centre' title='Отправить'></div>	
+        			</div>
+                </div> 
+				
+            </div>
+        </div>
+        
+        <div class='section'>
+            <div class='sections_top'>
+                <div class='title'>Справка</div>
+            </div>
+			
+			<div class='article' data-group='manual_decor'>
+				<table data-id='manual'>
+				</table>
+			</div>
+				
+			
+            <div class='table' data-group='manual_role'>
+                <div class='line'>
+                    <div data-picture='check_in'></div>
+                    <div class='description'>Элемент выбран</div>
+                </div>
+            </div>
+            <div class='table' data-group='manual_login'>
+                <div class='line'>
+                    <div data-picture='in'></div>
+                    <div class='description'>Отправить</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='new_pass'></div>
+                    <div class='description'>Отправить</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='out'></div>
+                    <div class='description'>Отправить</div>
+                </div>
+            </div>
+
+            <div class='table' data-group='manual_munu'>
+                <div class='line'>
+                    <div data-picture='login'></div>
+                    <div class='description'>Сменить Логин и Пароль</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='domains'></div>
+                    <div class='description'>Выбрать домен</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='stafs'></div>
+                    <div class='description'>Управление сотрудниками </div>
+                </div>
+            </div>
+   
+
+        </div>
+    </div>
+</div>
+<div data-temp=main></div>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>Рога и Копыта</TITLE>
+     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<input list="br"  />
+<div data-temp=main>roga</div>
+<datalist id="br">
+  <option value="Chrome">
+  <option value="Firefox">
+  <option value="Internet Explorer">
+  <option value="Opera">
+  <option value="Safari">
+  <option value="Microsoft Edge">
+</datalist>
+
+<div data-temp=main></div>
+<script src="script.js"></script>
+</body>
+</html>

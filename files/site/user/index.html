@@ -1,0 +1,99 @@
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+     <meta name="viewport" content="width=device-width">
+    <TITLE>Рога и Копыта</TITLE>
+    <link rel="stylesheet" href="style.css">
+
+ </head>
+ <body>
+ <div class='main first'>
+	<div class='page_name'>Рога и Копыта</div>
+</div>
+<div class='main first' data-block='login'> 
+	<div class='two'> 
+		<div class='one'> 
+			<div class='buttons'> 
+				<div class='desc'>Логин</div>
+				<input data-id='login'  type=text   placeholder="Введите Логин" >		
+			</div>
+			<div class='buttons'> 
+				<div class='desc'>Пароль</div>
+				<input data-id='password'  type=text   placeholder="Введите Пароль" >		
+			</div>
+			<div class='buttons hiden'> 
+				<div class='desc'>Логин и Пароль используется только для восстановения данных.
+								Мы не храним Логин и Пароль, на сервере хранится только Хеш этих зачений. </div>	
+			</div>
+		</div>
+	</div>
+	<div class='two'> 
+		<div class='one'> 
+			<div class='buttons'> 
+				<div class='desc'>Имя</div>
+				<input data-id='name'  type=text   placeholder="Как к вам обращаться?" >		
+			</div>
+			<div class='buttons hiden'> 
+				<div class='desc'>Имя, ник, любое удобное Вам обащение. 
+				Используется в программе лояльности. Не обязательное для заполения поле. </div>	
+			</div>
+		</div>
+	</div>
+	<div class='two'> 
+		<div class='one'> 
+			<div class='buttons'> 
+				<div class='btn'  data-action="recovery"   title = "Восстановление"></div>
+				<div class='btn'  data-action="new_user"   title = "Регистрация"></div>		
+			</div>
+			<div class='two hiden1' > 
+			    <div class='buttons'>
+			        <div  class='desc' data-gif="recovery"></div><div class='desc' >Восстановаление данных при смене браузера.</div>
+			    </div>
+			    <div class='buttons'>
+			        <div  class='desc' data-gif="new_user"></div><div class='desc' >Регистрация новых клиентов.</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='main next' data-block='color'>
+	<div class='two'> 
+		<div class='one'> 
+			<div class='buttons kod'> 
+				<div class='desc'>3215</div>
+			</div>
+			<div class='buttons hiden'> 
+				<div class='desc'>Сообщите цвет блока и код (покажите экран) менеджеру. После подтверждения нажмите кнопку Вход.</div>	
+			</div>
+		</div>
+	</div>
+</div>
+<div class='main next' data-block='status' data-display="0">
+	<div class='two'> 
+		<div class='one'> 
+			<div class='buttons'> 
+				<div class='desc' data-write='status'>Вход</div>
+				<div class='desc' data-write='time'>12:45:31</div>	
+			</div>
+		</div>
+	</div>
+</div>
+<div class='main next' data-block='btns'>
+	<div class='two'> 
+		<div class='one'> 
+			<div class='one'>
+			    <div class='btn' data-action="in_user" data-block='in_user' data-title='Вход' ></div>	
+			    <div class='btn' data-action="check" data-block="check" data-title='Проверка' ></div>
+			    <div class='btn' data-action="out_user"  data-block="out_user" data-title='Выход' ></div>
+			    <div class='btn' data-action="story"  data-title='История' ></div>	
+			    <div class='btn' data-action="read" data-title='Состояние' ></div>
+			    <div class='btn' data-action="bill" data-title='Счет' ></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='main next' data-table='bill'  data-block='bill'> </div>
+<div class='main next'  data-table='story' data-block='story'> </div>
+<script src="script.js"></script>
+ </body>
+</html>

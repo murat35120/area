@@ -1,0 +1,315 @@
+:root {/* создаем переменные*/
+	--position_fon_x: 50%; /* положение фона по х*/
+	--position_fon_y: 0%; /* положение фона по y*/
+}
+
+.main div, .main input, .main select, .main{  /* значения по умолчанию */
+    display: flex;  /* включили гибкое форматирование */
+}
+ /*1   */
+.main, .section, .table, .centre, .article, .column{
+	flex-direction: column; /* направление главнеой оси в ряд*/
+}
+ /*2   */
+.content, .menu, .sections_top, .article>.line{
+    justify-content: space-around; /* распределение содержимого  по главной оси */ 
+}
+.top, .centre, .section, .title, .g, tr>td:nth-child(n+2)>div{
+    justify-content: center; /* распределение содержимого  по главной оси */ 
+}
+
+ /*3 */
+.content{
+    align-items:flex-start  ; /* выравнивание в поперечной оси */  
+}
+.description, .sections_top,  .menu>input, .article{
+    align-items:center ; /* выравнивание в поперечной оси */   
+}
+.article>.line{
+	align-self: stretch;
+}
+ /*4 */
+.g{
+    flex-grow: 1;  
+}
+
+.content, .menu{
+    flex-wrap:wrap; /* перенос блоков */ 
+}
+
+.centre{
+    flex-basis: 30em; 
+}
+.section{
+    flex-basis: 20em; 
+} 
+
+/* ----------------   flax  -------------- */
+.main1, .article1 {
+    width:100%;
+    height:100%;
+    overflow:auto;
+}
+
+
+/*5 */
+.line>div,  .centre input, .column {
+	margin: 0px;
+	padding: 5px;
+}  
+
+table{
+	margin: 5px 5px ;
+}
+td>div{
+    margin: auto;
+}
+  
+/*5 */
+div, input, select, textarea, table{
+    font-size:  20px;    
+    font-family:  serif;  
+}
+
+.top{
+    font-size:  2em;
+}
+.title{
+    font-size:  1.4em;  
+}  
+
+div[data-column_area]>div{
+    width: 1em;
+    height: 1em;
+}
+
+input{
+	 /*width: 10ex;*/
+	 text-align: center;
+}
+tr>td{
+    padding: 3px 10px;
+}
+tr>td:nth-child(n+2)>select, tr>td:nth-child(n+2)>input{
+    margin: auto;
+    text-align: center;
+}
+
+
+tr[data-key_employee]>td:nth-child(3){
+    width:5em;
+}
+input::placeholder {
+    color: rgb(120, 120, 120);
+    opacity:0.7;
+}
+input:hover{
+	 /*width: 10ex;*/
+	 background-color: white;
+}
+
+
+input{
+    max-width:25ex;
+    max-height:2em;
+    background-color:rgba(205, 214, 219, 0);
+    border:none;
+}
+
+input[type=number]{
+	max-width:10ex;
+}
+
+select{
+    background-color:rgba(205, 214, 219, 0);
+    border:none;
+    text-align: center;
+    appearance: none;
+}
+
+.line>select{
+    font-size:  1.4em; 
+}
+
+.page_name{
+    font-size:  30px;
+	text-align: center;
+	padding: 20px;
+}
+
+/*10 animation*/
+.menu div[data-choose='1']{
+    background-color: rgb(255, 2550, 255);    
+}
+div[data-click]:hover {
+    background-color: rgb(200, 200, 200);
+}
+div[data-click]{
+    border-style: outset;
+    user-select: none;
+    border-radius: 10px; 
+	padding: 5px 10px; 	
+}
+div[data-click]:active {
+    border-style:inset;
+    background-color: rgb(255, 255, 255);
+}
+
+
+.menu>div{
+	margin:7px 10px;
+	padding:7px 10px;
+}
+
+.kod{
+    background-color: rgb(255, 120, 255);
+    border-radius: 10px; 
+}
+
+
+body{
+    background: url(fon.jpg) repeat; /* Параметры фона */  
+    background-position:  var(--position_fon_x) var(--position_fon_y);
+    transition: 5s; /* время трансформации*/
+}
+.desc, .page_name{
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px; 
+}
+.three>.desc{
+        border-radius: 0; 
+}
+
+div[data-display="0"]{
+	max-height:0;
+	opacity: 0;  /* прозрачность почти невидно*/
+	overflow-y: hidden;
+	padding:0;
+}
+
+div[data-click='staff_open'], div[data-picture='staff_open'] {
+    background: url(/png/staff.png) no-repeat;
+}
+div[data-click='stafs'], div[data-picture='stafs'] {
+    background: url(/png/stafs.png) no-repeat;
+}
+div[data-click='service'], div[data-picture='service']  {
+    background: url(/png/service.png) no-repeat;
+}
+div[data-click='price'], div[data-picture='price']  {
+    background: url(/png/price.png) no-repeat;
+}
+div[data-click='manager'], div[data-picture='manager'] {
+    background: url(/png/manager.png) no-repeat;
+}
+div[data-click='login'], div[data-picture='login'] {
+    background: url(/png/login.png) no-repeat;
+}
+div[data-click='role_open'], div[data-picture='role_open'] {
+    background: url(/png/role.png) no-repeat;
+}
+div[data-click='right'], div[data-picture='right'] {
+    background: url(/png/right.png) no-repeat;
+}
+div[data-click='client'], div[data-picture='client'] {
+    background: url(/png/client.png) no-repeat;
+}
+div[data-click='clients'], div[data-picture='clients'] {
+    background: url(/png/clients.png) no-repeat;
+}
+div[data-click='decor'], div[data-picture='decor'] {
+    background: url(/png/decor.png) no-repeat;
+}
+div[data-click='message'], div[data-picture='message'] {
+    background: url(/png/message.png) no-repeat;
+}
+div[data-click='balance'], div[data-picture='balance'] {
+    background: url(/png/balance.png) no-repeat;
+}
+div[data-click='detail'], div[data-picture='detail'] {
+    background: url(/png/detail.png) no-repeat;
+}
+div[data-click='close'], div[data-picture='close'] {
+    background: url(/png/close.png) no-repeat;
+}
+div[data-click='count_set_open'], div[data-picture='count_set_open'] {
+    background: url(/png/count_set.png) no-repeat;
+}
+div[data-click='price_list_open'], div[data-picture='price_list_open'] {
+    background: url(/png/price_list.png) no-repeat;
+}
+div[data-click='user'], div[data-picture='user'] {
+    background: url(/png/user.png) no-repeat;
+}
+div[data-click='indoor'], div[data-picture='indoor'] {
+    background: url(/png/indoor.png) no-repeat;
+}
+div[data-click='log'], div[data-picture='log'] {
+    background: url(/png/log.png) no-repeat;
+}
+div[data-click='request'], div[data-picture='request'] {
+    background: url(/png/request.png) no-repeat;
+}
+div[data-click='story'], div[data-picture='story'] {
+    background: url(/png/story.png) no-repeat;
+}
+div[data-click='bill'], div[data-picture='bill'] {
+    background: url(/png/bill.png) no-repeat;
+}
+div[data-click='send'], div[data-picture='send'] {
+    background: url(/png/send.png) no-repeat;
+}
+div[data-click='check_in'], div[data-picture='check_in'] {
+    background: url(/png/check_in.png) no-repeat;
+}
+div[data-click='check_out'], div[data-picture='check_out']  {
+    background: url(/png/check_out.png) no-repeat;
+}
+div[data-click='perk_list_open'], div[data-picture='perk_list_open']  {
+    background: url(/png/perk_list.png) no-repeat;
+}
+div[data-click='new_pass_staff_open'], div[data-picture='new_pass_staff_open'] {
+    background: url(/png/new_pass_open.png) no-repeat;
+}
+div[data-click='new_staff_open'], div[data-picture='new_staff_open'] {
+    background: url(/png/new.png) no-repeat;
+}
+div[data-click='in'], div[data-picture='in']  {
+    background: url(/png/recovery_staff.png) no-repeat;
+}
+div[data-click='out'], div[data-picture='out']  {
+    background: url(/png/out.png) no-repeat;
+}
+div[data-click='recovery_staff_open'], div[data-picture='recovery_staff_open']  {
+    background: url(/png/in.png) no-repeat;
+}
+div[data-click='copy'], div[data-picture='copy']  {
+    background: url(/png/copy.png) no-repeat;
+}
+div[data-click='insert'], div[data-picture='insert']  {
+    background: url(/png/insert.png) no-repeat;
+}
+div[data-click='delete'], div[data-picture='delete']  {
+    background: url(/png/delete.png) no-repeat;
+}
+div[data-click='past'], div[data-picture='past']  {
+    background: url(/png/past.png) no-repeat;
+}
+div[data-click] {
+  width: 2em;
+  height: 2em;
+  background-size: 70%;
+  background-position: center;
+}
+div[data-picture] {
+  width: 1.4em;
+  height: 1.4em;
+  background-size: 70%;
+  background-position: center;
+}
+div[data-column_area]>div[data-click], div[data-right] div[data-click], div[data-small], td>div[data-click] {
+  width: 1em;
+  height: 1em;
+  background-size: 70%;
+  background-position: center;
+}

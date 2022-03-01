@@ -1,0 +1,86 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <TITLE>Рога и Копыта</TITLE>
+     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class='main'>
+    <div class='top'>Рога и Копыта</div>
+    <div class='content'>
+        <div class='g'>
+            <div class='centre'>
+                <div class='menu' data-group='main_menu'>
+					<div data-click='login' data-choose='0' title='Логин/Пароль'></div>
+                    <div data-click='stafs' data-choose='0' title='Сотрудники'></div>
+                    <div data-click='service' data-choose='0' title='Сервис'></div>
+                    <div data-click='price' data-choose='0' title='Цены'></div>
+                    <div data-click='manager'  data-choose='0' title='Контроль'></div>
+                    <div data-click='clients'  data-choose='0' title='Клиенты'></div>
+                </div>
+                <div class='menu' data-group='login_menu'>
+                    <div data-click='in' title='Обновить сессию'></div>
+                    <div data-click='recovery_staff_open' title='Войти'></div>
+                    <div data-click='new_staff_open' title='Регистрация'></div>
+                    <div data-click='new_pass_staff_open' title='Сменить Логин и Пароль'></div>
+                    <div data-click='out' title='Выйти'></div>
+                </div>  
+                <div class='menu' data-group='staff_menu'>
+                    <div data-click='staff_open' title='Сотрудники'></div>
+                    <div data-click='role_open' title='Роли'></div>
+                </div>
+                <div class='menu' data-group='service_menu'>
+                    <div data-click='decor' title='Оформление'></div>
+                    <div data-click='message' title='Сообщения'></div>
+                    <div data-click='balance' title='Баланс'></div>
+                    <div data-click='detail' title='Реквизиты'></div>
+                </div>
+                <div class='menu' data-group='price_menu'>
+                    <div data-click='count_set_open' title='Настройки расчета'></div>
+                    <div data-click='price_list_open' title='Стоимость от времени'></div>
+                    <div data-click='perk_list_open' title='Список названий уровнней обслуживания'></div>
+                </div>
+                <div class='menu' data-group='manager_menu'>
+                    <div data-click='request' title='Получить запросы'></div>
+                    <div data-click='story' title='История посещений'></div>
+                    <div data-click='bill' title='Счет'></div>
+                </div>
+                <div class='menu' data-group='clients_menu'>
+                    <div data-click='user' title='Пользователи'></div>
+                    <div data-click='indoor' title='Внутри сейчас'></div>
+                    <div data-click='log' title='Лог событий'></div>
+                </div>
+                
+                <div class='article' data-group='table_centre'>
+        			<div class='line' data-group='price_date'> 
+        				<div  data-click="copy"  title='Копировать'></div>	
+        				<input  type='date'  data-id='date' title='Дата'>							
+        				<div  data-click="past"  title='Вставить'></div>	
+        			</div>
+        			<table data-table='centre'> </table>
+        			<div class='line'> 
+        				<div  data-click="insert"  data-group='insert' title='Вставить'></div>		
+        				<div  data-click="delete"   data-group='delete' title='Удалить'></div>	
+        				<div  data-click="send"  data-many='send' title='Отправить'></div>	
+        			</div>
+                </div>
+ 
+            </div>
+        </div>
+        
+        <div class='section'>
+            <div class='sections_top'>
+                <div class='title'>Справка</div>
+            </div>
+			<div class='article' data-group='table_manual'>
+				<table data-table='manual'> </table>
+			</div>
+
+        </div>
+    </div>
+</div>
+<div data-temp=main></div>
+<script src="script.js"></script>
+</body>
+</html>

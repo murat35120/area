@@ -1,0 +1,195 @@
+:root {/* создаем переменные*/
+	--position_fon: 0%; /* цвет текста сообщений*/
+}
+
+body, input, select, textarea{
+ font-size:  16px;    
+ font-family:  serif;    
+}
+
+div{  /* значения по умолчанию */
+  /* border: solid;    */
+    display: flex;  /* включили гибкое форматирование */
+    transition: 1s; /* время трансформации*/
+	max-height:100%;
+}
+ /* общий размер листа - во весь экран, делим его на колонки */
+
+
+ /*  делим  на колонки */
+.main, .one, .three {
+    flex-direction: column; /* направление главнеой оси в колонку */
+}
+.two, .five {
+	flex-direction: row; /* направление главнеой оси в ряд*/
+}
+
+.one, .buttons {
+    justify-content: space-between; /* распределение содержимого  по главной оси */ 
+}
+.main, .line, .one>.kod, .three>div, .btn{
+    justify-content: center; /* распределение содержимого  по главной оси */ 
+}
+
+ /* общий размер листа - во весь экран, делим его на колонки */
+
+.main{
+    align-items:center  ; /* выравнивание в поперечной оси */  
+}
+
+.two, .one{
+    flex-wrap:wrap; /* перенос блоков */ 
+}
+
+  /* ----------------   flax  -------------- */
+  
+input{
+	 /*width: 10ex;*/
+	 text-align: center;
+}
+input::placeholder {
+    color: rgb(4, 120, 120);
+    opacity:0.5;
+}
+
+.desc, .btn, input {
+	margin: 10px;
+	padding: 10px;
+}
+
+input{
+    max-width:25ex;
+}
+
+.page_name{
+    font-size:  30px;
+	text-align: center;
+	padding: 20px;
+}
+
+
+.btn{
+    border-style: outset;
+    background-color: rgb(8, 241, 241);
+    border-radius: 10px; 
+	padding: 5px 10px; 	
+}
+.btn:active {
+    border-style:inset;
+    user-select: none;
+    background-color: rgb(240, 240, 240);
+    color: rgb(255, 255, 255);
+}
+
+.one{
+	margin:7px 10px;
+	padding:7px 10px;
+}
+
+.two, .one>.hiden, .one>.hiden1, .hiden>.desc, .hiden1>.desc, .three, .three>div{
+	margin:0;
+}
+.two, .one>.hiden, .one>.hiden1, .three{
+	padding:0;
+}
+
+.kod{
+    background-color: rgb(255, 120, 255);
+    border-radius: 10px; 
+}
+
+.hiden, .hiden1 {
+/*	position: absolute;  готовим перемещение блока*/
+	opacity: 0;  /* прозрачность почти невидно*/
+/*	top:0;  совмещаем по высоте с родителем*/
+	border-radius: 10px; 
+	border: solid;
+	border-color: rgb(4, 120, 120);
+	max-width:40ex;
+	max-height:0;
+	overflow-y: hidden;
+}
+.one:focus-within .hiden, .one:hover .hiden1, .kod:hover+.hiden{
+	opacity: 1;  /* прозрачность полностью непрозрачный*/
+	max-height:30ex;
+	margin:7px 10px;
+	padding:7px 10px;
+	max-width:35ex;
+}
+
+body{
+    background: url(fon.jpg) repeat 0 0; /* Параметры фона */  
+    background-position:  var(--position_fon) 0;
+    transition: 5s; /* время трансформации*/
+}
+.desc, .page_name{
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px; 
+}
+.three>.desc{
+        border-radius: 0; 
+}
+
+div[data-display="0"]{
+	max-height:0;
+	opacity: 0;  /* прозрачность почти невидно*/
+	overflow-y: hidden;
+	padding:0;
+}
+
+
+div[data-action='in_user'] {
+    background: url(user_in.png) no-repeat #80ff80;
+    position: relative; 
+}
+div[data-action='out_user'] {
+    background: url(user_out.png) no-repeat #ff8080;
+     position: relative; 
+}
+div[data-action='check'] {
+    background: url(check.png) no-repeat #8080ff;
+    position: relative; 
+}
+div[data-action='story'] {
+    background: url(story.png) no-repeat #ff80ff;
+    position: relative; 
+}
+div[data-action='read'] {
+    background: url(read.png) no-repeat #80ffff;
+    position: relative;
+}
+div[data-action='bill'] {
+    background: url(bill.png) no-repeat #ffff80;
+    position: relative;
+}
+div[data-action='recovery'], div[data-gif='recovery'] {
+    background: url(recovery.png) no-repeat #ffff40;
+    position: relative;
+}
+div[data-action='new_user'], div[data-gif='new_user'] {
+    background: url(new_user.png) no-repeat #80ff80;
+    position: relative;
+}
+div[data-action] {
+  width: 4em;
+  height: 4em;
+  background-size: 70%;
+  background-position: center;
+}
+
+div[data-gif] {
+  width: 1em;
+  height: 1em;
+  background-size: 70%;
+  background-position: center;
+}
+
+div[data-action]:hover::after {
+    content:attr(data-title);
+    position: absolute; /* Абсолютное позиционирование */
+    left: 100%; top:1%;  /* Положение подсказки */
+    color:#ffffff;
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    font-size: 3em; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+}
