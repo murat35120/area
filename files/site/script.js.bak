@@ -8,6 +8,7 @@ arrs={
 		take_domain:{out:['session','domain', 'company_name'], in:['key','session','role'], url:''},
 		new_passkey:{out:['session','role','name'], in:['key','session'], url:1},
 		recovery_staff:{out:['login','password','session'], in:['key','session'], url:1},
+		list_domain:{out:['session'], in:['key','session','role'], url:''},
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -396,6 +397,7 @@ let control={
 		control.write_arr(arrs.coose_domain, arrs.coose_domain_format, blk, 'domains', 1);
 		links.titles.centre.innerText='Выбрать домен';
 		links.click.send.dataset.many='take_domain';
+		
     },
 	
     stafs(link){
@@ -512,8 +514,8 @@ let control={
 	new_pass(e){
 		let obj=comm.show_ax(e);
 		if(obj[1]=='free'){
-			abonent.key=obj[0];
-			abonent.session=obj[1];
+			//abonent.key=obj[0];
+			abonent.session=obj["session"];
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 		}
@@ -521,8 +523,8 @@ let control={
 	new_owner(e){
 		let obj=comm.show_ax(e);
 		if(obj){
-			abonent.key=obj[0];
-			abonent.session=obj[1];
+			//abonent.key=obj[0];
+			abonent.session=obj["session"];
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 		}
@@ -530,8 +532,8 @@ let control={
 	recovery_owner(e){
 		let obj=comm.show_ax(e);
 		if(obj){
-			abonent.key=obj[0];
-			abonent.session=obj[1];
+			//abonent.key=obj[0];
+			abonent.session=obj["session"];
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 		}
@@ -561,8 +563,8 @@ let control={
         }
     },
  
-	on_on(obj, link){
-	    control.off_off(link);
+	on_on(obj, link){  //obj - список имен  блоков которые нужно показать
+	    control.off_off(link); // link -то на что нажали - выделяем, соседи - снимаем выделение
 		if(link){
 			link.dataset.choose=1;
 		}

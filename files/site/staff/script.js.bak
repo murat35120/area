@@ -6,6 +6,8 @@ arrs={
 		out_staff:{out:['key','session'], in:['key']},		
 		new_pass_staff:{out:['login','password','new_login','new_password'], in:['key','session']},
         read_file:{out:['temp'], in:['key','name_file','txt_file']},
+        staff_list_read:{out:['session'], in:['key',"[{},{},{}]"]},
+        role_list_read:{out:['session'], in:['key',"[{},{},{}]"]},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -30,10 +32,10 @@ arrs={
         user_dell:{out:['key','session', 'key_user'], in:['key', 'key_user']},
         user_dell_all:{out:['key','session'], in:['key']}, 
         
-        staff_list_read:{out:['key','session', 'number'], in:['key',"[{},{},{}]"]},
+
         staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
         staff_dell_all:{out:['key','session'], in:['key']},
-        role_list_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
+
         role_write:{out:['key','session', 'role_name', 'role_obj'], in:['key','role_name']},  
         
         settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
@@ -473,6 +475,9 @@ let click={		//new
 		console.log('stafsn');
 		control.on_on(['staff_menu', 'main_menu'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
+		control.check_comand("staff_list_read");
+		control.check_comand("role_list_read");
+		
     },
 	service(link){
 		console.log('service');
@@ -578,7 +583,7 @@ let click={		//new
 			if(!arrs.price[date]){
 				arrs.price[date]=[];
 			}
-		control.past(arrs.price[date]);
+		arrs.price[date]=control.past(links.price);
 	},
 	role_open(link){	
 		console.log('role');

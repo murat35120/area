@@ -24,18 +24,13 @@
                     <div data-click='in' title='Войти'></div>
                     <div data-click='new_pass_open' title='Новый пароль'></div>
                     <div data-click='out' title='Выйти'></div>
-                </div>
-                <div class='menu' data-group='stafs_menu'>
-                    <div data-click='new' title='Добавить сотрудника'></div>
-                    <div data-click='log' title='Список сотрудников'></div>
-                    <div data-click='delete' title='Удалить сотрудника'></div>
-                </div>
-                
+                </div>                
                 <div class='article' data-group='table'>
 					<div data-title='centre'></div>
                     <table data-id='centre'>
             		</table>
         			<div class='line'> 
+        				<div  data-click="recovery_staff"   title='Получить список '></div>
         				<div  data-click="send"  data-many='centre' title='Отправить'></div>	
         			</div>
                 </div> 

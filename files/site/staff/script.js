@@ -6,6 +6,8 @@ arrs={
 		out_staff:{out:['key','session'], in:['key']},		
 		new_pass_staff:{out:['login','password','new_login','new_password'], in:['key','session']},
         read_file:{out:['temp'], in:['key','name_file','txt_file']},
+        staff_list_read:{out:['session'], in:['key',"[{},{},{}]"]},
+        role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -30,10 +32,10 @@ arrs={
         user_dell:{out:['key','session', 'key_user'], in:['key', 'key_user']},
         user_dell_all:{out:['key','session'], in:['key']}, 
         
-        staff_list_read:{out:['key','session', 'number'], in:['key',"[{},{},{}]"]},
+
         staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
         staff_dell_all:{out:['key','session'], in:['key']},
-        role_list_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
+
         role_write:{out:['key','session', 'role_name', 'role_obj'], in:['key','role_name']},  
         
         settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
@@ -473,6 +475,9 @@ let click={		//new
 		console.log('stafsn');
 		control.on_on(['staff_menu', 'main_menu'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
+		control.check_comand("staff_list_read");
+		control.check_comand("role_list_read");
+		
     },
 	service(link){
 		console.log('service');
@@ -1405,7 +1410,8 @@ function start(){
 		//control.write_arr(arrs.new_staff, arrs.new_staff_format, links.table.centre, 'new_staff', multi=1);
 		//links.click.send.dataset.many='new_staff';
 		abonent.domain=document.location.pathname.split("/")[1];
-		abonent.key='';
+		abonent.key=1;
+		abonent.count=1000;
 		abonent.session='';
 		abonent.login='';
 		abonent.role='';
