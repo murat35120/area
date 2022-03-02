@@ -30,7 +30,7 @@
                     <table data-id='centre'>
             		</table>
         			<div class='line'> 
-        				<div  data-click="recovery_staff"   title='Получить список '></div>
+        				<div  data-click="recovery_staff"  data-group='recovery_staff' title='Получить список '></div>
         				<div  data-click="send"  data-many='centre' title='Отправить'></div>	
         			</div>
                 </div> 

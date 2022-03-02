@@ -9,6 +9,7 @@ arrs={
 		new_passkey:{out:['session','role','name'], in:['key','session'], url:1},
 		recovery_staff:{out:['login','password','session'], in:['key','session'], url:1},
 		list_domain:{out:['session'], in:['key','session','role'], url:''},
+        staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"], url:1},
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -39,7 +40,7 @@ arrs={
         user_dell:{out:['key','session', 'key_user'], in:['key', 'key_user']},
         user_dell_all:{out:['key','session'], in:['key']}, 
         
-        staff_list_read:{out:['key','session', 'number'], in:['key',"[{},{},{}]"]},
+
         staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
         staff_dell_all:{out:['key','session'], in:['key']},
         role_list_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
@@ -85,16 +86,16 @@ arrs={
     ],
     coose_domain:[
 		[
-			['','','request','check_domain_btn' ],
+			['','','','check_domain_btn' ],
 		],
 		[]
     ],
     coose_domain_format:[
 		[
-			['Компания','input', 'text'],
-			['Домен','input', 'text'],
-			['Применить', 'div', 'dataset','click'],	
-			['Проверить', 'div', 'dataset','click'],			
+			['','input', 'text'],
+			['','input', 'text'],
+			['', 'div'],	
+			['', 'div', 'dataset','click'],			
 		],
 		[
 			['Компания','div'],
@@ -403,18 +404,21 @@ let control={
     stafs(link){
 		console.log('stafs');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu','table',  'send',  'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
-		links.click.send.dataset.many='staff_dell';
+		//links.click.send.dataset.many='staff_dell';
+		abonent.key=1;
+		abonent.count=1000;		
+		control.check_comand('staff_list_read');
     },
 
 	
 	in(link){
 		console.log('in');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'send', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.login, arrs.login_format, blk, 'login');
 		links.titles.centre.innerText='Вход';
@@ -423,7 +427,7 @@ let control={
 	in_first(link){
 		console.log('in_first');
 		let blk=links.tables.centre;
-		control.on_on(['first_menu', 'table', 'manual_login'], link);
+		control.on_on(['first_menu', 'table', 'send', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.login, arrs.login_format, blk, 'first_login');
 		links.titles.centre.innerText='Вход';
@@ -432,7 +436,7 @@ let control={
 	new_pass_open(link){
 		console.log('new_pass');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu',  'send', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.new_pass, arrs.login_format, blk, 'new_pass');
 		links.titles.centre.innerText='Новые Логин и Пароль';
@@ -446,7 +450,7 @@ let control={
 	},
 	new_firstr(link){	
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'send', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.new_pass, arrs.login_format, blk, 'new_pass');
 		links.titles.centre.innerText='Новые Логин и Пароль';
@@ -479,11 +483,11 @@ let control={
 		let obj=comm.show_ax(e);
 		if(obj){
 			let blk=links.tables.centre;
-			let domain=links.tables.centre.children[1].children[0].children[0].value;
-			let name_company=links.tables.centre.children[1].children[1].children[0].value;
+			let domain=links.tables.centre.children[0].children[0].children[0].value;
+			let name_company=links.tables.centre.children[0].children[1].children[0].value;
 			arrs.coose_domain[0][0][0]=domain;
 			arrs.coose_domain[0][0][1]=name_company;
-			let sost=obj[1];
+			let sost=obj.status;
 			arrs.coose_domain[1].push([domain,name_company,sost,'check_out']);
 			control.write_arr(arrs.coose_domain, arrs.coose_domain_format, blk, 'domains', 1);
 		}
@@ -499,9 +503,9 @@ let control={
 	new_passkey(e){
 		let obj=comm.show_ax(e);
 		if(obj){
-			links.tables.centre.children[0].children[2].innerText=obj[1];
+			links.tables.centre.children[0].children[2].innerText=obj.passkey;
 		}
-		control.check_comand('recovery_staff');
+		control.check_comand('staff_list_read');
 	},
 	
 	request(){
