@@ -191,11 +191,17 @@ let links={ //связываем действия пользователя с ф
         let name=link.parentNode.parentNode.parentNode.dataset.inputs;
 		//let obj={};
         if(name){ //функции по изменению
-			control[name](link); 
+			control[name](link);
+			return;
         }
         name=link.parentNode.parentNode.parentNode.dataset.name_arr;
         if(name){ //функции по изменению
 			//control.arr_change(link); 
+			return;
+        }
+        name=link.dataset.id;
+        if(name){ //функции по изменению
+			control[name](link);
         }
     }
 };
@@ -400,6 +406,7 @@ let control={
 		links.titles.centre.innerText='Выбрать домен';
 		links.titles.centre_list.innerText='Мои домены';
 		links.click.send.dataset.many='take_domain';
+		links.titles.domain.innerText='Выберите домен';
     },
 	
 	list_domain(e){		//new
@@ -414,13 +421,15 @@ let control={
 			}
 			control.write_arr(obj1, asd, blk, 'domains_list');
 			links.group.table_list.dataset.display=1;
+			let slct=links.selects.domain_select;
+			control.write_select_list(obj, slct);
 		}
 	},
 	
     stafs(link){
 		console.log('stafs');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table',  'send',  'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu','table',  'send', 'domain', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
@@ -559,7 +568,7 @@ let control={
 			control.on_on(['manual_munu', 'main_menu']);
 		}
 	},
-    write_select(obj, parent){
+    write_select(obj, parent){	
         parent.innerHTML='';
         for(let i in obj){
             let option;
@@ -571,7 +580,7 @@ let control={
             parent.append(option);
         }
     },
-    write_select_list(obj, parent){
+    write_select_list(obj, parent){		//new
         parent.innerHTML='';
         for(let i in obj){
             let option;
