@@ -6,6 +6,7 @@ arrs={
 		out_staff:{out:['key','session'], in:['key']},		
 		new_pass_staff:{out:['login','password','new_login','new_password'], in:['key','session']},
         read_file:{out:['temp'], in:['key','name_file','txt_file']},
+        write_file:{out:['session', 'name_file','txt_file', 'temp'], in:['key','name_file']}, 
         staff_list_read:{out:['session'], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		
@@ -41,7 +42,7 @@ arrs={
         settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
         settings_calc_edit:{out:['key','session', 'settings_obj'], in:['key']}, 
         
-        write_file:{out:['key','session', 'name_file','txt_file'], in:['key','name_file']}, 
+
 	},
 	list_right:[
 	        {name:'new_staff', description:'Регистрация сотрудника', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
@@ -54,7 +55,7 @@ arrs={
 	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
 	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
 	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
-	        {name:'write_file', description:'Читать историю посещений', right:['write_file']}
+	        {name:'write_file', description:'Писать файлы', right:['write_file']}
 	],
 	bill:[
 	    {type:'names', data:['Операция','Начало','Окончание','Цена','Сумма']},
@@ -311,7 +312,7 @@ arrs={
 			['','input', 'password',2], 		
 		],
     ],
-    decor:[
+    decor:[  //new
         [
             ['Размер названия', '22', 'name_size' ],
             ['Размер текста', '23', 'text_size' ],
@@ -326,7 +327,7 @@ arrs={
             ['Цвет текста', '#00FF00', 'text_color' ], 
         ]
     ],
-    decor_format:[
+    decor_format:[		//new
         [
             ['Настройка','div'],
             ['Значение','input', 'number', 2] 
@@ -608,14 +609,13 @@ let click={		//new
     check_in(link){
         link.dataset.click='check_out';
         //if(link.parentNode.dataset.right){
-        //    arrs.roles_list[link.parentNode.parentNode.dataset.select].list[link.parentNode.dataset.right].check=0;
-        //}
+        //    arrs.roles_list[link.parentNode.parentNode.dataset.select].list[link.parentNode.dataset.right].check=0; }
+
     },
     check_out(link){
         link.dataset.click='check_in';
-        //if(link.parentNode.dataset.right){
-        //    arrs.roles_list[link.parentNode.parentNode.dataset.select].list[link.parentNode.dataset.right].check=1;
-        //}
+			//if(link.parentNode.dataset.right){
+			//    arrs.roles_list[link.parentNode.parentNode.dataset.select].list[link.parentNode.dataset.right].check=1;}
     },
 	delete(link){
 		let date=links.felds.date.value;
@@ -636,6 +636,7 @@ let click={		//new
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 		console.log(arr);
     },
+
 };
 
 let answer={  //new
@@ -724,7 +725,7 @@ let control={
 			for(let i in temp){
 				asd[i]=temp[i];
 			}
-			obj.text_file=JSON.stringify(asd);
+			obj.txt_file=JSON.stringify(asd);
 		} else{
 			for(let i in felds){
 				if(felds[i] in links.felds){//дописываем поля из felds = страница

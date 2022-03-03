@@ -393,13 +393,29 @@ let control={
     domains(link){
 		console.log('domains');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu', 'table', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu', 'table', 'manual_munu', 'send', 'manual_login'], link);
+		control.check_comand('list_domain');
 		link.dataset.choose=1;
 		control.write_arr(arrs.coose_domain, arrs.coose_domain_format, blk, 'domains', 1);
 		links.titles.centre.innerText='Выбрать домен';
+		links.titles.centre_list.innerText='Мои домены';
 		links.click.send.dataset.many='take_domain';
-		control.check_comand("list_domain");
     },
+	
+	list_domain(e){		//new
+		let obj=comm.show_ax(e);
+		let blk=links.tables.centre_list;
+		if(obj.length){
+			let asd=[];
+			let obj1=[];
+			for(let i=0; i<obj.length; i++){
+				obj1[i]=[];
+				obj1[i][0]=obj[i];
+			}
+			control.write_arr(obj1, asd, blk, 'domains_list');
+			links.group.table_list.dataset.display=1;
+		}
+	},
 	
     stafs(link){
 		console.log('stafs');
@@ -498,9 +514,10 @@ let control={
 			document.querySelector('.main>.top').innerText=abonent.company_name;
 			document.title=abonent.company_name;
 			localStorage.owner_abonent=JSON.stringify(abonent);
+			control.check_comand('list_domain');
 		}
 	},
-	new_passkey(e){
+	new_passkey(e){		//new
 		let obj=comm.show_ax(e);
 		if(obj){
 			links.tables.centre.children[0].children[2].innerText=obj.passkey;
@@ -515,29 +532,29 @@ let control={
 		document.title=abonent.company_name;
 		localStorage.owner_abonent=JSON.stringify(abonent);
 	},
-	new_pass(e){
+	new_pass(e){		//new
 		let obj=comm.show_ax(e);
 		if(obj[1]=='free'){
 			//abonent.key=obj[0];
-			abonent.session=obj["session"];
+			abonent.session=obj.session;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 		}
 	},
-	new_owner(e){
+	new_owner(e){		//new
 		let obj=comm.show_ax(e);
 		if(obj){
 			//abonent.key=obj[0];
-			abonent.session=obj["session"];
+			abonent.session=obj.session;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 		}
 	},
-	recovery_owner(e){
+	recovery_owner(e){		//new
 		let obj=comm.show_ax(e);
 		if(obj){
 			//abonent.key=obj[0];
-			abonent.session=obj["session"];
+			abonent.session=obj.session;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 		}
