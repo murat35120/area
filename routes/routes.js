@@ -6,6 +6,7 @@ const checkSession = require("../middleware/checkSession");
 const checkDomain = require("../middleware/checkDomain");
 const hashingLoginPassword = require("../middleware/hashingLoginPassword");
 const checkingBody = require("../middleware/checkingBody");
+const checkManagerAccess = require("../middleware/checkManagerAccess");
 const useMiddlewareForRoutes = require("../utils/useMiddlewareForRoutes");
 
 const router = express.Router();
@@ -46,13 +47,14 @@ router.use("/:domain/", [
     useMiddlewareForRoutes(checkSession(UserModel), [
         require("./domain/read"),
         require("./domain/check"),
+        require("./domain/bill")
     ]),
 
     useMiddlewareForRoutes(checkSession(OwnerModel), [
         require("./domain/newPasskey")
     ]),
 
-    useMiddlewareForRoutes(checkSession(ManagerModel, OwnerModel), [
+    useMiddlewareForRoutes([checkSession(ManagerModel, OwnerModel), checkManagerAccess], [
         require("./domain/readStaff"),
         require("./domain/ok"),
         require("./domain/noOk"),

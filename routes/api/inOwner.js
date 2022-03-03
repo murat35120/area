@@ -4,7 +4,7 @@ const OwnerModel = require("../../models/Owner");
 
 const router = express.Router({ mergeParams: true });
 
-router.post("/in_owner", function (req, res) {
+router.post("/in_owner", async function (req, res) {
     const sessionCode = generateSession();
     const nowDate = new Date();
     const expiredDate = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate() + 1, 0, 0, 0, 0);
@@ -17,7 +17,7 @@ router.post("/in_owner", function (req, res) {
         })
     }).catch((err) => {
         if(!Number.isInteger(err))console.log(err);
-        res.status( Number.isInteger(err) ? err : 500).send(Number.isInteger(err) ? "Wrong session or session expired" : "Error on server");
+        res.status( Number.isInteger(err) ? err : 500).send(Number.isInteger(err) ? "Wrong session" : "Error on server");
     });
 });
 

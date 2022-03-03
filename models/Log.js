@@ -6,15 +6,16 @@ const Log = sequelize.define("log", {
     user: DataTypes.INTEGER,
     employee: DataTypes.INTEGER,
     total: DataTypes.INTEGER,
+    in: DataTypes.DATE,
     bill: {
         type: DataTypes.STRING,
         get() {
-            return JSON.parse(this.getDataValue('domains'))
+            return JSON.parse(this.getDataValue('bill'))
         },
         set(val) {
-           this.setDataValue('domains',JSON.stringify(val));
+           this.setDataValue('bill',JSON.stringify(val));
         },
-        defaultValue: "{}"
+        defaultValue: "[]"
     }
 })
 

@@ -8,12 +8,12 @@ const generateCode = require("../../utils/generateCode");
 const router = express.Router({ mergeParams: true });
 
 router.post("/out", function (req, res) {
-    const sessionCode = generateSession();
+    /* const sessionCode = generateSession(); */
     UserModel.findOne({where : {session: req.body.session}}).then(function(model) {
         if(!model) throw 400;
-        model.setDataValue("session", sessionCode);
+        /* model.setDataValue("session", sessionCode); */
         model.setDataValue("time", new Date());
-        model.setDataValue("sessionExpired", new Date(Date.now() + 86400000));
+        model.setDataValue("sessionExpired", new Date(0));
         model.save().then((model2) => {
             const color = getRandomColor();
             const code = generateCode();
