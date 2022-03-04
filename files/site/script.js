@@ -131,7 +131,6 @@ let abonent={
 	session:'',	
 	domain:''
 };
-
 let comm={
 	
 	ax(obj, func, url){//стандартная функция отправки сообщения
@@ -167,6 +166,7 @@ let links={ //связываем действия пользователя с ф
 	table:{}, //место для вывода таблиц
 	felds:{},  //поля для ручного ввода данных
 	selects:{}, //элементы selekt
+	temp:{}, //временные данные
 //	many:{},
 	tables:{},
 	titles:{},
@@ -215,11 +215,14 @@ let control={
 		let obj={};
 		let felds=arrs.commands[name].out;
 		for(let i in felds){
+			if(abonent[felds[i]]){//дописываем поля из abonent
+				obj[felds[i]]=abonent[felds[i]];
+			}
 			if(links.felds[felds[i]]){//дописываем поля из felds
 				obj[felds[i]]=links.felds[felds[i]].value;
 			}
-			if(abonent[felds[i]]){//дописываем поля из abonent
-				obj[felds[i]]=abonent[felds[i]];
+			if(links.temp[felds[i]]){//дописываем поля из temp
+				obj[felds[i]]=links.temp[felds[i]];
 			}
 		}
 		let abc=function(list, felds, obj){
@@ -427,6 +430,9 @@ let control={
 	
 	list_domain(e){		//new
 		abonent.domain_list=comm.show_ax(e);
+		let asd=[];
+		blk=links.tables.centre_list;
+		control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
 	},
 	make_arr_to_write(obj){		//new
 		let obj1=[];
@@ -474,7 +480,6 @@ let control={
 		control.write_arr(arrs.login, arrs.login_format, blk, 'first_login');
 		links.titles.centre.innerText='Вход';
 		links.click.send.dataset.many='recovery_owner';
-		control.check_comand('list_domain');
 	},
 	new_pass_open(link){
 		console.log('new_pass');
@@ -506,12 +511,10 @@ let control={
 	check_out(link){
 		control.check_in(link);
 		link.dataset.click='check_in';
-		abonent.company_name=link.parentNode.parentNode.children[1].children[0].innerText;
-		abonent.domain=link.parentNode.parentNode.children[0].children[0].innerText;
-		document.querySelector('.main>.top').innerText=abonent.company_name;
-		document.title=abonent.company_name;
+		links.temp.company_name=link.parentNode.parentNode.children[1].children[0].innerText;
+		links.temp.domain=link.parentNode.parentNode.children[0].children[0].innerText;
 		links.group.send.dataset.display=1;
-		localStorage.owner_abonent=JSON.stringify(abonent);
+		//localStorage.owner_abonent=JSON.stringify(abonent);
 	},
 	check_in(link){
 		let list=links.tables.centre.querySelectorAll('div[data-click=check_in]');
@@ -526,8 +529,9 @@ let control={
 		control.check_comand('new_passkey');
 	},
 	check_domain_btn(link){
-		//abonent.company_name=link.parentNode.parentNode.children[0].children[0].value;
-		//abonent.domain=link.parentNode.parentNode.children[1].children[0].value;
+		links.temp={};
+		links.temp.company_name=link.parentNode.parentNode.children[0].children[0].value;
+		links.temp.domain=link.parentNode.parentNode.children[1].children[0].value;
 		control.check_comand('check_domain');
 	},
 	check_domain(e){
@@ -547,7 +551,10 @@ let control={
 		let obj=comm.show_ax(e);
 		if(obj){
 			document.querySelector('.main>.top').innerText=abonent.company_name;
+			abonent.company_name=links.temp.company_name;
+			abonent.domain=links.temp.domain;
 			document.title=abonent.company_name;
+			document.querySelector('.main>.top').innerText=abonent.company_name;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.check_comand('list_domain');
 		}
@@ -595,6 +602,7 @@ let control={
 			abonent.login=login.value;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
+			control.check_comand('list_domain');
 		}
 	},
     write_select(obj, parent){	
