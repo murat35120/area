@@ -93,6 +93,11 @@ input{
 	 /*width: 10ex;*/
 	 text-align: center;
 }
+
+select[data-id="domain_select"]{
+	width: 15ex;
+}
+
 tr>td, tr>th{
     padding: 3px 10px;
 }
