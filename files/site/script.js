@@ -480,6 +480,7 @@ let control={
 		control.write_arr(arrs.login, arrs.login_format, blk, 'first_login');
 		links.titles.centre.innerText='Вход';
 		links.click.send.dataset.many='recovery_owner';
+		control.check_comand('list_domain');
 	},
 	new_pass_open(link){
 		console.log('new_pass');
