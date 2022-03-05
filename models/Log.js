@@ -8,7 +8,7 @@ const Log = sequelize.define("log", {
     total: DataTypes.INTEGER,
     in: DataTypes.DATE,
     bill: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         get() {
             return JSON.parse(this.getDataValue('bill'))
         },

@@ -16,9 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 
 global.dir = __dirname + "/files";
 global.companies = [];
+global.companiesData = [];
 
 DomainModel.afterCreate((model) => {
     global.companies.push(model.domain);
+    global.companiesData.push({owner: model.owner});
 })
 
 const PORT = process.env.PORT || 58800;
@@ -51,6 +53,7 @@ sequelize.sync().then(() => {
     DomainModel.findAll().then((models) => {
         for(const model of models){
             global.companies[model.id - 1] = model.domain;
+            global.companiesData[model.id - 1] = {owner: model.owner};
         }
     }).catch((err) => {
         console.log(err);

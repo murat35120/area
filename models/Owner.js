@@ -6,7 +6,7 @@ const Owner = sequelize.define("owner", {
     login: DataTypes.STRING,
     hash: DataTypes.STRING,
     domains: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         get() {
             return JSON.parse(this.getDataValue('domains'))
         },
