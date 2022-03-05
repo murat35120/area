@@ -4,7 +4,7 @@ const sequelize = require("./../sequelize");
 const Role = sequelize.define("role", {
     name: DataTypes.STRING,
     list: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         get() {
             return JSON.parse(this.getDataValue('list'))
         },

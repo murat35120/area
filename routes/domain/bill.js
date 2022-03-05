@@ -12,7 +12,7 @@ router.post("/bill", function (req, res) {
     LogModel.findOne({where: {domain: companies.indexOf(req.params.domain) + 1, user: req.model.id, in: dateToCurrentDay()}}).then(async (model) => {
         if(!model) return res.send([]);
         const perk = await PerkModel.findOne({where: {perk: req.model.perk}});
-        var startIndex;
+        var startIndex = 0;
         model.bill.forEach((value, index) => value.type == "start" && (startIndex = index));
         if(model.bill[model.bill.length - 1].type == "stop" || model.bill[model.bill.length - 1].type == "total") return res.send({perk: perk?.perk || null, bill: model.bill.slice(startIndex)});
         const domainModel = await DomainModel.findOne({ where: {domain: req.params.domain} });
@@ -23,7 +23,7 @@ router.post("/bill", function (req, res) {
         }
         if(!priceModels.length) return res.send({perk: perk?.perk || null, bill: model.bill.slice(startIndex)});
         const calculatedBill = calcBill(priceModels, domainModel);
-        const endBill = model.bill.concat(calculatedBill.slice(startIndex - (model.bill.length - 1))).slice(startIndex);
+        const endBill = model.bill.concat(calculatedBill.slice((model.bill.length - 1) - startIndex)).slice(startIndex);
         endBill.push({type:'total', data:[endBill.reduce((prevValue, curValue) => prevValue + Number(curValue.data[curValue.data.length - 1])), domainModel.currency]});
         res.send({perk: perk?.perk || null, bill: endBill});
     }).catch((err) => {
