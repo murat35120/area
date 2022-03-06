@@ -422,7 +422,7 @@ let control={
 		links.titles.centre.innerText='Выбрать домен';
 		links.titles.centre_list.innerText='Мои домены';
 		links.click.send.dataset.many='take_domain';
-		links.titles.domain.innerText='Выберите домен';
+		//links.titles.domain.innerText='Выберите домен';
 		let asd=[];
 		blk=links.tables.centre_list;
 		control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
@@ -430,6 +430,9 @@ let control={
 	
 	list_domain(e){		//new
 		abonent.domain_list=comm.show_ax(e);
+		let asd=[];
+		blk=links.tables.centre_list;
+		control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
 	},
 	make_arr_to_write(obj){		//new
 		let obj1=[];
@@ -448,13 +451,32 @@ let control={
 		link.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
+		links.titles.domain.innerText='Выберите домен';
 		//links.click.send.dataset.many='staff_dell';
 		abonent.key=1;
 		abonent.count=1000;		
 		//control.check_comand('staff_list_read');
 		control.write_select_list_1(abonent.domain_list, links.selects.domain_select);
+		links.titles.centre_list.innerText='Мои сотрудники';
+		if(abonent.domain){
+			links.selects.domain_select.value=abonent.domain;
+			control.check_comand('staff_list_read');
+			links.click.send.dataset.many='take_domain';
+			let asd=[];
+			blk=links.tables.centre_list;
+			control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
+		}
     },
-
+	staff_list_read(e){
+		let obj=comm.show_ax(e);
+		if(Array.isArray(obj)){
+			if(obj.length){
+				let asd=[];
+				blk=links.tables.centre_list;
+				control.write_arr(obj, asd, blk, 'staff_list');
+			}
+		} 
+	},
 	
 	in(link){
 		console.log('in');
@@ -477,6 +499,7 @@ let control={
 		control.write_arr(arrs.login, arrs.login_format, blk, 'first_login');
 		links.titles.centre.innerText='Вход';
 		links.click.send.dataset.many='recovery_owner';
+		//control.check_comand('list_domain');
 	},
 	new_pass_open(link){
 		console.log('new_pass');
@@ -546,7 +569,7 @@ let control={
 	},
 	take_domain(e){
 		let obj=comm.show_ax(e);
-		if(obj){
+		if(obj[1]!="occupied"&&obj[1]!="max domains"){
 			document.querySelector('.main>.top').innerText=abonent.company_name;
 			abonent.company_name=links.temp.company_name;
 			abonent.domain=links.temp.domain;
@@ -554,6 +577,8 @@ let control={
 			document.querySelector('.main>.top').innerText=abonent.company_name;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.check_comand('list_domain');
+		} else {
+			control.check_in(1);
 		}
 	},
 	new_passkey(e){		//new
@@ -573,7 +598,7 @@ let control={
 	},
 	new_pass(e){		//new
 		let obj=comm.show_ax(e);
-		if(obj[1]=='free'){
+		if(obj.session){
 			//abonent.key=obj[0];
 			abonent.session=obj.session;
 			localStorage.owner_abonent=JSON.stringify(abonent);
@@ -582,17 +607,17 @@ let control={
 	},
 	new_owner(e){		//new
 		let obj=comm.show_ax(e);
-		if(obj){
+		if(obj.session){
 			//abonent.key=obj[0];
 			abonent.session=obj.session;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 			control.check_comand('list_domain');
-		}
+		} 
 	},
 	recovery_owner(e){		//new
 		let obj=comm.show_ax(e);
-		if(obj){
+		if(obj.session){
 			//abonent.key=obj[0];
 			abonent.session=obj.session;
 			let login=links.tables.centre.querySelector('[data-name="login"]');
