@@ -68,7 +68,9 @@ table{
 td>div{
     margin: auto;
 }
-  
+tr>td>div{
+    padding: 2px 10px;
+}  
 /*5 */
 div, input, select, textarea, table{
     font-size:  20px;    
@@ -91,9 +93,15 @@ input{
 	 /*width: 10ex;*/
 	 text-align: center;
 }
-tr>td{
+
+select[data-id="domain_select"]{
+	width: 15ex;
+}
+
+tr>td, tr>th{
     padding: 3px 10px;
 }
+
 tr>td:nth-child(n+2)>select, tr>td:nth-child(n+2)>input{
     margin: auto;
     text-align: center;
@@ -243,6 +251,21 @@ div[data-click='check_out'], div[data-picture='check_out'] {
 }
 div[data-click='request'], div[data-picture='request'] {
     background: url(../png/request.png) no-repeat;
+}
+div[data-click='add'], div[data-picture='add'] {
+    background: url(../png/add.png) no-repeat;
+}
+div[data-click='recovery_staff'], div[data-picture='recovery_staff'] {
+    background: url(../png/recovery_staff.png) no-repeat;
+}
+div[data-click='staff'], div[data-picture='staff'] {
+    background: url(../png/staff.png) no-repeat;
+}
+div[data-click='role'], div[data-picture='role'] {
+    background: url(../png/role.png) no-repeat;
+}
+div[data-click='clear'], div[data-picture='clear'] {
+    background: url(../png/clear.png) no-repeat;
 }
 div[data-click] {
   width: 2em;

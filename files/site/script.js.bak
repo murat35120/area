@@ -121,8 +121,16 @@ arrs={
 			['Имя','div'],
 			['Роль','div'],
 			['Passkey','div'],
-			['Выбрать', 'div', 'dataset','click'], 
+			['Создать', 'div', 'dataset','click'], 
 		]
+    ],
+    staff_list_format:[
+		['Ключ','div'],
+		['Имя','div'],
+		['Роль','div'],	
+		['Создан','div'],
+		['Passkey','div'],
+		['Выбрать', 'div', 'dataset','click'], 			
     ],
 };
 
@@ -447,7 +455,13 @@ let control={
     stafs(link){		//new
 		console.log('stafs');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table',  'send', 'domain', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu', 'staff_menu',  'manual_munu', 'manual_login'], link);
+		link.dataset.choose=1;
+    },
+    staff(link){		//new
+		console.log('staff');
+		let blk=links.tables.centre;
+		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'table_list', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
@@ -467,13 +481,17 @@ let control={
 			control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
 		}
     },
+	
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
 		if(Array.isArray(obj)){
 			if(obj.length){
-				let asd=[];
+				//let asd=[];
+				for(let i=0; i<obj.length; i++){
+					obj[i].push("check_out");
+				}
 				blk=links.tables.centre_list;
-				control.write_arr(obj, asd, blk, 'staff_list');
+				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
 			}
 		} 
 	},
@@ -537,7 +555,11 @@ let control={
 		//localStorage.owner_abonent=JSON.stringify(abonent);
 	},
 	check_in(link){
-		let list=links.tables.centre.querySelectorAll('div[data-click=check_in]');
+		if(link=1){ //костыль
+			let list=links.tables.centre.querySelectorAll('div[data-click=check_in]');
+		}
+		let asd=link.parentNode.parentNode.parentNode;
+		let list=asd.querySelectorAll('div[data-click=check_in]');
 		links.group.send.dataset.display=0;
 		for(let i=0; i<list.length; i++){
 			list[i].dataset.click='check_out';

@@ -25,8 +25,11 @@
                     <div data-click='new_pass_open' title='Новый пароль'></div>
                     <div data-click='out' title='Выйти'></div>
                 </div>
-
-                <div class='article' data-group='domain'>
+                <div class='menu' data-group='staff_menu'>
+                    <div data-click='staff' title='Сотрудники'></div>
+                    <div data-click='role' title='Роли'></div>
+                </div>
+                <div class='menu' data-group='domain'>
 					<div data-title='domain'></div>
 					<select data-id='domain_select'>
 					</select>
@@ -42,6 +45,10 @@
         			</div>
                 </div> 
                 <div class='article' data-group='table_list'>
+        			<div class='menu'> 
+        				<div  data-click="clear"  title='Очистить список'></div>
+        				<div  data-click="delete"  title="Удалить отмеченного"></div>	
+        			</div>
 					<div data-title='centre_list'></div>
                     <table data-id='centre_list'>
             		</table>
