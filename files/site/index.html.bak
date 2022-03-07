@@ -47,7 +47,7 @@
 					<div data-title='centre_list'></div>
         			<div class='menu' data-group='list_buttons'> 
         				<div  data-click="clear"  title='Очистить список'></div>
-        				<div  data-click="delete"  data-group='send_dell'  title="Удалить"></div>	
+        				<div  data-click="staff_dell"  data-group='send_dell'  title="Удалить"></div>	
         			</div>
                     <table data-id='centre_list'>
             		</table>

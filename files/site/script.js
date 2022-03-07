@@ -11,6 +11,7 @@ arrs={
 		list_domain:{out:['session'], in:['key','session','role'], url:''},
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"], url:1},
         staff_dell:{out:['key','session'], in:['key', 'key_staff'], url:1},
+        staff_dell_all:{out:['session'], in:['key', 'key_staff'], url:1},
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -41,9 +42,6 @@ arrs={
         user_dell:{out:['key','session', 'key_user'], in:['key', 'key_user']},
         user_dell_all:{out:['key','session'], in:['key']}, 
         
-
-
-        staff_dell_all:{out:['key','session'], in:['key']},
         role_list_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
         role_write:{out:['key','session', 'role_name', 'role_obj'], in:['key','role_name']},  
         
@@ -497,6 +495,17 @@ let control={
 		} 
 	},
 
+	staff_dell_all(e){
+		let obj=comm.show_ax(e);
+		if(obj=="OK"){
+			if(links.temp.link){
+				links.temp.link.dataset.click='check_out';
+			}
+			links.temp={};
+			links.tables.centre_list.innerHTML='';
+		} 
+	},
+
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
 		if(Array.isArray(obj)){
@@ -507,6 +516,8 @@ let control={
 				}
 				blk=links.tables.centre_list;
 				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+			} else{
+				links.tables.centre_list.innerHTML='';
 			}
 		} 
 	},
