@@ -46,11 +46,11 @@
 } 
 
 /* ----------------   flax  -------------- */
-.main1, .article1 {
+.article .menu {
     width:100%;
-    height:100%;
     overflow:auto;
 }
+
 
 
 /*5 */

@@ -10,6 +10,7 @@ arrs={
 		recovery_staff:{out:['login','password','session'], in:['key','session'], url:1},
 		list_domain:{out:['session'], in:['key','session','role'], url:''},
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"], url:1},
+        staff_dell:{out:['key','session'], in:['key', 'key_staff'], url:1},
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -41,7 +42,7 @@ arrs={
         user_dell_all:{out:['key','session'], in:['key']}, 
         
 
-        staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
+
         staff_dell_all:{out:['key','session'], in:['key']},
         role_list_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
         role_write:{out:['key','session', 'role_name', 'role_obj'], in:['key','role_name']},  
@@ -160,8 +161,13 @@ let comm={
 	},
     show_ax(e) {//стандартная функция получения сообщения
         let data=e.target;
+		let obj;
+		let isValidJSON=true;
         if(data.status==200){
-            let obj=JSON.parse(data.response);
+			try { obj=JSON.parse(data.response)} catch { isValidJSON = false };
+			if(!isValidJSON){
+				obj=data.response;
+			}
 			return obj;
 		}
     }
@@ -423,7 +429,7 @@ let control={
     domains(link){		//new
 		console.log('domains');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu', 'table', 'table_list', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu', 'table', 'table_list','table_buttons', 'manual_munu', 'manual_login'], link);
 		//control.check_comand('list_domain');
 		link.dataset.choose=1;
 		control.write_arr(arrs.coose_domain, arrs.coose_domain_format, blk, 'domains', 1);
@@ -461,7 +467,7 @@ let control={
     staff(link){		//new
 		console.log('staff');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'table_list', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'table_list','list_buttons', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
@@ -481,7 +487,15 @@ let control={
 			control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
 		}
     },
-	
+
+	staff_dell(e){
+		let obj=comm.show_ax(e);
+		if(obj=="OK"){
+			links.temp.link.dataset.click='check_out';
+			control.check_comand('staff_list_read');
+		} 
+	},
+
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
 		if(Array.isArray(obj)){
@@ -499,7 +513,7 @@ let control={
 	in(link){
 		console.log('in');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu', 'send', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'send','table_buttons', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.login, arrs.login_format, blk, 'login');
 		links.titles.centre.innerText='Вход';
@@ -522,7 +536,7 @@ let control={
 	new_pass_open(link){
 		console.log('new_pass');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu',  'send', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'table_buttons', 'send', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.new_pass, arrs.login_format, blk, 'new_pass');
 		links.titles.centre.innerText='Новые Логин и Пароль';
@@ -551,16 +565,18 @@ let control={
 		link.dataset.click='check_in';
 		links.temp.company_name=link.parentNode.parentNode.children[1].children[0].innerText;
 		links.temp.domain=link.parentNode.parentNode.children[0].children[0].innerText;
+		links.temp.key=link.parentNode.parentNode.children[0].children[0].innerText;
+		links.temp.link=link;
 		links.group.send.dataset.display=1;
+		links.group.send_dell.dataset.display=1;
+		//link.parentNode.parentNode.parentNode.parentNode.querySelector('div[data-group="send"]').dataset.display=1;
 		//localStorage.owner_abonent=JSON.stringify(abonent);
 	},
 	check_in(link){
-		if(link=1){ //костыль
-			let list=links.tables.centre.querySelectorAll('div[data-click=check_in]');
-		}
-		let asd=link.parentNode.parentNode.parentNode;
-		let list=asd.querySelectorAll('div[data-click=check_in]');
+		let list=link.parentNode.parentNode.parentNode.querySelectorAll('div[data-click=check_in]');
+		//link.parentNode.parentNode.parentNode.parentNode.querySelector('div[data-group="send"]').dataset.display=0;
 		links.group.send.dataset.display=0;
+		links.group.send_dell.dataset.display=0;
 		for(let i=0; i<list.length; i++){
 			list[i].dataset.click='check_out';
 		}
