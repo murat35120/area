@@ -446,6 +446,12 @@ let control={
 		let asd=[];
 		blk=links.tables.centre_list;
 		control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
+		if(!abonent.domain_list.includes(abonent.domain)){
+			abonent.domain=abonent.domain_list[0];
+			abonent.company_name=abonent.domain_list[0];
+			document.querySelector('.main>.top').innerText=abonent.domain;		
+			document.title=abonent.domain;
+		}
 	},
 	make_arr_to_write(obj){		//new
 		let obj1=[];
