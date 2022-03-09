@@ -50,7 +50,7 @@
 						<table data-id='centre_two'></table>
 					</div>
         			<div class='line' data-group='table_buttons' > 
-        				<div  data-click="send" data-group='send' data-many='centre' title='Отправить'></div>	
+        				<div  data-click="send_two" data-many='centre' title='Отправить'></div>	
         			</div>
                 </div> 
                 <div class='article' data-group='table_list'>

@@ -478,6 +478,7 @@ let control={
 		let blk=links.tables.centre;
 		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'table_list','list_buttons', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.stafs.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
 		links.titles.domain.innerText='Выберите домен';
@@ -496,15 +497,24 @@ let control={
 			links.click.send.dataset.many='take_domain';
 			let asd=[];
 			blk=links.tables.centre_list;
-			control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
+			if(abonent.staff_list_write){
+				let obj=abonent.staff_list_write;
+				if(abonent.role_list_all){
+					obj=control.inser_role(obj, abonent.role_list_all);
+				}
+				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+			}else{
+				blk.innerHTML="";
+			}
 		}
     },
 
     role(link){		//new
 		console.log('role');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table_two',  'domain', 'staff_menu', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu','table_two', 'domain', 'staff_menu', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.stafs.dataset.choose=1;
 		links.titles.centre_two.innerText='Управление Правами';
 		links.titles.domain.innerText='Выберите домен';
 		if(abonent.domain){
@@ -537,6 +547,7 @@ let control={
 	
 	staff_dell(e){
 		let obj=comm.show_ax(e);
+		links.group.send_dell.dataset.display=0;
 		if(obj=="OK"){
 			links.temp.link.dataset.click='check_out';
 			links.temp={};
@@ -546,6 +557,7 @@ let control={
 
 	staff_dell_all(e){
 		let obj=comm.show_ax(e);
+		links.group.send_dell.dataset.display=0;
 		if(obj=="OK"){
 			if(links.temp.link){
 				links.temp.link.dataset.click='check_out';
@@ -564,6 +576,10 @@ let control={
 					obj[i].push("check_out");
 				}
 				blk=links.tables.centre_list;
+				abonent.staff_list_write=obj;
+				if(abonent.role_list_all){
+					obj=control.inser_role(obj, abonent.role_list_all);
+				}
 				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
 			} else{
 				links.tables.centre_list.innerHTML='';
@@ -576,6 +592,7 @@ let control={
 		let blk=links.tables.centre;
 		control.on_on(['main_menu','login_menu', 'send','table_buttons', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.login.dataset.choose=1;
 		control.write_arr(arrs.login, arrs.login_format, blk, 'login');
 		links.titles.centre.innerText='Вход';
 		links.click.send.dataset.many='recovery_owner';
@@ -599,6 +616,7 @@ let control={
 		let blk=links.tables.centre;
 		control.on_on(['main_menu','login_menu', 'table_buttons', 'send', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.login.dataset.choose=1;
 		control.write_arr(arrs.new_pass, arrs.login_format, blk, 'new_pass');
 		links.titles.centre.innerText='Новые Логин и Пароль';
 		links.click.send.dataset.many='new_pass';
@@ -711,7 +729,7 @@ let control={
 			abonent.session=obj.session;
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
-			control.check_comand('list_domain');
+			//control.check_comand('list_domain');
 		} 
 	},
 	recovery_owner(e){		//new
@@ -725,6 +743,8 @@ let control={
 			control.on_on(['manual_munu', 'main_menu']);
 			control.check_comand('list_domain');
 			control.check_comand('role_list_read');
+			abonent.key=1;
+			control.check_comand('staff_list_read');
 		}
 	},
     write_select(obj, parent){	
@@ -790,6 +810,19 @@ let control={
 		}
 	},
 
+	inser_role(staff_arr, role_arr){
+		let temp_arr=[];
+		for(let i=0; i<staff_arr.length; i++){
+			temp_arr[i]=staff_arr[i];
+			let num=staff_arr[i][2];
+			for (let j=0; j<role_arr.length; j++){
+				if (num==role_arr[j].id){
+					temp_arr[i][2]=role_arr[j].name;
+				}
+			}
+		}
+		return temp_arr;
+	},
 
 	check(e){
 	    let asd=comm.show_ax(e);
@@ -853,7 +886,11 @@ function start(){
         document.querySelector('.main>.top').innerText=abonent.company_name;
         document.title=abonent.company_name;
 	}
-	
+	if(abonent.domain&&abonent.session){		
+		control.check_comand('role_list_read');
+		abonent.key=1;
+		control.check_comand('staff_list_read');
+	}
 
 }
 link_window_all=document.querySelector('body');
