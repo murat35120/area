@@ -132,6 +132,10 @@ arrs={
 		['Passkey','div'],
 		['Выбрать', 'div', 'dataset','click'], 			
     ],
+    role_list_format:[
+		['Роль','div'],
+		['Выбрать', 'div', 'dataset','click'], 			
+    ],
 };
 
 let abonent={
@@ -478,6 +482,7 @@ let control={
 		links.titles.centre.innerText='Управление Персоналом';
 		links.titles.domain.innerText='Выберите домен';
 		//links.click.send.dataset.many='staff_dell';
+		links.temp.key=1;
 		abonent.key=1;
 		abonent.count=1000;		
 		//control.check_comand('staff_list_read');
@@ -485,7 +490,9 @@ let control={
 		links.titles.centre_list.innerText='Мои сотрудники';
 		if(abonent.domain){
 			links.selects.domain_select.value=abonent.domain;
-			control.check_comand('staff_list_read');
+			if(!abonent.domain_list){
+				control.check_comand('staff_list_read');
+			}
 			links.click.send.dataset.many='take_domain';
 			let asd=[];
 			blk=links.tables.centre_list;
@@ -502,7 +509,9 @@ let control={
 		links.titles.domain.innerText='Выберите домен';
 		if(abonent.domain){
 			links.selects.domain_select.value=abonent.domain;
-			control.check_comand('role_list_read');
+			if(!abonent.role_list_all){
+				control.check_comand('role_list_read');
+			}
 			links.click.send.dataset.many='take_domain';
 		}
     },
@@ -511,13 +520,15 @@ let control={
 		let obj=comm.show_ax(e);
 		if(Array.isArray(obj)){
 			if(obj.length){
-				//let asd=[];
-				//for(let i=0; i<obj.length; i++){
-				//	obj[i].push("check_out");
-				//}
-				let asd=[];
+				abonent.role_list_all=obj;
+				abonent.role_list=[];
+				for(let i=0; i<obj.length; i++){
+					abonent.role_list[i]=[];
+					abonent.role_list[i].push(obj[i].name);
+					abonent.role_list[i].push("check_out");
+				}
 				blk=links.tables.centre_one;
-				control.write_arr(obj, asd, blk, 'role_list');
+				control.write_arr(abonent.role_list, arrs.role_list_format, blk, 'role_list');
 			} else{
 				links.tables.centre_one.innerHTML='';
 			}
@@ -713,6 +724,7 @@ let control={
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.on_on(['manual_munu', 'main_menu']);
 			control.check_comand('list_domain');
+			control.check_comand('role_list_read');
 		}
 	},
     write_select(obj, parent){	
