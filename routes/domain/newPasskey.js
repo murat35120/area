@@ -8,7 +8,7 @@ const router = express.Router({ mergeParams: true });
 router.post("/new_passkey", function (req, res) {
     if(!req.body.role) return res.status(400).send("Role not passed");
     const passkey = generatePasskey();
-    RoleModel.findOne({where: {name: req.body.role}}).then(async (roleModel) => {
+    RoleModel.findOne({where: {domain: companies.indexOf(req.params.domain) + 1, name: req.body.role}}).then(async (roleModel) => {
         if (!roleModel) roleModel = await RoleModel.create({ name: req.body.role });
         const roleId = roleModel.id;
         await ManagerModel.create({ passkey: passkey, name: req.body.name || null, role: roleId, domain: companies.indexOf(req.params.domain) + 1 })

@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require("./../sequelize");
 
 const Role = sequelize.define("role", {
+    domain: DataTypes.INTEGER,
     name: DataTypes.STRING,
     list: {
         type: DataTypes.TEXT,

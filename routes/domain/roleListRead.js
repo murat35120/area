@@ -4,9 +4,9 @@ const RoleModel = require("../../models/Role");
 const router = express.Router({ mergeParams: true });
 
 router.post("/role_list_read", function (req, res) {
-    RoleModel.findAll().then((models) => {
+    RoleModel.findAll({domain: companies.indexOf(req.params.domain) + 1}).then((models) => {
         res.send(models.map(v => {
-            return {id: v.id, name: v.name, list: v.list}
+            return {name: v.name, list: v.list}
         }));
     }).catch((err) => {
         if(!Number.isInteger(err)) console.log(err);
