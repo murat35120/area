@@ -136,6 +136,19 @@ arrs={
 		['Роль','div'],
 		['Выбрать', 'div', 'dataset','click'], 			
     ],
+	list_right:[
+	        {name:'new_staff', description:'Регистрация сотрудника', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
+	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
+	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk']}, 
+	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
+	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
+	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
+	        {name:'log_read', description:'Читать историю посещений', right:['log_read']},
+	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
+	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
+	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
+	        {name:'write_file', description:'Писать файлы', right:['write_file']}
+	],
 };
 
 let abonent={
@@ -191,7 +204,11 @@ let links={ //связываем действия пользователя с ф
         let rand=Math.floor(Math.random() * 20) +40;
         document.documentElement.style.setProperty('--position_fon', rand+'%');
         let link=e.target;
-        let name=link.dataset.click;
+        let name=link.parentNode.parentNode.parentNode.dataset.name;
+        if(name=='role_list'){ //функции по изменению
+			control[name](link);
+        }
+        name=link.dataset.click;
         if(name){ //функции по клику
 			if(name in arrs.commands){
 				control.check_comand(name);
@@ -224,7 +241,7 @@ let links={ //связываем действия пользователя с ф
         if(name){ //функции по изменению
 			control[name](link);
         }
-    }
+    },
 };
 
 let control={
@@ -543,6 +560,16 @@ let control={
 				links.tables.centre_one.innerHTML='';
 			}
 		} 
+	},
+	
+	role_list(parent){
+		console.log('role_list');
+		//выводим в таблицу list_right
+		//ставим флаги там где есть
+		//изменения сохраняем в темп после отправки
+		//каждая роль сохраняется отправкой
+		//чтение роли после ее выбора и распаковка  (если нет в темпе), показываем шаблон с флагами
+		//отдельная функции сборки и разборки
 	},
 	
 	staff_dell(e){
@@ -893,8 +920,9 @@ function start(){
 	}
 
 }
-link_window_all=document.querySelector('body');
+let link_window_all=document.querySelector('body');
 link_window_all.addEventListener('click', links.call_func);  
 link_window_all.addEventListener("change", links.call_func_chng);
+
 
 start();
