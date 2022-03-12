@@ -454,6 +454,9 @@ let control={
 		abonent.domain=link.value;
 		abonent.company_name=link.value;
 		localStorage.owner_abonent=JSON.stringify(abonent);
+		control.check_comand('role_list_read');
+		abonent.key=0;
+		control.check_comand('staff_list_read');
 	},
 	
     domains(link){		//new

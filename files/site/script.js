@@ -755,6 +755,8 @@ let control={
 		if(obj){
 			links.tables.centre.children[0].children[2].innerText=obj.passkey;
 		}
+		abonent.key=0;
+		abonent.count=1000;
 		control.check_comand('staff_list_read');
 	},
 	
