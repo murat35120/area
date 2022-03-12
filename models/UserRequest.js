@@ -7,6 +7,7 @@ const UserRequest = sequelize.define("userRequest", {
     color: DataTypes.STRING,
     colorName: DataTypes.STRING,
     code: DataTypes.STRING,
+    domain: DataTypes.INTEGER,
     status: {
         type: DataTypes.TINYINT,
         defaultValue: 1

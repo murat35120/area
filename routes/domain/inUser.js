@@ -22,7 +22,7 @@ router.post("/in_user", function (req, res) {
         await model.save();
         const color = getRandomColor();
         const code = generateCode();
-        await UserRequestModel.create({type: "in", key: model.getDataValue("id"), color: color[0], colorName: color[1], code: code});
+        await UserRequestModel.create({domain: companies.indexOf(req.params.domain) + 1, type: "in", key: model.getDataValue("id"), color: color[0], colorName: color[1], code: code});
         const domain = await DomainModel.findOne({where: {domain: req.params.domain}});
         const logModel = (await LogModel.findOrCreate({where: {domain: companies.indexOf(req.params.domain) + 1, user: model.id, in: dateToCurrentDay()}}))[0];
         logModel.bill = logModel.bill.concat({type:'start', data:[getCurrentTime(), getCurrentTime(), domain.cost_in, domain.cost_in]});

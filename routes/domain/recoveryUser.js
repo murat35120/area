@@ -18,7 +18,7 @@ router.post("/recovery", function (req, res) {
         model.save().then((model2) => {
             const color = getRandomColor();
             const code = generateCode();
-            UserRequestModel.create({type: "in", key: model.getDataValue("id"), color: color[0], colorName: color[1], code: code}).then((requestModel) => {
+            UserRequestModel.create({domain: companies.indexOf(req.params.domain) + 1, type: "in", key: model.getDataValue("id"), color: color[0], colorName: color[1], code: code}).then((requestModel) => {
                 res.send({session: sessionCode, color: color[0], colorName: color[1], code: code});
             })
         }).catch((err) => {

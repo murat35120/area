@@ -4,7 +4,7 @@ const RoleModel = require("../../models/Role");
 const router = express.Router({ mergeParams: true });
 
 router.post("/role_list_read", function (req, res) {
-    RoleModel.findAll({domain: companies.indexOf(req.params.domain) + 1}).then((models) => {
+    RoleModel.findAll({where: {domain: companies.indexOf(req.params.domain) + 1}}).then((models) => {
         res.send(models.map(v => {
             return {name: v.name, list: v.list}
         }));

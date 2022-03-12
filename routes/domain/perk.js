@@ -8,8 +8,8 @@ router.post("/perk", function (req, res) {
     if(!req.body.id || !req.body.perk) return res.status(400).send("Wrong body");
     UserModel.findOne({where: {id: req.body.id}}).then(async (model) => {
         if(!model) throw 400;
-        var perkModel = await PerkModel.findOne({where: {perk: req.body.perk}});
-        if(!perkModel) perkModel = await PerkModel.create({perk: req.body.perk});
+        var perkModel = await PerkModel.findOne({where: {domain: companies.indexOf(req.params.domain) + 1, perk: req.body.perk}});
+        if(!perkModel) perkModel = await PerkModel.create({domain: companies.indexOf(req.params.domain) + 1, perk: req.body.perk});
         const perkId = perkModel.id;
         model.setDataValue("perk", perkId);
         await model.save();

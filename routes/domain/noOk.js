@@ -5,7 +5,7 @@ const UserModel = require("../../models/User");
 const router = express.Router({ mergeParams: true });
 
 router.post("/no_ok", function (req, res) {
-    UserRequestModel.findOne({where: {id: req.body.id}}).then(async (model) => {
+    UserRequestModel.findOne({where: {domain: companies.indexOf(req.params.domain) + 1, id: req.body.id}}).then(async (model) => {
         if(!model) throw 400;
         model.setDataValue("status", 2);
         await model.save();

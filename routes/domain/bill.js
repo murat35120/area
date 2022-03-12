@@ -11,7 +11,7 @@ const router = express.Router({ mergeParams: true });
 router.post("/bill", function (req, res) {
     LogModel.findOne({where: {domain: companies.indexOf(req.params.domain) + 1, user: req.model.id, in: dateToCurrentDay()}}).then(async (model) => {
         if(!model) return res.send([]);
-        const perk = await PerkModel.findOne({where: {perk: req.model.perk}});
+        const perk = await PerkModel.findOne({where: {domain: companies.indexOf(req.params.domain) + 1, id: req.model.perk}});
         var startIndex = 0;
         model.bill.forEach((value, index) => value.type == "start" && (startIndex = index));
         if(model.bill[model.bill.length - 1].type == "stop" || model.bill[model.bill.length - 1].type == "total") return res.send({perk: perk?.perk || null, bill: model.bill.slice(startIndex)});

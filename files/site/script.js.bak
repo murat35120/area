@@ -136,6 +136,19 @@ arrs={
 		['Роль','div'],
 		['Выбрать', 'div', 'dataset','click'], 			
     ],
+	list_right:[
+	        {name:'new_staff', description:'Регистрация сотрудника', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
+	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
+	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk']}, 
+	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
+	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
+	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
+	        {name:'log_read', description:'Читать историю посещений', right:['log_read']},
+	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
+	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
+	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
+	        {name:'write_file', description:'Писать файлы', right:['write_file']}
+	],
 };
 
 let abonent={
@@ -159,7 +172,12 @@ let comm={
 	err(e){
 		let data=e.target;
 		if(data.status!=200){
-			control.on_on(['first_menu', 'manual_munu', 'manual_login']);
+			if(data.status==400){
+				console.log("400");
+			}
+			if(data.response=="Wrong login or password"){
+				control.on_on(['first_menu', 'manual_munu', 'manual_login']);
+			}
 		}
 	},
     show_ax(e) {//стандартная функция получения сообщения
@@ -191,7 +209,11 @@ let links={ //связываем действия пользователя с ф
         let rand=Math.floor(Math.random() * 20) +40;
         document.documentElement.style.setProperty('--position_fon', rand+'%');
         let link=e.target;
-        let name=link.dataset.click;
+        let name=link.parentNode.parentNode.parentNode.dataset.name;
+        if(name=='role_list'){ //функции по изменению
+			control[name](link);
+        }
+        name=link.dataset.click;
         if(name){ //функции по клику
 			if(name in arrs.commands){
 				control.check_comand(name);
@@ -224,7 +246,7 @@ let links={ //связываем действия пользователя с ф
         if(name){ //функции по изменению
 			control[name](link);
         }
-    }
+    },
 };
 
 let control={
@@ -232,13 +254,13 @@ let control={
 		let obj={};
 		let felds=arrs.commands[name].out;
 		for(let i in felds){
-			if(abonent[felds[i]]){//дописываем поля из abonent
+			if(felds[i] in abonent){//дописываем поля из abonent
 				obj[felds[i]]=abonent[felds[i]];
 			}
-			if(links.felds[felds[i]]){//дописываем поля из felds
+			if(felds[i] in links.felds){//дописываем поля из felds
 				obj[felds[i]]=links.felds[felds[i]].value;
 			}
-			if(links.temp[felds[i]]){//дописываем поля из temp
+			if(felds[i] in  links.temp){//дописываем поля из temp
 				obj[felds[i]]=links.temp[felds[i]];
 			}
 		}
@@ -406,12 +428,17 @@ let control={
 	new_first(link){
 		console.log('new_first');
 		let blk=links.tables.centre;
-		control.on_on(['first_menu', 'table', 'send', 'manual_login'], link);
+		control.on_on(['first_menu', 'table', 'send', 'table_buttons', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.first_login, arrs.first_login_format, blk, 'first_login', 1);
 		links.titles.centre.innerText='Регистрация';
 		links.click.send.dataset.arr_name='first_login';
 		links.click.send.dataset.many='new_owner';
+		abonent={
+			key:'',
+			session:'',	
+			domain:''
+		};
 	},	
     login(link){
 		console.log('login');
@@ -442,19 +469,25 @@ let control={
 		//links.titles.domain.innerText='Выберите домен';
 		let asd=[];
 		blk=links.tables.centre_list;
-		control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
+		if(abonent.domain_list){
+			if(abonent.domain_list.length){
+				control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
+			}
+		}
     },
 	
 	list_domain(e){		//new
 		abonent.domain_list=comm.show_ax(e);
 		let asd=[];
 		blk=links.tables.centre_list;
-		control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
-		if(!abonent.domain_list.includes(abonent.domain)){
-			abonent.domain=abonent.domain_list[0];
-			abonent.company_name=abonent.domain_list[0];
-			document.querySelector('.main>.top').innerText=abonent.domain;		
-			document.title=abonent.domain;
+		if(abonent.domain_list.length){
+			control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
+			if(!abonent.domain_list.includes(abonent.domain)){
+				abonent.domain=abonent.domain_list[0];
+				abonent.company_name=abonent.domain_list[0];
+				document.querySelector('.main>.top').innerText=abonent.domain;		
+				document.title=abonent.domain;
+			}
 		}
 	},
 	make_arr_to_write(obj){		//new
@@ -476,14 +509,15 @@ let control={
     staff(link){		//new
 		console.log('staff');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'staff_menu', 'table_list','list_buttons', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'table_list','list_buttons', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.stafs.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
 		links.titles.domain.innerText='Выберите домен';
 		//links.click.send.dataset.many='staff_dell';
-		links.temp.key=1;
-		abonent.key=1;
+		links.temp.key=0;
+		abonent.key=0;
 		abonent.count=1000;		
 		//control.check_comand('staff_list_read');
 		control.write_select_list_1(abonent.domain_list, links.selects.domain_select);
@@ -511,10 +545,12 @@ let control={
     role(link){		//new
 		console.log('role');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table_two', 'staff_menu', 'domain', 'staff_menu', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu','table_two', 'domain', 'staff_menu', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.stafs.dataset.choose=1;
 		links.titles.centre_two.innerText='Управление Правами';
 		links.titles.domain.innerText='Выберите домен';
+		control.write_select_list_1(abonent.domain_list, links.selects.domain_select);
 		if(abonent.domain){
 			links.selects.domain_select.value=abonent.domain;
 			if(!abonent.role_list_all){
@@ -541,6 +577,16 @@ let control={
 				links.tables.centre_one.innerHTML='';
 			}
 		} 
+	},
+	
+	role_list(parent){
+		console.log('role_list');
+		//выводим в таблицу list_right
+		//ставим флаги там где есть
+		//изменения сохраняем в темп после отправки
+		//каждая роль сохраняется отправкой
+		//чтение роли после ее выбора и распаковка  (если нет в темпе), показываем шаблон с флагами
+		//отдельная функции сборки и разборки
 	},
 	
 	staff_dell(e){
@@ -588,8 +634,9 @@ let control={
 	in(link){
 		console.log('in');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu', 'login_menu', 'send','table_buttons', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'send','table_buttons', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.login.dataset.choose=1;
 		control.write_arr(arrs.login, arrs.login_format, blk, 'login');
 		links.titles.centre.innerText='Вход';
 		links.click.send.dataset.many='recovery_owner';
@@ -611,8 +658,9 @@ let control={
 	new_pass_open(link){
 		console.log('new_pass');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu',  'login_menu',  'table_buttons', 'send', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'table_buttons', 'send', 'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
+		links.click.login.dataset.choose=1;
 		control.write_arr(arrs.new_pass, arrs.login_format, blk, 'new_pass');
 		links.titles.centre.innerText='Новые Логин и Пароль';
 		links.click.send.dataset.many='new_pass';
@@ -688,6 +736,11 @@ let control={
 			abonent.domain=links.temp.domain;
 			document.title=abonent.company_name;
 			document.querySelector('.main>.top').innerText=abonent.company_name;
+			let r0=links.temp.link.parentNode.parentNode.dataset.obj_row;
+			let r1=links.temp.link.parentNode.parentNode.dataset.row;
+			arrs.coose_domain[r0].splice(r1, 1);
+			let blk=links.tables.centre;
+			control.write_arr(arrs.coose_domain, arrs.coose_domain_format, blk, 'domains', 1);
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.check_comand('list_domain');
 		} else {
@@ -730,17 +783,19 @@ let control={
 	},
 	recovery_owner(e){		//new
 		let obj=comm.show_ax(e);
-		if(obj.session){
-			//abonent.key=obj[0];
-			abonent.session=obj.session;
-			let login=links.tables.centre.querySelector('[data-name="login"]');
-			abonent.login=login.value;
-			localStorage.owner_abonent=JSON.stringify(abonent);
-			control.on_on(['manual_munu', 'main_menu']);
-			control.check_comand('list_domain');
-			control.check_comand('role_list_read');
-			abonent.key=1;
-			control.check_comand('staff_list_read');
+		if(obj){
+			if(obj.session){
+				//abonent.key=obj[0];
+				abonent.session=obj.session;
+				let login=links.tables.centre.querySelector('[data-name="login"]');
+				abonent.login=login.value;
+				localStorage.owner_abonent=JSON.stringify(abonent);
+				control.on_on(['manual_munu', 'main_menu']);
+				control.check_comand('list_domain');
+				control.check_comand('role_list_read');
+				abonent.key=0;
+				control.check_comand('staff_list_read');
+			}
 		}
 	},
     write_select(obj, parent){	
@@ -884,13 +939,15 @@ function start(){
 	}
 	if(abonent.domain&&abonent.session){		
 		control.check_comand('role_list_read');
-		abonent.key=1;
+		abonent.key=0;
+		abonent.count=1000;
 		control.check_comand('staff_list_read');
 	}
 
 }
-link_window_all=document.querySelector('body');
+let link_window_all=document.querySelector('body');
 link_window_all.addEventListener('click', links.call_func);  
 link_window_all.addEventListener("change", links.call_func_chng);
+
 
 start();
