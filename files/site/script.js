@@ -490,9 +490,16 @@ let control={
 				abonent.company_name=abonent.domain_list[0];
 				document.querySelector('.main>.top').innerText=abonent.domain;		
 				document.title=abonent.domain;
+				control.check_comand('role_list_read');
+				abonent.key=0;
+				abonent.count=1000;
+				control.check_comand('staff_list_read');
 			}
 		}
 	},
+	
+	
+	
 	make_arr_to_write(obj){		//new
 		let obj1=[];
 		if(obj.length){
@@ -673,8 +680,10 @@ let control={
 		}
 	},
 	out(link){
+		abonent={};
 		abonent.key='';
-		abonent.session='';
+		abonent.session='';	
+		abonent.domain='';
 		localStorage.owner_abonent=JSON.stringify(abonent);
 		control.on_on(['first_menu']);
 	},
@@ -689,8 +698,8 @@ let control={
 	check_out(link){
 		control.check_in(link);
 		link.dataset.click='check_in';
-		links.temp.company_name=link.parentNode.parentNode.children[1].children[0].innerText;
-		links.temp.domain=link.parentNode.parentNode.children[0].children[0].innerText;
+		links.temp.company_name=link.parentNode.parentNode.children[0].children[0].innerText;
+		links.temp.domain=link.parentNode.parentNode.children[1].children[0].innerText;
 		links.temp.key=link.parentNode.parentNode.children[0].children[0].innerText;
 		links.temp.link=link;
 		links.group.send.dataset.display=1;
@@ -797,9 +806,6 @@ let control={
 				localStorage.owner_abonent=JSON.stringify(abonent);
 				control.on_on(['manual_munu', 'main_menu']);
 				control.check_comand('list_domain');
-				control.check_comand('role_list_read');
-				abonent.key=0;
-				control.check_comand('staff_list_read');
 			}
 		}
 	},

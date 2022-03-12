@@ -490,9 +490,16 @@ let control={
 				abonent.company_name=abonent.domain_list[0];
 				document.querySelector('.main>.top').innerText=abonent.domain;		
 				document.title=abonent.domain;
+				control.check_comand('role_list_read');
+				abonent.key=0;
+				abonent.count=1000;
+				control.check_comand('staff_list_read');
 			}
 		}
 	},
+	
+	
+	
 	make_arr_to_write(obj){		//new
 		let obj1=[];
 		if(obj.length){
@@ -673,8 +680,10 @@ let control={
 		}
 	},
 	out(link){
+		abonent={};
 		abonent.key='';
-		abonent.session='';
+		abonent.session='';	
+		abonent.domain='';
 		localStorage.owner_abonent=JSON.stringify(abonent);
 		control.on_on(['first_menu']);
 	},
@@ -755,6 +764,8 @@ let control={
 		if(obj){
 			links.tables.centre.children[0].children[2].innerText=obj.passkey;
 		}
+		abonent.key=0;
+		abonent.count=1000;
 		control.check_comand('staff_list_read');
 	},
 	
@@ -795,9 +806,6 @@ let control={
 				localStorage.owner_abonent=JSON.stringify(abonent);
 				control.on_on(['manual_munu', 'main_menu']);
 				control.check_comand('list_domain');
-				control.check_comand('role_list_read');
-				abonent.key=0;
-				control.check_comand('staff_list_read');
 			}
 		}
 	},
