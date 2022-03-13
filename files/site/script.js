@@ -13,6 +13,7 @@ arrs={
         staff_dell:{out:['key','session'], in:['key', 'key_staff'], url:1},
         staff_dell_all:{out:['session'], in:['key', 'key_staff'], url:1},
         role_list_read:{out:['session'], in:['key',"[{},{},{}]"], url:1},
+        role_write:{out:['session', 'title', 'rights'], in:['key','role_name'], url:1}, 
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -44,7 +45,7 @@ arrs={
         user_dell_all:{out:['key','session'], in:['key']}, 
         
 
-        role_write:{out:['key','session', 'role_name', 'role_obj'], in:['key','role_name']},  
+        //role_write:{out:['key','session', 'role_name', 'role_obj'], in:['key','role_name']},  
         
         settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
         settings_calc_edit:{out:['key','session', 'settings_obj'], in:['key']}, 
@@ -562,7 +563,7 @@ let control={
     role(link){		//new
 		console.log('role');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table_two', 'domain', 'staff_menu', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu', 'domain', 'staff_menu', 'table_two', 'manual_munu', 'manual_login'], link);
 		link.dataset.choose=1;
 		links.click.stafs.dataset.choose=1;
 		links.titles.centre_two.innerText='Управление Правами';
@@ -573,7 +574,7 @@ let control={
 			if(!abonent.role_list_all){
 				control.check_comand('role_list_read');
 			}
-			links.click.send.dataset.many='take_domain';
+			links.click.send.dataset.many='role_write';
 		}
 		
     },
@@ -599,7 +600,7 @@ let control={
 	
 	role_list(link){
 		console.log('role_list');
-		//let role=link.parentNode.parentNode.children[0].children[0].innerText;
+		links.temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
 		let number=link.parentNode.parentNode.dataset.row;
 		let place =links.tables.centre_two;
 		let role_list=abonent.role_list_all[number].list; //role_list.includes(arr[i].name)
@@ -616,7 +617,8 @@ let control={
 			new_arr.push(temp_arr);
 		}
 		control.write_arr(new_arr, arrs.right_list_format, place, 'right_list');
-
+		links.group.table_buttons_two.dataset.display=1;
+		links.click.send_two.dataset.many="role_write";
 		//ставим флаги там где есть
 		//изменения сохраняем в темп после отправки
 		//каждая роль сохраняется отправкой
@@ -743,11 +745,11 @@ let control={
 	},
 	right_out(link){
 		link.dataset.click='right_in';
-		links.temp.role_obj=control.read_in(link);
+		links.temp.rights=control.read_in(link);
 	},
 	right_in(link){
 		link.dataset.click='right_out';
-		links.temp.role_obj=control.read_in(link);
+		links.temp.rights=control.read_in(link);
 	},	
 	read_in(link){
 		let blk=link.parentNode.parentNode.parentNode;

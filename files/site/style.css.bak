@@ -34,7 +34,7 @@
     flex-grow: 1;  
 }
 
-.content, .menu{
+.content{
     flex-wrap:wrap; /* перенос блоков */ 
 }
 

@@ -237,6 +237,9 @@ div[data-click='staff_dell'], div[data-picture='staff_dell'] {
 div[data-click='send'], div[data-picture='send'] {
     background: url(../png/send.png) no-repeat;
 }
+div[data-click='send_two'], div[data-picture='send_rwo'] {
+    background: url(../png/send.png) no-repeat;
+}
 div[data-click='check_domain'], div[data-picture='check_domain'] {
     background: url(../png/check_domain.png) no-repeat;
 }
