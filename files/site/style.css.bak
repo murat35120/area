@@ -264,7 +264,7 @@ div[data-click='staff'], div[data-picture='staff'] {
 div[data-click='role'], div[data-picture='role'] {
     background: url(../png/role.png) no-repeat;
 }
-div[data-click='clear'], div[data-picture='clear'] {
+div[data-click='staff_dell_all'], div[data-picture='staff_dell_all'] {
     background: url(../png/clear.png) no-repeat;
 }
 div[data-click] {

@@ -136,8 +136,12 @@ arrs={
 		['Роль','div'],
 		['Выбрать', 'div', 'dataset','click'], 			
     ],
+    right_list_format:[
+		['Права','div','',2],
+		['Добавить', 'div', 'dataset','click'], 			
+    ],
 	list_right:[
-	        {name:'new_staff', description:'Регистрация сотрудника', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
+	        {name:'new_staff', description:'Регистрация сотрудника (себя)', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
 	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
 	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk']}, 
 	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
@@ -147,7 +151,7 @@ arrs={
 	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
 	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
 	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
-	        {name:'write_file', description:'Писать файлы', right:['write_file']}
+	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
 	],
 };
 
@@ -372,6 +376,9 @@ let control={
     				       kol_blk.dataset[format[i][3]]=obj[j][i]; 
     				    } else{
     				        kol_blk.innerText=obj[j][i];
+							if(format[i][3]){
+								kol_blk.dataset.name= obj[j][format[i][3]];
+							}
     				    }
     				}
     				if(format[i][1]=='img'){
@@ -568,6 +575,7 @@ let control={
 			}
 			links.click.send.dataset.many='take_domain';
 		}
+		
     },
 
 	role_list_read(e){
@@ -592,6 +600,15 @@ let control={
 	role_list(parent){
 		console.log('role_list');
 		//выводим в таблицу list_right
+		let place =links.tables.centre_two;
+		//let arr=abonent.role_list_all;
+		let arr=arrs.list_right;
+		let new_arr=[];
+		for(let i=0; i<arr.length; i++){
+			let temp_arr=[arr[i].description, "right_out", arr[i].name ];
+			new_arr.push(temp_arr);
+		}
+		control.write_arr(new_arr, arrs.right_list_format, place, 'right_list');
 		//ставим флаги там где есть
 		//изменения сохраняем в темп после отправки
 		//каждая роль сохраняется отправкой
@@ -694,7 +711,7 @@ let control={
 		control.write_arr(arrs.new_pass, arrs.login_format, blk, 'new_pass');
 		links.titles.centre.innerText='Новые Логин и Пароль';
 		links.click.send.dataset.many='new_pass';
-	},
+	},	
 	check_out(link){
 		control.check_in(link);
 		link.dataset.click='check_in';
@@ -716,6 +733,12 @@ let control={
 			list[i].dataset.click='check_out';
 		}
 	},
+	right_out(link){
+		link.dataset.click='right_in';
+	},
+	right_in(link){
+		link.dataset.click='right_out';
+	},	
 	add(link){
 		abonent.name=link.parentNode.parentNode.children[0].children[0].value;
 		abonent.role=link.parentNode.parentNode.children[1].children[0].value;
