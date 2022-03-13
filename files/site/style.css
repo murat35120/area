@@ -22,7 +22,7 @@
     justify-content: space-between;     
  }
  /*3 */
-.content{
+.content, .menu{
     align-items:flex-start  ; /* выравнивание в поперечной оси */  
 }
 .description, .sections_top, .centre>div[data-display], .menu>input{
@@ -34,7 +34,7 @@
     flex-grow: 1;  
 }
 
-.content, .menu{
+.content{
     flex-wrap:wrap; /* перенос блоков */ 
 }
 

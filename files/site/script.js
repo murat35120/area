@@ -597,18 +597,26 @@ let control={
 		} 
 	},
 	
-	role_list(parent){
+	role_list(link){
 		console.log('role_list');
-		//выводим в таблицу list_right
+		//let role=link.parentNode.parentNode.children[0].children[0].innerText;
+		let number=link.parentNode.parentNode.dataset.row;
 		let place =links.tables.centre_two;
-		//let arr=abonent.role_list_all;
+		let role_list=abonent.role_list_all[number].list; //role_list.includes(arr[i].name)
+		//нужна функция собирающая группы
 		let arr=arrs.list_right;
 		let new_arr=[];
+		let temp_arr;
 		for(let i=0; i<arr.length; i++){
+			let btn="right_out";
+			if(0){
+				btn="right_in";
+			}
 			let temp_arr=[arr[i].description, "right_out", arr[i].name ];
 			new_arr.push(temp_arr);
 		}
 		control.write_arr(new_arr, arrs.right_list_format, place, 'right_list');
+
 		//ставим флаги там где есть
 		//изменения сохраняем в темп после отправки
 		//каждая роль сохраняется отправкой
@@ -735,10 +743,29 @@ let control={
 	},
 	right_out(link){
 		link.dataset.click='right_in';
+		links.temp.role_obj=control.read_in(link);
 	},
 	right_in(link){
 		link.dataset.click='right_out';
+		links.temp.role_obj=control.read_in(link);
 	},	
+	read_in(link){
+		let blk=link.parentNode.parentNode.parentNode;
+		let list=blk.querySelectorAll('div[data-click="right_in"]');
+		let arr=[];
+		for (let i=0; i<list.length; i++){
+			let tmp=list[i].parentNode.parentNode.children[0].children[0].dataset.name;
+			arr.push(tmp);
+		}
+		let right=[];
+		list =arrs.list_right;
+		for (let i=0; i<list.length; i++){
+			if(arr.includes(list[i].name) ){
+				right=right.concat(list[i].right);
+			}
+		}
+		return right;
+	},
 	add(link){
 		abonent.name=link.parentNode.parentNode.children[0].children[0].value;
 		abonent.role=link.parentNode.parentNode.children[1].children[0].value;

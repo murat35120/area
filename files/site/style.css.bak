@@ -22,7 +22,7 @@
     justify-content: space-between;     
  }
  /*3 */
-.content{
+.content, .menu{
     align-items:flex-start  ; /* выравнивание в поперечной оси */  
 }
 .description, .sections_top, .centre>div[data-display], .menu>input{
@@ -247,6 +247,12 @@ div[data-click='check_in'], div[data-picture='check_in'] {
     background: url(../png/check_in.png) no-repeat;
 }
 div[data-click='check_out'], div[data-picture='check_out'] {
+    background: url(../png/check_out.png) no-repeat;
+}
+div[data-click='right_in'], div[data-picture='right_in'] {
+    background: url(../png/check_in.png) no-repeat;
+}
+div[data-click='right_out'], div[data-picture='right_out'] {
     background: url(../png/check_out.png) no-repeat;
 }
 div[data-click='request'], div[data-picture='request'] {
