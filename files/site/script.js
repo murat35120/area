@@ -579,6 +579,13 @@ let control={
 		
     },
 
+	role_write(e){
+		let obj=comm.show_ax(e);
+		if(obj.title){
+			control.check_comand('role_list_read');
+		} 
+	},
+
 	role_list_read(e){
 		let obj=comm.show_ax(e);
 		if(Array.isArray(obj)){
@@ -603,17 +610,17 @@ let control={
 		links.temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
 		let number=link.parentNode.parentNode.dataset.row;
 		let place =links.tables.centre_two;
-		let role_groop=abonent.role_list_all[number].list; //role_list.includes(arr[i].name)
+		let role_groop=control.role_groop(abonent.role_list_all[number].list); //role_list.includes(arr[i].name)
 		//нужна функция собирающая группы
 		let arr=arrs.list_right;
 		let new_arr=[];
 		let temp_arr;
 		for(let i=0; i<arr.length; i++){
 			let btn="right_out";
-			if(0){
+			if(role_groop.includes(arr[i].name)){
 				btn="right_in";
 			}
-			let temp_arr=[arr[i].description, "right_out", arr[i].name ];
+			let temp_arr=[arr[i].description, btn, arr[i].name ];
 			new_arr.push(temp_arr);
 		}
 		control.write_arr(new_arr, arrs.right_list_format, place, 'right_list');
