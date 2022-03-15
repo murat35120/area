@@ -49,7 +49,7 @@
 						<table data-id='centre_one'></table>
 						<table data-id='centre_two'></table>
 					</div>
-        			<div class='line' > 
+        			<div class='line' data-group='table_buttons_two'> 
         				<div  data-click="send_two" data-many='centre' title='Отправить'></div>	
         			</div>
                 </div> 
@@ -76,29 +76,76 @@
 				</table>
 			</div>
 				
-			
-            <div class='table' data-group='manual_role'>
+            <div class='table' data-group='manual_send'>
+                <div class='line'>
+                    <div data-picture='send'></div>
+                    <div class='description'>Отправить</div>
+                </div>
+            </div>
+            <div class='table' data-group='manual_domain'>
+                <div class='line'>
+                    <div data-picture='check_domain_btn'></div>
+                    <div class='description'>Проверить домен</div>
+                </div>
                 <div class='line'>
                     <div data-picture='check_in'></div>
                     <div class='description'>Элемент выбран</div>
                 </div>
             </div>
+            <div class='table' data-group='manual_staffs'>
+                <div class='line'>
+                    <div data-picture='staff'></div>
+                    <div class='description'>Управление сотрудниками</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='role'></div>
+                    <div class='description'>Управление правами</div>
+                </div>
+            </div>
+            <div class='table' data-group='manual_staff'>
+                <div class='line'>
+                    <div data-picture='add'></div>
+                    <div class='description'>Добавить сотрудника</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='check_in'></div>
+                    <div class='description'>Сотрудник выбран</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='staff_dell_all'></div>
+                    <div class='description'>Удалить всех</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='staff_dell'></div>
+                    <div class='description'>Удалить выбранного</div>
+                </div>
+            </div>
+            <div class='table' data-group='manual_first_menu'>
+                <div class='line'>
+                    <div data-picture='in_first'></div>
+                    <div class='description'>Войти</div>
+                </div>
+                <div class='line'>
+                    <div data-picture='new_first'></div>
+                    <div class='description'>Зарегистрироваться</div>
+                </div>
+            </div>
             <div class='table' data-group='manual_login'>
                 <div class='line'>
                     <div data-picture='in'></div>
-                    <div class='description'>Отправить</div>
+                    <div class='description'>Войти</div>
                 </div>
                 <div class='line'>
-                    <div data-picture='new_pass'></div>
-                    <div class='description'>Отправить</div>
+                    <div data-picture='new_pass_open'></div>
+                    <div class='description'>Сменить пароль</div>
                 </div>
                 <div class='line'>
                     <div data-picture='out'></div>
-                    <div class='description'>Отправить</div>
+                    <div class='description'>Выйти</div>
                 </div>
             </div>
 
-            <div class='table' data-group='manual_munu'>
+            <div class='table' data-group='manual_menu'>
                 <div class='line'>
                     <div data-picture='login'></div>
                     <div class='description'>Сменить Логин и Пароль</div>

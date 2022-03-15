@@ -177,10 +177,10 @@ let comm={
 	err(e){
 		let data=e.target;
 		if(data.status!=200){
-			if(data.status==400){
-				console.log("400");
+			if(data.status>399){
+				console.log(data.status);
 			}
-			if(data.response=="Wrong login or password"){
+			if(data.response=="Wrong login or password"||data.response=="Wrong domain, session or session expired"){
 				control.on_on(['first_menu', 'manual_munu', 'manual_login']);
 			}
 		}
@@ -436,7 +436,7 @@ let control={
 	new_first(link){
 		console.log('new_first');
 		let blk=links.tables.centre;
-		control.on_on(['first_menu', 'table', 'send', 'table_buttons', 'manual_login'], link);
+		control.on_on(['first_menu', 'table', 'send',  'manual_send', 'table_buttons', 'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.first_login, arrs.first_login_format, blk, 'first_login', 1);
 		links.titles.centre.innerText='Регистрация';
@@ -470,7 +470,7 @@ let control={
     domains(link){		//new
 		console.log('domains');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu', 'table', 'table_list','table_buttons', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu', 'table', 'table_list','table_buttons', 'manual_munu',  'manual_send', 'manual_domain'], link);
 		//control.check_comand('list_domain');
 		link.dataset.choose=1;
 		control.write_arr(arrs.coose_domain, arrs.coose_domain_format, blk, 'domains', 1);
@@ -521,13 +521,13 @@ let control={
     stafs(link){		//new
 		console.log('stafs');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu', 'staff_menu',  'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu', 'staff_menu',  'manual_munu',  'manual_staffs' ], link);
 		link.dataset.choose=1;
     },
     staff(link){		//new
 		console.log('staff');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'table_list','list_buttons', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu','table', 'domain', 'staff_menu', 'table_list','list_buttons', 'manual_munu',  'manual_send', 'manual_staff'], link);
 		link.dataset.choose=1;
 		links.click.stafs.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
@@ -563,7 +563,7 @@ let control={
     role(link){		//new
 		console.log('role');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu', 'domain', 'staff_menu', 'table_two', 'manual_munu', 'manual_login'], link);
+		control.on_on(['main_menu', 'domain', 'staff_menu', 'table_two', 'manual_munu', 'manual_send'], link);
 		link.dataset.choose=1;
 		links.click.stafs.dataset.choose=1;
 		links.titles.centre_two.innerText='Управление Правами';
@@ -578,6 +578,13 @@ let control={
 		}
 		
     },
+
+	role_write(e){
+		let obj=comm.show_ax(e);
+		if(obj.title){
+			control.check_comand('role_list_read');
+		} 
+	},
 
 	role_list_read(e){
 		let obj=comm.show_ax(e);
@@ -603,17 +610,17 @@ let control={
 		links.temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
 		let number=link.parentNode.parentNode.dataset.row;
 		let place =links.tables.centre_two;
-		let role_list=abonent.role_list_all[number].list; //role_list.includes(arr[i].name)
+		let role_groop=control.role_groop(abonent.role_list_all[number].list); //role_list.includes(arr[i].name)
 		//нужна функция собирающая группы
 		let arr=arrs.list_right;
 		let new_arr=[];
 		let temp_arr;
 		for(let i=0; i<arr.length; i++){
 			let btn="right_out";
-			if(0){
+			if(role_groop.includes(arr[i].name)){
 				btn="right_in";
 			}
-			let temp_arr=[arr[i].description, "right_out", arr[i].name ];
+			let temp_arr=[arr[i].description, btn, arr[i].name ];
 			new_arr.push(temp_arr);
 		}
 		control.write_arr(new_arr, arrs.right_list_format, place, 'right_list');
@@ -635,7 +642,8 @@ let control={
 			temp_arr=arr[i].right;
 			temp_name=arr[i].name;
 			let k=temp_arr.length;
-			for(let j=0; j<temp_arr.length; j++){
+			let j=0;
+			for(; j<temp_arr.length; j++){
 				if(!rights.includes(temp_arr[j])){
 					break;
 				}
@@ -692,7 +700,7 @@ let control={
 	in(link){
 		console.log('in');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu', 'send','table_buttons', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'send','table_buttons', 'manual_munu', 'manual_send', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
 		links.click.login.dataset.choose=1;
 		control.write_arr(arrs.login, arrs.login_format, blk, 'login');
@@ -706,7 +714,7 @@ let control={
 	in_first(link){
 		console.log('in_first');
 		let blk=links.tables.centre;
-		control.on_on(['first_menu', 'table', 'send', 'table_buttons', 'manual_login'], link);
+		control.on_on(['first_menu', 'table', 'send', 'table_buttons', 'manual_send',  'manual_login'], link);
 		link.dataset.choose=1;
 		control.write_arr(arrs.login, arrs.login_format, blk, 'first_login');
 		links.titles.centre.innerText='Вход';
@@ -716,7 +724,7 @@ let control={
 	new_pass_open(link){
 		console.log('new_pass');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu','login_menu', 'table_buttons', 'send', 'manual_munu', 'table', 'manual_login'], link);
+		control.on_on(['main_menu','login_menu', 'table_buttons', 'send', 'manual_send',  'manual_munu', 'table', 'manual_login'], link);
 		link.dataset.choose=1;
 		links.click.login.dataset.choose=1;
 		control.write_arr(arrs.new_pass, arrs.login_format, blk, 'new_pass');
@@ -733,7 +741,7 @@ let control={
 		abonent.session='';	
 		abonent.domain='';
 		localStorage.owner_abonent=JSON.stringify(abonent);
-		control.on_on(['first_menu']);
+		control.on_on(['first_menu', 'manual_first_menu']);
 	},
 	new_firstr(link){	
 		let blk=links.tables.centre;
@@ -1011,11 +1019,10 @@ function start(){
 		abonent=JSON.parse(localStorage.owner_abonent);
 	}
 	if(abonent.session){
-		links.group.manual_munu.dataset.display=1;
-		links.group.main_menu.dataset.display=1;
+		control.on_on(['main_menu', 'manual_menu']);
 		control.check_comand('list_domain');
 	} else {
-		links.group.first_menu.dataset.display=1;
+		control.on_on(['first_menu', 'manual_first_menu']);
 	}
 	if(abonent.company_name){
         document.querySelector('.main>.top').innerText=abonent.company_name;
