@@ -177,10 +177,10 @@ let comm={
 	err(e){
 		let data=e.target;
 		if(data.status!=200){
-			if(data.status==400){
-				console.log("400");
+			if(data.status>399){
+				console.log(data.status);
 			}
-			if(data.response=="Wrong login or password"){
+			if(data.response=="Wrong login or password"||data.response=="Wrong domain, session or session expired"){
 				control.on_on(['first_menu', 'manual_munu', 'manual_login']);
 			}
 		}
@@ -603,7 +603,7 @@ let control={
 		links.temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
 		let number=link.parentNode.parentNode.dataset.row;
 		let place =links.tables.centre_two;
-		let role_list=abonent.role_list_all[number].list; //role_list.includes(arr[i].name)
+		let role_groop=abonent.role_list_all[number].list; //role_list.includes(arr[i].name)
 		//нужна функция собирающая группы
 		let arr=arrs.list_right;
 		let new_arr=[];
