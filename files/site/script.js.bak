@@ -13,7 +13,7 @@ arrs={
         staff_dell:{out:['key','session'], in:['key', 'key_staff'], url:1},
         staff_dell_all:{out:['session'], in:['key', 'key_staff'], url:1},
         role_list_read:{out:['session'], in:['key',"[{},{},{}]"], url:1},
-        role_write:{out:['session', 'role_name', 'role_obj'], in:['key','role_name'], url:1}, 
+        role_write:{out:['session', 'title', 'rights'], in:['key','role_name'], url:1}, 
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -600,7 +600,7 @@ let control={
 	
 	role_list(link){
 		console.log('role_list');
-		links.temp.role_name=link.parentNode.parentNode.children[0].children[0].innerText;
+		links.temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
 		let number=link.parentNode.parentNode.dataset.row;
 		let place =links.tables.centre_two;
 		let role_list=abonent.role_list_all[number].list; //role_list.includes(arr[i].name)
@@ -624,6 +624,27 @@ let control={
 		//каждая роль сохраняется отправкой
 		//чтение роли после ее выбора и распаковка  (если нет в темпе), показываем шаблон с флагами
 		//отдельная функции сборки и разборки
+	},
+	
+	role_groop(rights){
+		let arr=arrs.list_right;
+		let groop=[];
+		let temp_arr;
+		let temp_name;
+		for(let i=0; i<arr.length; i++){
+			temp_arr=arr[i].right;
+			temp_name=arr[i].name;
+			let k=temp_arr.length;
+			for(let j=0; j<temp_arr.length; j++){
+				if(!rights.includes(temp_arr[j])){
+					break;
+				}
+			}
+			if(k==j){
+				groop.push(temp_name);
+			}
+		}
+		return groop;
 	},
 	
 	staff_dell(e){
@@ -745,11 +766,11 @@ let control={
 	},
 	right_out(link){
 		link.dataset.click='right_in';
-		links.temp.role_obj=control.read_in(link);
+		links.temp.rights=control.read_in(link);
 	},
 	right_in(link){
 		link.dataset.click='right_out';
-		links.temp.role_obj=control.read_in(link);
+		links.temp.rights=control.read_in(link);
 	},	
 	read_in(link){
 		let blk=link.parentNode.parentNode.parentNode;

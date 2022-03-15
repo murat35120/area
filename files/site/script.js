@@ -626,6 +626,28 @@ let control={
 		//отдельная функции сборки и разборки
 	},
 	
+	role_groop(rights){
+		let arr=arrs.list_right;
+		let groop=[];
+		let temp_arr;
+		let temp_name;
+		for(let i=0; i<arr.length; i++){
+			temp_arr=arr[i].right;
+			temp_name=arr[i].name;
+			let k=temp_arr.length;
+			let j=0;
+			for(; j<temp_arr.length; j++){
+				if(!rights.includes(temp_arr[j])){
+					break;
+				}
+			}
+			if(k==j){
+				groop.push(temp_name);
+			}
+		}
+		return groop;
+	},
+	
 	staff_dell(e){
 		let obj=comm.show_ax(e);
 		links.group.send_dell.dataset.display=0;
