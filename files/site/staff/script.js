@@ -5,7 +5,7 @@ arrs={
 		in_staff:{out:['key','session'], in:['key','session','role']},
 		out_staff:{out:['key','session'], in:['key']},		
 		new_pass_staff:{out:['login','password','new_login','new_password'], in:['key','session']},
-        read_file:{out:['temp'], in:['key','name_file','txt_file']},
+        read_file:{out:['name_file'], in:['key','name_file','txt_file']},
         write_file:{out:['session', 'name_file','txt_file', 'temp'], in:['key','name_file']}, 
         staff_list_read:{out:['session'], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
@@ -734,7 +734,7 @@ let control={
 				if(felds[i] in abonent){//дописываем поля из abonent
 					obj[felds[i]]=abonent[felds[i]];
 				}
-				if(felds[i] in temp){
+				if(felds[i] in temp){//дописываем поля из temp
 					obj[felds[i]]=temp[felds[i]];
 				}
 			}
@@ -1411,11 +1411,13 @@ function start(){
 		//control.write_arr(arrs.new_staff, arrs.new_staff_format, links.table.centre, 'new_staff', multi=1);
 		//links.click.send.dataset.many='new_staff';
 		abonent.domain=document.location.pathname.split("/")[1];
-		abonent.key=1;
+		abonent.key=0;
 		abonent.count=1000;
 		abonent.session='';
 		abonent.login='';
 		abonent.role='';
+		//abonent.name_file='settings.json';  // это нужно делать методом GET
+		//control.check_comand('read_file');
 	}
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
