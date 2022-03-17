@@ -14,6 +14,7 @@ arrs={
         staff_dell_all:{out:['session'], in:['key', 'key_staff'], url:1},
         role_list_read:{out:['session'], in:['key',"[{},{},{}]"], url:1},
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name'], url:1}, 
+        write_file:{out:['key','session', 'name_file','txt_file'], in:['key','name_file'], url:1} ,
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -50,7 +51,7 @@ arrs={
         settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
         settings_calc_edit:{out:['key','session', 'settings_obj'], in:['key']}, 
         
-        write_file:{out:['key','session', 'name_file','txt_file'], in:['key','name_file']}, 
+
 	},
     first_login:[
 		[
@@ -827,6 +828,8 @@ let control={
 			document.querySelector('.main>.top').innerText=abonent.company_name;
 			abonent.company_name=links.temp.company_name;
 			abonent.domain=links.temp.domain;
+			abonent.name_file="settings.json";
+			abonent.txt_file=JSON.stringify({company_name:abonent.company_name});
 			document.title=abonent.company_name;
 			document.querySelector('.main>.top').innerText=abonent.company_name;
 			let r0=links.temp.link.parentNode.parentNode.dataset.obj_row;
@@ -836,6 +839,7 @@ let control={
 			control.write_arr(arrs.coose_domain, arrs.coose_domain_format, blk, 'domains', 1);
 			localStorage.owner_abonent=JSON.stringify(abonent);
 			control.check_comand('list_domain');
+			control.check_comand('write_file');
 		} else {
 			control.check_in(1);
 		}
