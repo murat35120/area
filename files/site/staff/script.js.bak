@@ -362,6 +362,15 @@ let abonent={
 
 
 let comm={ //new
+
+	ax_get(func, url){//стандартная функция отправки сообщения
+		let req=new XMLHttpRequest();
+		req.addEventListener('load', answer[func]);//привязали контекст
+		req.open('GET', url, true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.responseType = 'text';
+		req.send();
+	},
 	
 	ax(obj, func, url){//стандартная функция отправки сообщения
 		let req=new XMLHttpRequest();
@@ -696,6 +705,14 @@ let answer={  //new
 		control.answer(obj);//раздаем поля по местам хранения  
 		control.on_on([ 'main_menu']);  //, 'login_manual',  'main_manual'
 	},
+	read_seting(e){
+		let obj=comm.show_ax(e);
+		if(obg.company_name){
+			document.querySelector('title').innerText=obg.company_name;
+			document.querySelector('.top').innerText=obg.company_name;
+		}
+	},
+
 	
 };
 let control={
@@ -1416,8 +1433,7 @@ function start(){
 		abonent.session='';
 		abonent.login='';
 		abonent.role='';
-		abonent.name_file='settings.json';
-		control.check_comand('read_file');
+		comm.ax_get('read_seting', '../settings.json');
 	}
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');

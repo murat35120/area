@@ -163,7 +163,14 @@ let abonent={
 	domain:''
 };
 let comm={
-	
+	ax_get(func, url){//стандартная функция отправки сообщения
+		let req=new XMLHttpRequest();
+		req.addEventListener('load', control[func]);//привязали контекст
+		req.open('GET', url, true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.responseType = 'text';
+		req.send();
+	},
 	ax(obj, func, url){//стандартная функция отправки сообщения
 		let req=new XMLHttpRequest();
 		req.addEventListener('load', func);//привязали контекст
@@ -466,8 +473,16 @@ let control={
 		control.check_comand('role_list_read');
 		abonent.key=0;
 		control.check_comand('staff_list_read');
+		comm.ax_get('read_seting', '../'+abonent.domain+'/settings.json');
 	},
-	
+	read_seting(e){
+		let obj=comm.show_ax(e);
+		if(obj.company_name){
+			document.querySelector('title').innerText=obj.company_name;
+			document.querySelector('.top').innerText=obj.company_name;
+			abonent.company_name=obj.company_name;
+		}
+	},
     domains(link){		//new
 		console.log('domains');
 		let blk=links.tables.centre;

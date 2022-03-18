@@ -705,6 +705,14 @@ let answer={  //new
 		control.answer(obj);//раздаем поля по местам хранения  
 		control.on_on([ 'main_menu']);  //, 'login_manual',  'main_manual'
 	},
+	read_seting(e){
+		let obj=comm.show_ax(e);
+		if(obj.company_name){
+			document.querySelector('title').innerText=obj.company_name;
+			document.querySelector('.top').innerText=obj.company_name;
+		}
+	},
+
 	
 };
 let control={
@@ -1425,7 +1433,7 @@ function start(){
 		abonent.session='';
 		abonent.login='';
 		abonent.role='';
-		comm.ax_get('read_file', '../settings.json');
+		comm.ax_get('read_seting', '../settings.json');
 	}
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
