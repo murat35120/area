@@ -362,6 +362,15 @@ let abonent={
 
 
 let comm={ //new
+
+	ax_get(func, url){//стандартная функция отправки сообщения
+		let req=new XMLHttpRequest();
+		req.addEventListener('load', answer[func]);//привязали контекст
+		req.open('GET', url, true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.responseType = 'text';
+		req.send();
+	},
 	
 	ax(obj, func, url){//стандартная функция отправки сообщения
 		let req=new XMLHttpRequest();
@@ -1416,8 +1425,7 @@ function start(){
 		abonent.session='';
 		abonent.login='';
 		abonent.role='';
-		//abonent.name_file='settings.json';  // это нужно делать методом GET
-		//control.check_comand('read_file');
+		comm.ax_get('read_file', '../settings.json');
 	}
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
