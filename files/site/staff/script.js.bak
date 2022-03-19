@@ -7,7 +7,7 @@ arrs={
 		new_pass_staff:{out:['login','password','new_login','new_password'], in:['key','session']},
         read_file:{out:['name_file'], in:['key','name_file','txt_file']},
         write_file:{out:['session', 'name_file','txt_file', 'temp'], in:['key','name_file']}, 
-        staff_list_read:{out:['session'], in:['key',"[{},{},{}]"]},
+        staff_list_read:{out:['session', 'key', 'count'],], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
@@ -482,9 +482,11 @@ let click={		//new
 		link.dataset.choose=1;
     },
 	stafs(link){
-		console.log('stafsn');
+		console.log('stafs');
 		control.on_on(['staff_menu', 'main_menu'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
+		abonent.key=0;
+		abonent.count=1000;
 		control.check_comand("staff_list_read");
 		control.check_comand("role_list_read");
 		
@@ -710,6 +712,8 @@ let answer={  //new
 		if(obj.company_name){
 			document.querySelector('title').innerText=obj.company_name;
 			document.querySelector('.top').innerText=obj.company_name;
+			abonent.company_name=obj.company_name;
+			comm.write_ls('abonent', abonent);
 		}
 	},
 
@@ -1433,8 +1437,8 @@ function start(){
 		abonent.session='';
 		abonent.login='';
 		abonent.role='';
-		comm.ax_get('read_seting', '../settings.json');
 	}
+	comm.ax_get('read_seting', '../settings.json');
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
 }
