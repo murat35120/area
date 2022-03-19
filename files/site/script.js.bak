@@ -480,6 +480,8 @@ let control={
 		if(obj.company_name){
 			document.querySelector('title').innerText=obj.company_name;
 			document.querySelector('.top').innerText=obj.company_name;
+			abonent.company_name=obj.company_name;
+			localStorage.owner_abonent=JSON.stringify(abonent);
 		}
 	},
     domains(link){		//new

@@ -481,6 +481,7 @@ let control={
 			document.querySelector('title').innerText=obj.company_name;
 			document.querySelector('.top').innerText=obj.company_name;
 			abonent.company_name=obj.company_name;
+			localStorage.owner_abonent=JSON.stringify(abonent);
 		}
 	},
     domains(link){		//new
@@ -511,7 +512,7 @@ let control={
 			control.write_arr(control.make_arr_to_write(abonent.domain_list), asd, blk, 'domains_list');
 			if(!abonent.domain_list.includes(abonent.domain)){
 				abonent.domain=abonent.domain_list[0];
-				abonent.company_name=abonent.domain_list[0];
+				//abonent.company_name=abonent.domain_list[0];
 				document.querySelector('.main>.top').innerText=abonent.domain;		
 				document.title=abonent.domain;
 				control.check_comand('role_list_read');

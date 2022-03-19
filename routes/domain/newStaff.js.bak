@@ -12,8 +12,8 @@ router.post("/new_staff", async function (req, res) {
     try{
         const ManagerWithThisLogin = await ManagerModel.findOne({where:{login: req.body.login}});
         if(ManagerWithThisLogin){
-            res.status(400).send("User with this login already registered");
-			return;
+            //res.status(400).send("User with this login already registered");
+			res.send("User with this login already registered");
         }
     } catch(err){
         console.log(err);
