@@ -707,9 +707,9 @@ let answer={  //new
 	},
 	read_seting(e){
 		let obj=comm.show_ax(e);
-		if(obg.company_name){
-			document.querySelector('title').innerText=obg.company_name;
-			document.querySelector('.top').innerText=obg.company_name;
+		if(obj.company_name){
+			document.querySelector('title').innerText=obj.company_name;
+			document.querySelector('.top').innerText=obj.company_name;
 		}
 	},
 

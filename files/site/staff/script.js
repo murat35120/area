@@ -710,6 +710,8 @@ let answer={  //new
 		if(obj.company_name){
 			document.querySelector('title').innerText=obj.company_name;
 			document.querySelector('.top').innerText=obj.company_name;
+			abonent.company_name=obj.company_name;
+			comm.write_ls('abonent', abonent);
 		}
 	},
 
@@ -1433,8 +1435,8 @@ function start(){
 		abonent.session='';
 		abonent.login='';
 		abonent.role='';
-		comm.ax_get('read_seting', '../settings.json');
 	}
+	comm.ax_get('read_seting', '../settings.json');
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
 }
