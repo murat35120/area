@@ -50,9 +50,9 @@ router.use("/:domain/", [
         require("./domain/bill")
     ]),
 
-    //useMiddlewareForRoutes(checkSession(OwnerModel), [
+    useMiddlewareForRoutes(checkSession(OwnerModel), [
       //  require("./domain/newPasskey")
-    //]),
+    ]),
 
     useMiddlewareForRoutes([checkSession(ManagerModel, OwnerModel), checkManagerAccess], [
         require("./domain/readStaff"),

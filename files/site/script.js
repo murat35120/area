@@ -151,7 +151,7 @@ arrs={
 	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
 	        {name:'log_read', description:'Читать историю посещений', right:['log_read']},
 	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
-	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
+	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'new_passkey', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
 	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
 	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
 	],
