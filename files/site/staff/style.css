@@ -73,11 +73,10 @@ div, input, select, textarea, table{
 
 .top{
     font-size:  2em;
-}
-.title{
+} 
+.title, div[data-title]{
     font-size:  1.4em;  
-}  
-
+}
 div[data-column_area]>div{
     width: 1em;
     height: 1em;
@@ -295,6 +294,18 @@ div[data-click='delete'], div[data-picture='delete']  {
 div[data-click='past'], div[data-picture='past']  {
     background: url(/png/past.png) no-repeat;
 }
+div[data-click='add'], div[data-picture='add']  {
+    background: url(/png/add.png) no-repeat;
+}
+div[data-click='staff_dell'], div[data-picture='staff_dell'] {
+    background: url(/png/delete.png) no-repeat;
+}
+div[data-click='staff_dell_all'], div[data-picture='staff_dell_all'] {
+    background: url(/png/clear.png) no-repeat;
+}
+
+
+
 div[data-click] {
   width: 2em;
   height: 2em;

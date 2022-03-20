@@ -54,7 +54,6 @@
                 
                 <div class='article' data-group='table_centre'>
         			<div class='line' data-group='price_date'> 
-        				<div  data-click="copy"  title='Копировать'></div>	
         				<input  type='date'  data-id='date' title='Дата'>							
         				<div  data-click="past"  title='Вставить'></div>	
         			</div>
@@ -65,7 +64,27 @@
         				<div  data-click="send"  data-many='send' title='Отправить'></div>	
         			</div>
                 </div>
- 
+
+                <div class='article' data-group='table_two'>
+					<div data-title='centre_two'></div>
+					<div class='menu'> 
+						<table data-table='centre_one'></table>
+						<table data-table='centre_two'></table>
+					</div>
+        			<div class='line' data-group='table_buttons_two'> 
+        				<div  data-click="send_two" data-many='centre' title='Отправить'></div>	
+        			</div>
+                </div> 
+                <div class='article' data-group='table_list'>
+					<div data-title='centre_list'></div>
+        			<div class='menu' data-group='list_buttons'> 
+        				<div  data-click="staff_dell_all"  title='Очистить список'></div>
+        				<div  data-click="staff_dell"  data-group='send_dell'  title="Удалить"></div>	
+        			</div>
+                    <table data-table='centre_list'>
+            		</table>
+                </div>
+
             </div>
         </div>
         

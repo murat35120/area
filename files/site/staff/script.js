@@ -9,6 +9,7 @@ arrs={
         write_file:{out:['session', 'name_file','txt_file', 'temp'], in:['key','name_file']}, 
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
+		new_passkey:{out:['session','role','name'], in:['key','session']},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -72,33 +73,57 @@ arrs={
 	    {type: 'item', data:['Зона 2', '14:00:00', '15:00:00', "20", '80']},
 	    {type: 'item', data:['Зона 3', '15:00:00', '15:21:32', "30", '60']}
     ],
-    role:[
-        ['Название компании', 'ООО "Рога и Копыта"' ],
-        ['ИНН', '7804539523' ],
-        ['КПП', '780402007' ],
-        ['Индекс', '194200' ],
-        ['Город', 'Санкт_Петербург' ],   
-        ['Адрес', 'ул. Бобруйская д.8 офис 132' ], 
-        ['Телефон', '812 542-06-78' ], 
-        ['EMail', 'roga@mail.ru' ], 
-        ['Кому', 'Иванов Николай Сергеевич' ], 
+	
+// new	
+    staff_control:[
+		[
+			['','','','add' ],
+		],
+		[]
     ],
-    role_format:[
-        ['Параметр','div'],
-        ['Значение','input', 'text']
+    staff_control_format:[
+		[
+			['','input', 'text'],
+	        ['','input', 'list', '', 'role_list_option'],
+			['', 'div'],	
+			['', 'div', 'dataset','click'],			
+		],
+		[
+			['Имя','div'],
+			['Роль','div'],
+			['Passkey','div'],
+			['Создать', 'div', 'dataset','click'], 
+		]
     ],
-    roles_list:{},
-    staff:[
-            {key_employee:0, registred:'12-12-2022', name:'Вася', role :'1'},
-            {key_employee:1, registred:'12-12-2022', name:'Коля', role :'3'},   
-            {key_employee:2, registred:'12-12-2022', name:'Саша', role :'7'}, 
-            {key_employee:3, registred:'12-12-2022', name:'Василий Иванивич Солдберг тридцать первый', role :'1'},
-            {key_employee:4, registred:'12-12-2022', name:'Коля1', role :'3'},   
-            {key_employee:5, registred:'12-12-2022', name:'Саша1', role :'7'}, 
-            {key_employee:6, registred:'12-12-2022', name:'Вася2', role :'1'},
-            {key_employee:7, registred:'12-12-2022', name:'Коля2', role :'3'},   
-            {key_employee:8, registred:'12-12-2022', name:'Саша2', role :'7'}, 
+    staff_list_format:[
+		['Ключ','div'],
+		['Имя','div'],
+		['Роль','div'],	
+		['Создан','div'],
+		['Passkey','div'],
+		['Выбрать', 'div', 'dataset','click'], 			
     ],
+    role_list_format:[
+		['Роль','div'],
+		['Выбрать', 'div', 'dataset','click'], 			
+    ],
+    right_list_format:[
+		['Права','div','',2],
+		['Добавить', 'div', 'dataset','click'], 			
+    ],
+	list_right:[
+	        {name:'new_staff', description:'Регистрация сотрудника (себя)', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
+	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
+	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk']}, 
+	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
+	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
+	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
+	        {name:'log_read', description:'Читать историю посещений', right:['log_read']},
+	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
+	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
+	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
+	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
+	],
 
 
     count_set:[
@@ -421,8 +446,8 @@ let links={ //связываем действия пользователя с ф
 	click:{}, //кнопки		new
 	table:{}, //место для вывода таблиц 
 	felds:{},  //поля для ручного ввода данных new
-	selects:{}, //элементы selekt new
-//	many:{},
+	selects:{}, //элементы selekt new/	
+	titles:{},
 	main_menu:{},
 	tables:{},
 	titles:{},
@@ -647,6 +672,46 @@ let click={		//new
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 		console.log(arr);
     },
+    staff_open(link){		//new
+		console.log('staff_open');
+		let blk=links.table.centre;
+		control.on_on(['main_menu','table_centre', 'staff_menu', 'table_list','list_buttons'], link);
+		link.dataset.choose=1;
+		links.click.stafs.dataset.choose=1;
+		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
+		links.titles.centre.innerText='Управление Персоналом';
+		//links.titles.domain.innerText='Выберите домен';
+		//links.click.send.dataset.many='staff_dell';
+		//temp.key=0;
+		abonent.key=0;
+		abonent.count=1000;		
+		//control.check_comand('staff_list_read');
+		//control.write_select_list_1(abonent.domain_list, links.selects.domain_select);
+		links.titles.centre_list.innerText='Мои сотрудники';
+		//if(abonent.domain){
+			//links.selects.domain_select.value=abonent.domain;
+			//if(!abonent.domain_list){
+			//	control.check_comand('staff_list_read');
+			//}
+			//links.click.send.dataset.many='take_domain';
+			let asd=[];
+			blk=links.table.centre_list;
+			if(abonent.staff_list_write){
+				let obj=abonent.staff_list_write;
+				if(abonent.role_list_all){
+					obj=control.inser_role(obj, abonent.role_list_all);
+				}
+				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+			}else{
+				blk.innerHTML="";
+			}
+		//}
+    },
+	add(link){
+		abonent.name=link.parentNode.parentNode.children[0].children[0].value;
+		abonent.role=link.parentNode.parentNode.children[1].children[0].value;
+		control.check_comand('new_passkey');
+	},
 
 };
 
@@ -717,6 +782,25 @@ let answer={  //new
 		}
 	},
 
+	staff_list_read(e){
+		let obj=comm.show_ax(e);
+		if(Array.isArray(obj)){
+			if(obj.length){
+				//let asd=[];
+				for(let i=0; i<obj.length; i++){
+					obj[i].push("check_out");
+				}
+				blk=links.table.centre_list;
+				abonent.staff_list_write=obj;
+				if(abonent.role_list_all){
+					obj=control.inser_role(obj, abonent.role_list_all);
+				}
+				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+			} else{
+				links.tables.centre_list.innerHTML='';
+			}
+		} 
+	},
 	
 };
 let control={
@@ -843,6 +927,9 @@ let control={
     				       kol_blk.dataset[format[i][3]]=obj[j][i]; 
     				    } else{
     				        kol_blk.innerText=obj[j][i];
+							if(format[i][3]){
+								kol_blk.dataset.name= obj[j][format[i][3]];
+							}
     				    }
     				}
     				if(format[i][1]=='img'){
@@ -1392,7 +1479,22 @@ let control={
 		ansver_.innerText= "";
 		let obj={"admin":+pass_admin.value,"counter":+pass_counter.value,"user":+pass_user.value,"security":+pass_security.value};
 		comm.ax({comand: "edit_file", password: passsword_.value, address:"passwords.txt", text:JSON.stringify(obj)});		
-	}
+	},
+	
+	inser_role(staff_arr, role_arr){  //new
+		let temp_arr=[];
+		for(let i=0; i<staff_arr.length; i++){
+			temp_arr[i]=staff_arr[i];
+			let num=staff_arr[i][2];
+			for (let j=0; j<role_arr.length; j++){
+				if (num==role_arr[j].id){
+					temp_arr[i][2]=role_arr[j].name;
+				}
+			}
+		}
+		return temp_arr;
+	},
+	
 };
 
 function start(){
@@ -1405,6 +1507,10 @@ function start(){
 	list=document.querySelectorAll('div[data-click]');
 	for(let i=0; i<list.length; i++){
 		links.click[list[i].dataset.click]=list[i];
+	}
+	list=document.querySelectorAll('div[data-title]');  //new
+	for(let i=0; i<list.length; i++){
+		links.titles[list[i].dataset.title]=list[i];
 	}
 	list=document.querySelectorAll('table');			//new
 	for(let i=0; i<list.length; i++){					//new
