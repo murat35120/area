@@ -9,6 +9,7 @@ arrs={
         write_file:{out:['session', 'name_file','txt_file', 'temp'], in:['key','name_file']}, 
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
+		new_passkey:{out:['session','role','name'], in:['key','session']},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -546,27 +547,30 @@ let click={		//new
     },	
 	recovery_staff_open(link){	
 		console.log('recovery_staff');
-		control.on_on(['login_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
+		control.on_on(['login_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.login.dataset.choose=1;
+		links.titles.centre.innerText="Вход";
 		temp={};
 		control.write_arr(arrs.recovery_staff, arrs.recovery_staff_format, links.table.centre, 'recovery_staff', 1);
 		links.click.send.dataset.many='recovery_staff';
     },
 	new_staff_open(link){	
 		console.log('new_pass_open');
-		control.on_on(['login_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
+		control.on_on(['login_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.login.dataset.choose=1;
+		links.titles.centre.innerText="Регистрация";
 		temp={};
 		control.write_arr(arrs.new_staff, arrs.new_staff_format, links.table.centre, 'new_staff', 1);
 		links.click.send.dataset.many='new_staff';
     },
 	new_pass_staff_open(link){	
 		console.log('new_pass_open');
-		control.on_on(['login_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
+		control.on_on(['login_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.login.dataset.choose=1;
+		links.titles.centre.innerText="Смена Логина и Пароля";
 		temp={};
 		control.write_arr(arrs.new_pass_staff, arrs.new_pass_staff_format, links.table.centre, 'new_pass_staff', 1);
 		links.click.send.dataset.many='new_pass_staff';
@@ -623,14 +627,36 @@ let click={		//new
 	},
 	role_open(link){	
 		console.log('role');
-		control.on_on(['staff_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
+		control.on_on(['staff_menu', 'main_menu', 'table_two'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.stafs.dataset.choose=1;
-		temp={};
-		control.write_arr(arrs.role, arrs.role_format, links.table.centre, 'role', 0);
-		links.click.send.dataset.many='role';
-		control.write_temp_table(links.table.centre);
+		links.titles.centre_two.innerText='Управление Правами';
+		if(!abonent.role_list_all){
+			control.check_comand('role_list_read');
+		}
+		links.click.send.dataset.many='role_write';
     },
+	
+    role(link){		//new
+		console.log('role');
+		let blk=links.tables.centre;
+		control.on_on(['main_menu', 'domain', 'staff_menu', 'table_two', 'manual_munu', 'manual_send'], link);
+		link.dataset.choose=1;
+		links.click.stafs.dataset.choose=1;
+		links.titles.centre_two.innerText='Управление Правами';
+		links.titles.domain.innerText='Выберите домен';
+		control.write_select_list_1(abonent.domain_list, links.selects.domain_select);
+		if(abonent.domain){
+			links.selects.domain_select.value=abonent.domain;
+			if(!abonent.role_list_all){
+				control.check_comand('role_list_read');
+			}
+			links.click.send.dataset.many='role_write';
+		}
+		
+    },
+	
+	
 	detail(link){	
 		console.log('detail');
 		control.on_on(['service_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
@@ -686,7 +712,7 @@ let click={		//new
 		abonent.count=1000;		
 		//control.check_comand('staff_list_read');
 		//control.write_select_list_1(abonent.domain_list, links.selects.domain_select);
-		links.titles.centre_list.innerText='Мои сотрудники';
+		links.titles.centre_list.innerText='Сотрудники';
 		//if(abonent.domain){
 			//links.selects.domain_select.value=abonent.domain;
 			//if(!abonent.domain_list){
@@ -798,9 +824,33 @@ let answer={  //new
 			} else{
 				links.tables.centre_list.innerHTML='';
 			}
-		} 
+		}
+		comm.write_ls('abonent', abonent);		
 	},
-	
+
+	role_list_read(e){
+		let obj=comm.show_ax(e);
+		if(Array.isArray(obj)){
+			if(obj.length){
+				abonent.role_list_all=obj;
+				abonent.role_list=[];
+				for(let i=0; i<obj.length; i++){
+					abonent.role_list[i]=[];
+					abonent.role_list[i].push(obj[i].name);
+					abonent.role_list[i].push("check_out");
+					if(obj[i].id==abonent.role){
+						abonent.my_role_name=obj[i].name;
+						abonent.my_role_list=obj[i].list;
+					}
+				}
+				blk=links.tables.centre_one;
+				control.write_arr(abonent.role_list, arrs.role_list_format, blk, 'role_list');
+			} else{
+				links.tables.centre_one.innerHTML='';
+			}
+		}
+		comm.write_ls('abonent', abonent);				
+	},
 };
 let control={
 	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
