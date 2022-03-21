@@ -550,6 +550,7 @@ let click={		//new
 		control.on_on(['login_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.login.dataset.choose=1;
+		links.titles.centre.innerText="Вход";
 		temp={};
 		control.write_arr(arrs.recovery_staff, arrs.recovery_staff_format, links.table.centre, 'recovery_staff', 1);
 		links.click.send.dataset.many='recovery_staff';
@@ -559,6 +560,7 @@ let click={		//new
 		control.on_on(['login_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.login.dataset.choose=1;
+		links.titles.centre.innerText="Регистрация";
 		temp={};
 		control.write_arr(arrs.new_staff, arrs.new_staff_format, links.table.centre, 'new_staff', 1);
 		links.click.send.dataset.many='new_staff';
@@ -568,6 +570,7 @@ let click={		//new
 		control.on_on(['login_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.login.dataset.choose=1;
+		links.titles.centre.innerText="Смена Логина и Пароля";
 		temp={};
 		control.write_arr(arrs.new_pass_staff, arrs.new_pass_staff_format, links.table.centre, 'new_pass_staff', 1);
 		links.click.send.dataset.many='new_pass_staff';
@@ -799,7 +802,32 @@ let answer={  //new
 			} else{
 				links.tables.centre_list.innerHTML='';
 			}
-		} 
+		}
+		comm.write_ls('abonent', abonent);		
+	},
+
+	role_list_read(e){
+		let obj=comm.show_ax(e);
+		if(Array.isArray(obj)){
+			if(obj.length){
+				abonent.role_list_all=obj;
+				abonent.role_list=[];
+				for(let i=0; i<obj.length; i++){
+					abonent.role_list[i]=[];
+					abonent.role_list[i].push(obj[i].name);
+					abonent.role_list[i].push("check_out");
+					if(obj[i].id==abonent.role){
+						abonent.my_role_name=obj[i].name;
+						abonent.my_role_list=obj[i].list;
+					}
+				}
+				blk=links.tables.centre_one;
+				//control.write_arr(abonent.role_list, arrs.role_list_format, blk, 'role_list');
+			} else{
+				links.tables.centre_one.innerHTML='';
+			}
+		}
+		comm.write_ls('abonent', abonent);				
 	},
 	
 };
