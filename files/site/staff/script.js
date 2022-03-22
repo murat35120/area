@@ -454,7 +454,11 @@ let links={ //связываем действия пользователя с ф
     call_func (e){ 			//new
 		control.fon_move();
         let link=e.target;
-        let name=link.dataset.click;
+        let name=link.parentNode.parentNode.parentNode.dataset.name;
+        if(name=='role_list'){ //функции по изменению
+			click[name](link);
+        }
+        name=link.dataset.click;
         if(name){ //функции по клику
 			if(name in arrs.commands){
 				control.check_comand(name);
@@ -655,7 +659,34 @@ let click={		//new
 		}
 		
     },
-	
+
+	role_list(link){
+		console.log('role_list');
+		//temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
+		let number=link.parentNode.parentNode.dataset.row;
+		let place =links.table.centre_two;
+		let role_groop=control.role_groop(abonent.role_list_all[number].list); //role_list.includes(arr[i].name)
+		//нужна функция собирающая группы
+		let arr=arrs.list_right;
+		let new_arr=[];
+		let temp_arr;
+		for(let i=0; i<arr.length; i++){
+			let btn="right_out";
+			if(role_groop.includes(arr[i].name)){
+				btn="right_in";
+			}
+			let temp_arr=[arr[i].description, btn, arr[i].name ];
+			new_arr.push(temp_arr);
+		}
+		control.write_arr(new_arr, arrs.right_list_format, place, 'right_list');
+		links.group.table_buttons_two.dataset.display=1;
+		links.click.send_two.dataset.many="role_write";
+		//ставим флаги там где есть
+		//изменения сохраняем в темп после отправки
+		//каждая роль сохраняется отправкой
+		//чтение роли после ее выбора и распаковка  (если нет в темпе), показываем шаблон с флагами
+		//отдельная функции сборки и разборки
+	},	
 	
 	detail(link){	
 		console.log('detail');
@@ -668,16 +699,46 @@ let click={		//new
 		control.write_temp_table(links.table.centre);
     },
     check_in(link){
-        link.dataset.click='check_out';
-        //if(link.parentNode.dataset.right){
-        //    arrs.roles_list[link.parentNode.parentNode.dataset.select].list[link.parentNode.dataset.right].check=0; }
-
+		let list=link.parentNode.parentNode.parentNode.querySelectorAll('div[data-click=check_in]');
+		//links.group.send.dataset.display=0;
+		links.group.send_dell.dataset.display=0;
+		for(let i=0; i<list.length; i++){
+			list[i].dataset.click='check_out';
+		}
     },
     check_out(link){
-        link.dataset.click='check_in';
-			//if(link.parentNode.dataset.right){
-			//    arrs.roles_list[link.parentNode.parentNode.dataset.select].list[link.parentNode.dataset.right].check=1;}
+		click.check_in(link);
+		link.dataset.click='check_in';
+		temp.key=link.parentNode.parentNode.children[0].children[0].innerText;
+		temp.link=link;
+		//links.group.send.dataset.display=1;
+		links.group.send_dell.dataset.display=1;	
     },
+	right_out(link){
+		link.dataset.click='right_in';
+		links.temp.rights=click.read_in(link);
+	},
+	right_in(link){
+		link.dataset.click='right_out';
+		links.temp.rights=click.read_in(link);
+	},
+	read_in(link){
+		let blk=link.parentNode.parentNode.parentNode;
+		let list=blk.querySelectorAll('div[data-click="right_in"]');
+		let arr=[];
+		for (let i=0; i<list.length; i++){
+			let tmp=list[i].parentNode.parentNode.children[0].children[0].dataset.name;
+			arr.push(tmp);
+		}
+		let right=[];
+		list =arrs.list_right;
+		for (let i=0; i<list.length; i++){
+			if(arr.includes(list[i].name) ){
+				right=right.concat(list[i].right);
+			}
+		}
+		return right;
+	},
 	delete(link){
 		let date=links.felds.date.value;
 		let arr=links.price;
@@ -1187,12 +1248,35 @@ let control={
 		control.write_list_right(arrs.roles_list[0].list, blk);
 		blk.dataset.select=0;
     },
-    role_select(e){
+    role_select(e){		//new
         let link=e.target;
         let blk=links.blocks.role.querySelector('.table');
         control.write_list_right(arrs.roles_list[link.value].list, blk);
         blk.dataset.select=link.value;
     },
+	role_groop(rights){
+		let arr=arrs.list_right;
+		let groop=[];
+		let temp_arr;
+		let temp_name;
+		for(let i=0; i<arr.length; i++){
+			temp_arr=arr[i].right;
+			temp_name=arr[i].name;
+			let k=temp_arr.length;
+			let j=0;
+			for(; j<temp_arr.length; j++){
+				if(!rights.includes(temp_arr[j])){
+					break;
+				}
+			}
+			if(k==j){
+				groop.push(temp_name);
+			}
+		}
+		return groop;
+	},
+	
+	
     count_set(link){
 		console.log('count_set');
 		let blk=links.blocks.count_set.querySelector('table');
