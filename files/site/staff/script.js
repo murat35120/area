@@ -10,6 +10,7 @@ arrs={
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		new_passkey:{out:['session','role','name'], in:['key','session']},
+        role_write:{out:['session', 'title', 'rights'], in:['key','role_name']},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -38,7 +39,7 @@ arrs={
         staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
         staff_dell_all:{out:['key','session'], in:['key']},
 
-        role_write:{out:['key','session', 'role_name', 'role_obj'], in:['key','role_name']},  
+  
         
         settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
         settings_calc_edit:{out:['key','session', 'settings_obj'], in:['key']}, 
@@ -662,7 +663,7 @@ let click={		//new
 
 	role_list(link){
 		console.log('role_list');
-		//temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
+		temp.title=link.parentNode.parentNode.children[0].children[0].innerText;
 		let number=link.parentNode.parentNode.dataset.row;
 		let place =links.table.centre_two;
 		let role_groop=control.role_groop(abonent.role_list_all[number].list); //role_list.includes(arr[i].name)
@@ -716,11 +717,11 @@ let click={		//new
     },
 	right_out(link){
 		link.dataset.click='right_in';
-		links.temp.rights=click.read_in(link);
+		temp.rights=click.read_in(link);
 	},
 	right_in(link){
 		link.dataset.click='right_out';
-		links.temp.rights=click.read_in(link);
+		temp.rights=click.read_in(link);
 	},
 	read_in(link){
 		let blk=link.parentNode.parentNode.parentNode;
@@ -912,6 +913,14 @@ let answer={  //new
 		}
 		comm.write_ls('abonent', abonent);				
 	},
+	
+	role_write(e){
+		let obj=comm.show_ax(e);
+		if(obj.title){
+			control.check_comand('role_list_read');
+		} 
+	},
+	
 };
 let control={
 	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
