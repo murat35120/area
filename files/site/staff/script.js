@@ -920,7 +920,15 @@ let answer={  //new
 			control.check_comand('role_list_read');
 		} 
 	},
-	
+	new_passkey(e){		//new
+		let obj=comm.show_ax(e);
+		if(obj){
+			links.table.centre.children[0].children[2].innerText=obj.passkey;
+		}
+		abonent.key=0;
+		abonent.count=1000;
+		control.check_comand('staff_list_read');
+	},
 };
 let control={
 	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
