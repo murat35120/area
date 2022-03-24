@@ -472,7 +472,7 @@ let control={
 		localStorage.owner_abonent=JSON.stringify(abonent);
 		control.check_comand('role_list_read');
 		abonent.key=0;
-		control.check_comand('staff_list_read');
+		//control.check_comand('staff_list_read');
 		comm.ax_get('read_seting', '../'+abonent.domain+'/settings.json');
 	},
 	read_seting(e){
@@ -518,7 +518,7 @@ let control={
 				control.check_comand('role_list_read');
 				abonent.key=0;
 				abonent.count=1000;
-				control.check_comand('staff_list_read');
+				//control.check_comand('staff_list_read');
 			}
 		}
 	},
@@ -619,6 +619,9 @@ let control={
 			} else{
 				links.tables.centre_one.innerHTML='';
 			}
+			links.temp.key=0;
+			links.temp.count=1000;
+			control.check_comand('staff_list_read');
 		} 
 	},
 	
@@ -867,7 +870,8 @@ let control={
 		}
 		abonent.key=0;
 		abonent.count=1000;
-		control.check_comand('staff_list_read');
+		//control.check_comand('staff_list_read');
+		control.check_comand('role_list_read');
 	},
 	
 	request(){
@@ -1052,7 +1056,7 @@ function start(){
 		control.check_comand('role_list_read');
 		abonent.key=0;
 		abonent.count=1000;
-		control.check_comand('staff_list_read');
+		//control.check_comand('staff_list_read');
 	}
 
 }
