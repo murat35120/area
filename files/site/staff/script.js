@@ -340,17 +340,13 @@ arrs={
     ],
     decor:[  //new
         [
-            ['Размер названия', '22', 'name_size' ],
-            ['Размер текста', '23', 'text_size' ],
-            ['Размер кнопок', '24', 'buttons_size' ]  
+            ['Размер названия', '22', 'name_size' ], 
         ],
         [
-            ['Шрифт названия', 'Arial', 'name_font' ], 
-            ['Шрифт текста', 'Times', 'text_font' ]  
+            ['Шрифт названия', 'Arial', 'name_font' ],  
         ],
         [
-            ['Цвет названия', '#800080', 'name_color' ],
-            ['Цвет текста', '#00FF00', 'text_color' ], 
+            ['Цвет названия', '#800080', 'name_color' ], 
         ]
     ],
     decor_format:[		//new
@@ -360,7 +356,7 @@ arrs={
         ],
         [
             ['','div'],
-            ['', 'select','2', [["Arial", "Times", "Unicode"],["Arial", "Times", "Unicode"]]]
+            ['', 'select','2', [["arial", "serif", "sans-serif", "monospace", "cursive", "fantasy", "system-ui"],["arial", "serif", "sans-serif", "monospace", "cursive", "fantasy", "system-ui"]]]
         ],
         [
             ['','div'],
