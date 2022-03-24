@@ -1,6 +1,9 @@
 :root {/* создаем переменные*/
 	--position_fon_x: 50%; /* положение фона по х*/
 	--position_fon_y: 0%; /* положение фона по y*/
+	--name_size: 40px; /* положение фона по х*/
+	--name_font: arial; /* положение фона по y*/
+	--name_color: #800080; /* положение фона по х*/
 }
 
 .main div, .main input, .main select, .main{  /* значения по умолчанию */
@@ -71,8 +74,10 @@ div, input, select, textarea, table{
     font-family:  serif;  
 }
 
-.top{
-    font-size:  2em;
+.top{ 
+    font-size:  var(--name_size, 50px);
+    color:  var(--name_color, #800080);
+    font-family:  var(--name_font, arial);
 } 
 .title, div[data-title]{
     font-size:  1.4em;  
@@ -258,6 +263,10 @@ div[data-click='bill'], div[data-picture='bill'] {
 div[data-click='send'], div[data-picture='send'] {
     background: url(/png/send.png) no-repeat;
 }
+div[data-click='send_two'], div[data-picture='send_two'] {
+    background: url(/png/send.png) no-repeat;
+}
+
 div[data-click='check_in'], div[data-picture='check_in'] {
     background: url(/png/check_in.png) no-repeat;
 }

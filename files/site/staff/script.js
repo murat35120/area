@@ -340,13 +340,13 @@ arrs={
     ],
     decor:[  //new
         [
-            ['Размер названия', '22', 'name_size' ], 
+            ['Размер названия', '40', '--name_size' ], 
         ],
         [
-            ['Шрифт названия', 'Arial', 'name_font' ],  
+            ['Шрифт названия', 'serif', '--name_font' ],  
         ],
         [
-            ['Цвет названия', '#800080', 'name_color' ], 
+            ['Цвет названия', '#800080', '--name_color' ], 
         ]
     ],
     decor_format:[		//new
@@ -451,12 +451,15 @@ let links={ //связываем действия пользователя с ф
     call_func (e){ 			//new
 		control.fon_move();
         let link=e.target;
-        let name=link.parentNode.parentNode.parentNode.dataset.name;
-        if(name=='role_list'){ //функции по изменению
-			click[name](link);
-        }
+		let nodeName_patent=link.parentNode.nodeName; // таблица
+		if(nodeName_patent=='TD'){
+			let name=link.parentNode.parentNode.parentNode.dataset.name;
+			if(name=='role_list'){ //функции по изменению
+				click[name](link);
+			}
+		}
         name=link.dataset.click;
-        if(name){ //функции по клику
+        if(name!='undefined'){ //функции по клику
 			if(name in arrs.commands){
 				control.check_comand(name);
 				return;
@@ -494,6 +497,10 @@ let links={ //связываем действия пользователя с ф
 				}
 			}
 			control.write_temp_table(link.parentNode.parentNode.parentNode); //пишем в temp значение всех полей таблицы
+			let value_name=link.dataset.name; 
+			if(value_name.slice(0,2)=="--"){
+				document.documentElement.style.setProperty(value_name, link.value);
+			}
 		}
     }
 };
@@ -1694,6 +1701,10 @@ function start(){
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
 }
+
+//var root = document.querySelector(':root');
+//var rootStyles = getComputedStyle(root);
+//var mainColor = rootStyles.getPropertyValue('--main-color');
 
 start();
 
