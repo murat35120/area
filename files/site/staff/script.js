@@ -6,7 +6,7 @@ arrs={
 		out_staff:{out:['key','session'], in:['key']},		
 		new_pass_staff:{out:['login','password','new_login','new_password'], in:['key','session']},
         read_file:{out:['name_file'], in:['key','name_file','txt_file']},
-        write_file:{out:['session', 'name_file','txt_file', 'temp'], in:['key','name_file']}, 
+        write_file:{out:['session', 'name_file','txt_file'], in:['key','name_file']}, 
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		new_passkey:{out:['session','role','name'], in:['key','session']},
@@ -500,6 +500,7 @@ let links={ //связываем действия пользователя с ф
 			let value_name=link.dataset.name; 
 			if(value_name.slice(0,2)=="--"){
 				document.documentElement.style.setProperty(value_name, link.value);
+				control.style_to_file(temp);
 			}
 		}
     }
@@ -594,7 +595,7 @@ let click={		//new
     },
 	decor(link){
 		console.log('decor');
-		control.on_on(['main_menu', 'service_menu', 'table_centre']); 
+		control.on_on(['main_menu', 'service_menu', 'buttons_line', 'table_centre']); 
 		link.dataset.choose=1;
 		links.main_menu.service.dataset.choose=1;
 		temp={};
@@ -602,6 +603,11 @@ let click={		//new
 		links.click.send.dataset.many='write_file';
 		links.click.send.dataset.name_file='decor';
 		control.write_temp_table(links.table.centre);
+		let settings={};
+		settings.company_name = abonent.company_name;
+		settings.setting = abonent.setting;
+		temp.name_file="settings.json";
+		temp.txt_file=JSON.stringify(settings);
     },
 	count_set_open(link){	
 		console.log('count_set');
@@ -868,6 +874,12 @@ let answer={  //new
 			document.querySelector('title').innerText=obj.company_name;
 			document.querySelector('.top').innerText=obj.company_name;
 			abonent.company_name=obj.company_name;
+			if(obj.setting){
+				abonent.setting=obj.setting;
+			}else{
+				abonent.setting={};
+			}
+			control.apply_setting();
 			comm.write_ls('abonent', abonent);
 		}
 	},
@@ -1647,7 +1659,26 @@ let control={
 		}
 		return temp_arr;
 	},
-	
+	style_to_file(temp){
+		for(let i in temp){
+			if(i.slice(0,2)=="--"){
+				abonent.setting[i]=temp[i];
+			}
+		}
+		let settings={};
+		settings.company_name = abonent.company_name;
+		settings.setting = abonent.setting;
+		temp.name_file="settings.json";
+		temp.txt_file=JSON.stringify(settings);
+		comm.write_ls('abonent', abonent);
+	},
+	apply_setting(){
+		for(let i in abonent.setting){
+			if(i.slice(0,2)=="--"){
+				document.documentElement.style.setProperty(i, abonent.setting[i]);
+			}
+		}
+	},
 };
 
 function start(){
@@ -1686,7 +1717,11 @@ function start(){
 		links.group[i].dataset.display=0;	
 	}						
 	abonent=comm.read_ls('abonent');					//new
-	if(!(abonent.key||abonent.session)){					//new
+	if(abonent.setting){
+		control.apply_setting();
+	}
+	
+	if(!(abonent.session)){					//new
 		//control.on_on(['table_centre']);	
 		//control.write_arr(arrs.new_staff, arrs.new_staff_format, links.table.centre, 'new_staff', multi=1);
 		//links.click.send.dataset.many='new_staff';

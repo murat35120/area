@@ -14,7 +14,7 @@ arrs={
         staff_dell_all:{out:['session'], in:['key', 'key_staff'], url:1},
         role_list_read:{out:['session'], in:['key',"[{},{},{}]"], url:1},
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name'], url:1}, 
-        write_file:{out:['key','session', 'name_file','txt_file'], in:['key','name_file'], url:1} ,
+        write_file:{out:['session', 'name_file','txt_file'], in:['key','name_file'], url:1} ,
 		
 		new_staff:{out:['login','password','name','passkey'], in:['key','session','role']},
 		in_staff:{out:['key','session'], in:['key','session','role']},
@@ -222,12 +222,15 @@ let links={ //связываем действия пользователя с ф
         let rand=Math.floor(Math.random() * 20) +40;
         document.documentElement.style.setProperty('--position_fon', rand+'%');
         let link=e.target;
-        let name=link.parentNode.parentNode.parentNode.dataset.name;
-        if(name=='role_list'){ //функции по изменению
-			control[name](link);
-        }
+		let nodeName_patent=link.parentNode.nodeName; // таблица
+		if(nodeName_patent=='TD'){
+			let name=link.parentNode.parentNode.parentNode.dataset.name;
+			if(name=='role_list'){ //функции по изменению
+				control[name](link);
+			}
+		}
         name=link.dataset.click;
-        if(name){ //функции по клику
+        if(name!='undefined'){ //функции по клику
 			if(name in arrs.commands){
 				control.check_comand(name);
 				return;
