@@ -909,10 +909,12 @@ let answer={  //new
 	detail_file(e){
 		let obj=comm.show_ax(e);
 		if(obj){
-			control.write_arr(obj, arrs.detail_format, links.table.centre, 'detail', 0);
-		}else {
-			control.write_arr(arrs.detail, arrs.detail_format, links.table.centre, 'detail', 0);
+			for(let i in arrs.detail){
+				arrs.detail[i][1]=obj[arrs.detail[i][2]];
+			}
 		}
+		control.write_arr(arrs.detail, arrs.detail_format, links.table.centre, 'detail', 0);
+		
 		links.click.send.dataset.many='detail_write';
 		control.write_temp_table(links.table.centre);
 	},

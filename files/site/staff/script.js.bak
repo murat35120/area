@@ -5,8 +5,8 @@ arrs={
 		in_staff:{out:['key','session'], in:['key','session','role']},
 		out_staff:{out:['key','session'], in:['key']},		
 		new_pass_staff:{out:['login','password','new_login','new_password'], in:['key','session']},
-        read_file:{out:['name_file'], in:['key','name_file','txt_file']},
-        write_file:{out:['session', 'name_file','txt_file', 'temp'], in:['key','name_file']}, 
+        read_file:{out:['session', 'name_file'], in:['key','name_file','txt_file']},
+        write_file:{out:['session', 'name_file','txt_file'], in:['key','name_file']}, 
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		new_passkey:{out:['session','role','name'], in:['key','session']},
@@ -248,19 +248,19 @@ arrs={
         ['Единицы','div'],        
     ],
     detail:[
-        ['Название компании', 'ООО "Рога и Копыта"' ],
-        ['ИНН', '7804539523' ],
-        ['КПП', '780402007' ],
-        ['Индекс', '194200' ],
-        ['Город', 'Санкт_Петербург' ],   
-        ['Адрес', 'ул. Бобруйская д.8 офис 132' ], 
-        ['Телефон', '812 542-06-78' ], 
-        ['EMail', 'roga@mail.ru' ], 
-        ['Кому', 'Иванов Николай Сергеевич' ], 
+        ['Название компании', 'ООО "Рога и Копыта"', 'company_name' ],
+        ['ИНН', '7804539523', 'inn' ],
+        ['КПП', '780402007', 'kpp' ],
+        ['Индекс', '194200', 'index'],
+        ['Город', 'Санкт_Петербург', 'city' ],   
+        ['Адрес', 'ул. Бобруйская д.8 офис 132', 'address' ], 
+        ['Телефон', '812 542-06-78', 'phone' ], 
+        ['EMail', 'roga@mail.ru', 'email' ], 
+        ['Кому', 'Иванов Николай Сергеевич', 'from' ], 
     ],
     detail_format:[
         ['Параметр','div'],
-        ['Значение','input', 'text']
+        ['Значение','input', 'text',2]
     ],
     new_staff:[			//new
 		[
@@ -402,8 +402,16 @@ let comm={ //new
 		req.responseType = 'text';
 		let str_obj=JSON.stringify(obj);
 		req.send(str_obj);
+		req.onload=comm.err;
 	},
-	
+	err(e){
+		let data=e.target;
+		if(data.status!=200){
+			if(data.status>399){
+				console.log(data.status);
+			}		
+		}
+	},
     show_ax(e) {//стандартная функция получения сообщения
         let data=e.target;
         if(data.status==200){
@@ -459,7 +467,7 @@ let links={ //связываем действия пользователя с ф
 			}
 		}
         name=link.dataset.click;
-        if(name){ //функции по клику
+        if(name!='undefined'){ //функции по клику
 			if(name in arrs.commands){
 				control.check_comand(name);
 				return;
@@ -468,6 +476,8 @@ let links={ //связываем действия пользователя с ф
 				name=link.dataset.many;
 				if(name in arrs.commands){
 					control.check_comand(name);
+				} else {
+					click[name](link);	
 				}
 				return;
 			}
@@ -500,6 +510,7 @@ let links={ //связываем действия пользователя с ф
 			let value_name=link.dataset.name; 
 			if(value_name.slice(0,2)=="--"){
 				document.documentElement.style.setProperty(value_name, link.value);
+				control.style_to_file(temp);
 			}
 		}
     }
@@ -594,7 +605,7 @@ let click={		//new
     },
 	decor(link){
 		console.log('decor');
-		control.on_on(['main_menu', 'service_menu', 'table_centre']); 
+		control.on_on(['main_menu', 'service_menu', 'buttons_line', 'table_centre']); 
 		link.dataset.choose=1;
 		links.main_menu.service.dataset.choose=1;
 		temp={};
@@ -602,6 +613,11 @@ let click={		//new
 		links.click.send.dataset.many='write_file';
 		links.click.send.dataset.name_file='decor';
 		control.write_temp_table(links.table.centre);
+		let settings={};
+		settings.company_name = abonent.company_name;
+		settings.setting = abonent.setting;
+		temp.name_file="settings.json";
+		temp.txt_file=JSON.stringify(settings);
     },
 	count_set_open(link){	
 		console.log('count_set');
@@ -694,14 +710,27 @@ let click={		//new
 	
 	detail(link){	
 		console.log('detail');
-		control.on_on(['service_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
+		//добавить чтение данных с сервера!!!!!!!!!!!!!!!!!!
+		control.on_on(['service_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.service.dataset.choose=1;
 		temp={};
 		control.write_arr(arrs.detail, arrs.detail_format, links.table.centre, 'detail', 0);
-		links.click.send.dataset.many='detail';
-		control.write_temp_table(links.table.centre);
+		links.click.send.dataset.many='detail_write';
+		//control.write_temp_table(links.table.centre);
+		//comm.ax_get('read_detail', 'detail.json');  detail_file
+		temp.name_file="detail_file.json";
+		control.check_comand('read_file');
     },
+	detail_write(link){	
+		console.log('detail_write');
+		abonent.detail = temp;
+		temp.name_file="detail_file.json";
+		temp.txt_file=JSON.stringify(abonent.detail);
+		comm.write_ls('abonent', abonent);
+		control.check_comand('write_file');
+    },
+	
     check_in(link){
 		let list=link.parentNode.parentNode.parentNode.querySelectorAll('div[data-click=check_in]');
 		//links.group.send.dataset.display=0;
@@ -868,9 +897,31 @@ let answer={  //new
 			document.querySelector('title').innerText=obj.company_name;
 			document.querySelector('.top').innerText=obj.company_name;
 			abonent.company_name=obj.company_name;
+			if(obj.setting){
+				abonent.setting=obj.setting;
+			}else{
+				abonent.setting={};
+			}
+			control.apply_setting();
 			comm.write_ls('abonent', abonent);
 		}
 	},
+	detail_file(e){
+		let obj=comm.show_ax(e);
+		if(obj){
+			let arr=[];
+			for(let i in obj){
+				arr.push([i, obj[i]]);
+			}
+			control.write_arr(arr, arrs.detail_format, links.table.centre, 'detail', 0);
+		}else {
+			control.write_arr(arrs.detail, arrs.detail_format, links.table.centre, 'detail', 0);
+		}
+		links.click.send.dataset.many='detail_write';
+		control.write_temp_table(links.table.centre);
+	},
+
+
 
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
@@ -952,6 +1003,7 @@ let control={
 	},
 	check_comand(name){  //new
 		let obj={};
+		let url='../'+name;
 		let felds=arrs.commands[name].out;
 		if(felds.includes('temp')){
 			obj.session=abonent.session;
@@ -974,8 +1026,13 @@ let control={
 				}
 			}
 		}
-		url='../'+name;
-		comm.ax(obj, name, url);
+		if(name=="read_file"){
+			if(temp[arrs.commands.read_file.out[1]]){
+				comm.ax(obj, temp[arrs.commands.read_file.out[1]].slice(0,-5), url);
+			}
+		} else{
+			comm.ax(obj, name, url);
+		}
 	},	
 	write_arr(name_obj, name_format, parent, name, multi=0){  //new
 	    //имя массива, формат массива, место вставки, имя ссылки, вложения
@@ -1647,7 +1704,26 @@ let control={
 		}
 		return temp_arr;
 	},
-	
+	style_to_file(temp){
+		for(let i in temp){
+			if(i.slice(0,2)=="--"){
+				abonent.setting[i]=temp[i];
+			}
+		}
+		let settings={};
+		settings.company_name = abonent.company_name;
+		settings.setting = abonent.setting;
+		temp.name_file="settings.json";
+		temp.txt_file=JSON.stringify(settings);
+		comm.write_ls('abonent', abonent);
+	},
+	apply_setting(){
+		for(let i in abonent.setting){
+			if(i.slice(0,2)=="--"){
+				document.documentElement.style.setProperty(i, abonent.setting[i]);
+			}
+		}
+	},
 };
 
 function start(){
@@ -1686,7 +1762,11 @@ function start(){
 		links.group[i].dataset.display=0;	
 	}						
 	abonent=comm.read_ls('abonent');					//new
-	if(!(abonent.key||abonent.session)){					//new
+	if(abonent.setting){
+		control.apply_setting();
+	}
+	
+	if(!(abonent.session)){					//new
 		//control.on_on(['table_centre']);	
 		//control.write_arr(arrs.new_staff, arrs.new_staff_format, links.table.centre, 'new_staff', multi=1);
 		//links.click.send.dataset.many='new_staff';
