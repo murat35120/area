@@ -71,6 +71,7 @@ router.use("/:domain/", [
         require("./domain/userListRead"),
         require("./domain/roleListRead"),
         require("./domain/roleWrite"),
+        require("./domain/settingsCalcEdit"),		
         require("./domain/settingsCalcRead"),
         require("./domain/readFile"),
         require("./domain/writeFile"),

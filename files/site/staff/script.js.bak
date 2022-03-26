@@ -11,6 +11,8 @@ arrs={
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		new_passkey:{out:['session','role','name'], in:['key','session']},
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name']},
+        settings_calc_read:{out:['session'], in:['key',"[{},{},{}]"]},
+        settings_calc_edit:{out:['session','settings_obj', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -41,8 +43,7 @@ arrs={
 
   
         
-        settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
-        settings_calc_edit:{out:['key','session', 'settings_obj'], in:['key']}, 
+ 
         
 
 	},
@@ -139,14 +140,14 @@ arrs={
 			['Базовая стоимость', 1, 'base_cost' ],
 		],
 		[
-			['Валюта', 'руб', 'curency' ], 
+			['Валюта', 'руб', 'currency' ], 
  
 		]
     ],
     count_set_format:[
         [
             ['Настройка','div'],
-            ['Значение','select',2, [["сек", "мин", "час"],["секунда", "минута", "час"]]]
+            ['Значение','select',2, [["sec", "min", "hour"],["секунда", "минута", "час"]]]
         ],
         [
             ['','div'],
@@ -379,7 +380,6 @@ arrs={
 
 
 let abonent={
-
 };  //new
 
 
@@ -620,14 +620,12 @@ let click={		//new
 		temp.txt_file=JSON.stringify(settings);
     },
 	count_set_open(link){	
-		console.log('count_set');
-		control.on_on(['price_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
+		console.log('count_set_open');
+		control.on_on(['price_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.price.dataset.choose=1;
 		temp={};
-		control.write_arr(arrs.count_set, arrs.count_set_format, links.table.centre, 'count_set', 1);
-		links.click.send.dataset.many='count_set';
-		control.write_temp_table(links.table.centre);
+		control.check_comand('settings_calc_read');
     },
 	price_list_open(link){	
 		console.log('price_list');
@@ -710,15 +708,12 @@ let click={		//new
 	
 	detail(link){	
 		console.log('detail');
-		//добавить чтение данных с сервера!!!!!!!!!!!!!!!!!!
 		control.on_on(['service_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.service.dataset.choose=1;
 		temp={};
 		control.write_arr(arrs.detail, arrs.detail_format, links.table.centre, 'detail', 0);
 		links.click.send.dataset.many='detail_write';
-		//control.write_temp_table(links.table.centre);
-		//comm.ax_get('read_detail', 'detail.json');  detail_file
 		temp.name_file="detail_file.json";
 		control.check_comand('read_file');
     },
@@ -730,6 +725,15 @@ let click={		//new
 		comm.write_ls('abonent', abonent);
 		control.check_comand('write_file');
     },
+	settings_calc_write(link){	 //  это не нужно!!!!!
+		console.log('settings_calc_write');
+		abonent.detail = temp;
+		temp.name_file="detail_file.json";
+		temp.txt_file=JSON.stringify(abonent.detail);
+		comm.write_ls('abonent', abonent);
+		control.check_comand('write_file');
+    },
+
 	
     check_in(link){
 		let list=link.parentNode.parentNode.parentNode.querySelectorAll('div[data-click=check_in]');
@@ -909,18 +913,31 @@ let answer={  //new
 	detail_file(e){
 		let obj=comm.show_ax(e);
 		if(obj){
-			let arr=[];
-			for(let i in obj){
-				arr.push([i, obj[i]]);
+			for(let i in arrs.detail){
+				arrs.detail[i][1]=obj[arrs.detail[i][2]];
 			}
-			control.write_arr(arr, arrs.detail_format, links.table.centre, 'detail', 0);
-		}else {
-			control.write_arr(arrs.detail, arrs.detail_format, links.table.centre, 'detail', 0);
 		}
+		control.write_arr(arrs.detail, arrs.detail_format, links.table.centre, 'detail', 0);
+		
 		links.click.send.dataset.many='detail_write';
 		control.write_temp_table(links.table.centre);
 	},
-
+	settings_calc_read(e){
+		let obj=comm.show_ax(e);
+		if(obj){
+			for(let i=0; i< arrs.count_set.length; i++){
+				for(let j=0; j<arrs.count_set[i].length; j++){
+					if(obj[arrs.count_set[i][j][2]]!=undefined){
+						arrs.count_set[i][j][1]=obj[arrs.count_set[i][j][2]];
+					}					
+				}
+			}
+		}
+		control.write_arr(arrs.count_set, arrs.count_set_format, links.table.centre, 'count_set', 1);
+		links.click.send.dataset.many='settings_calc_edit';
+		control.write_temp_table(links.table.centre);
+		abonent.settings_obj={};
+	},
 
 
 	staff_list_read(e){
