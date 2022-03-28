@@ -12,7 +12,7 @@ arrs={
 		new_passkey:{out:['session','role','name'], in:['key','session']},
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name']},
         settings_calc_read:{out:['session'], in:['key',"[{},{},{}]"]},
-        settings_calc_edit:{out:['session','settings_obj', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']},
+        settings_calc_edit:{out:['session', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']}, 
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -40,11 +40,6 @@ arrs={
 
         staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
         staff_dell_all:{out:['key','session'], in:['key']},
-
-  
-        
- 
-        
 
 	},
 	list_right:[
@@ -127,7 +122,6 @@ arrs={
 	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
 	],
 
-
     count_set:[
 		[
 			['Единица времения', 'мин', 'unit_time' ],
@@ -175,7 +169,6 @@ arrs={
     ],
  // cost_add, пароль сеанса, date, times:[{},{},{}] 
  
-
     calendar:{
         '01012020': [
             [
@@ -377,11 +370,8 @@ arrs={
 	},
 };
 
-
-
 let abonent={
 };  //new
-
 
 let comm={ //new
 
@@ -733,7 +723,6 @@ let click={		//new
 		comm.write_ls('abonent', abonent);
 		control.check_comand('write_file');
     },
-
 	
     check_in(link){
 		let list=link.parentNode.parentNode.parentNode.querySelectorAll('div[data-click=check_in]');
@@ -936,9 +925,7 @@ let answer={  //new
 		control.write_arr(arrs.count_set, arrs.count_set_format, links.table.centre, 'count_set', 1);
 		links.click.send.dataset.many='settings_calc_edit';
 		control.write_temp_table(links.table.centre);
-		//abonent.settings_obj={};
 	},
-
 
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
@@ -1369,8 +1356,7 @@ let control={
 		}
 		return groop;
 	},
-	
-	
+		
     count_set(link){
 		console.log('count_set');
 		let blk=links.blocks.count_set.querySelector('table');
@@ -1424,7 +1410,7 @@ let control={
 		link.dataset.choose=1;
 		control.write_arr(arrs.detail_list, arrs.detail_list_format, blk, 'detail');
     },
-    // ----
+
     check_in(link){
         link.dataset.click='check_out';
         if(link.parentNode.dataset.right){
@@ -1738,6 +1724,11 @@ let control={
 		for(let i in abonent.setting){
 			if(i.slice(0,2)=="--"){
 				document.documentElement.style.setProperty(i, abonent.setting[i]);
+				for(let j=0; j<arrs.decor.length; j++){
+					if(arrs.decor[j][0][2]==i){
+						arrs.decor[j][0][1]=abonent.setting[i];
+					}
+				}
 			}
 		}
 	},
@@ -1798,10 +1789,6 @@ function start(){
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
 }
-
-//var root = document.querySelector(':root');
-//var rootStyles = getComputedStyle(root);
-//var mainColor = rootStyles.getPropertyValue('--main-color');
 
 start();
 
