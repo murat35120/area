@@ -72,6 +72,7 @@ router.use("/:domain/", [
         require("./domain/roleListRead"),
         require("./domain/roleWrite"),
         require("./domain/settingsCalcRead"),
+        require("./domain/settingsCalcEdit"),
         require("./domain/readFile"),
         require("./domain/writeFile"),
         require("./domain/listIn"),

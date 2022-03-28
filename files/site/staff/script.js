@@ -11,6 +11,7 @@ arrs={
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		new_passkey:{out:['session','role','name'], in:['key','session']},
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name']},
+        settings_calc_edit:{out:['session', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']}, 
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -41,8 +42,7 @@ arrs={
 
   
         
-        settings_calc_read:{out:['key','session'], in:['key',"[{},{},{}]"]},
-        settings_calc_edit:{out:['key','session', 'settings_obj'], in:['key']}, 
+        settings_calc_read:{out:['session'], in:['key',"[{},{},{}]"]},
         
 
 	},
@@ -620,14 +620,12 @@ let click={		//new
 		temp.txt_file=JSON.stringify(settings);
     },
 	count_set_open(link){	
-		console.log('count_set');
-		control.on_on(['price_menu', 'main_menu', 'table_centre'], link);  //, 'login_manual',  'main_manual'
+		console.log('count_set_open');
+		control.on_on(['price_menu', 'main_menu', 'table_centre', 'buttons_line' ], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.price.dataset.choose=1;
 		temp={};
-		control.write_arr(arrs.count_set, arrs.count_set_format, links.table.centre, 'count_set', 1);
-		links.click.send.dataset.many='count_set';
-		control.write_temp_table(links.table.centre);
+		control.check_comand('settings_calc_edit');
     },
 	price_list_open(link){	
 		console.log('price_list');
@@ -919,7 +917,21 @@ let answer={  //new
 		control.write_temp_table(links.table.centre);
 	},
 
-
+	settings_calc_edit(e){
+		let obj=comm.show_ax(e);
+		if(obj){
+			for(let i=0; i<arrs.count_set.length; i++){
+				for(let j=0; j<arrs.count_set[i].length; j++){
+					if(obj[arrs.count_set[i][j][2]]){
+						arrs.count_set[i][j][1]=obj[arrs.count_set[i][j][2]];
+					}
+				}
+			}
+		}
+		control.write_arr(arrs.count_set, arrs.count_set_format, links.table.centre, 'count_set', 1);
+		links.click.send.dataset.many='settings_calc_edit';
+		control.write_temp_table(links.table.centre);
+	},
 
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
@@ -1719,6 +1731,11 @@ let control={
 		for(let i in abonent.setting){
 			if(i.slice(0,2)=="--"){
 				document.documentElement.style.setProperty(i, abonent.setting[i]);
+				for(let j=0; j<arrs.decor.length; j++){
+					if(arrs.decor[j][0][2]==i){
+						arrs.decor[j][0][1]=abonent.setting[i];
+					}
+				}
 			}
 		}
 	},
