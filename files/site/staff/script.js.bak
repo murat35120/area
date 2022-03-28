@@ -936,7 +936,7 @@ let answer={  //new
 		control.write_arr(arrs.count_set, arrs.count_set_format, links.table.centre, 'count_set', 1);
 		links.click.send.dataset.many='settings_calc_edit';
 		control.write_temp_table(links.table.centre);
-		abonent.settings_obj={};
+		//abonent.settings_obj={};
 	},
 
 

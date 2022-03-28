@@ -173,7 +173,7 @@ arrs={
 		['цена','input', 'number', 6],
 		['выбрать',  'div', 'dataset','click'],
     ],
- // cost_add, номер, пароль сеанса, {date, [{},{},{}]} 
+ // cost_add, пароль сеанса, date, times:[{},{},{}] 
  
 
     calendar:{
