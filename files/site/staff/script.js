@@ -604,7 +604,7 @@ let click={		//new
     },
 	price_list_open(link){	
 		console.log('price_list_open');
-		control.on_on(['price_menu', 'main_menu', 'table_centre', 'buttons_line', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
+		control.on_on(['price_menu', 'main_menu', 'table_centre', 'copy', 'buttons_line', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.price.dataset.choose=1;
 		links.titles.centre.innerText='Стоимость от времени';
@@ -616,13 +616,7 @@ let click={		//new
 		links.click.send.dataset.many='price_list';
 		control.write_temp_table(links.table.centre);
     },
-	past(){
-		let date=links.felds.date.value;
-			if(!arrs.price[date]){
-				arrs.price[date]=[];
-			}
-		arrs.price[date]=control.past(links.price);
-	},
+
 	role_open(link){	
 		console.log('role');
 		control.on_on(['staff_menu', 'main_menu', 'table_two'], link);  //, 'login_manual',  'main_manual'
@@ -634,7 +628,20 @@ let click={		//new
 		}
 		links.click.send.dataset.many='role_write';
     },
-	
+	typical_o(link){	
+		console.log('typical_o');
+		links.group.typical_day.dataset.display=1;
+		links.felds.date.dataset.display=0;
+		link.dataset.click='calendar';
+		link.title='Календарь';
+    },
+	calendar(link){	
+		console.log('calendar');
+		links.group.typical_day.dataset.display=0;
+		links.felds.date.dataset.display=1;
+		link.dataset.click='typical_o';
+		link.title='Типовой день';
+    },
     role(link){		//new
 		console.log('role');
 		let blk=links.tables.centre;

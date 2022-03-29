@@ -131,7 +131,7 @@ select{
     appearance: none;
 }
 
-.line>select{
+.line>select, div[data-group='typical_day'], input[data-id='date']{
     font-size:  1.4em; 
 }
 
@@ -184,7 +184,7 @@ body{
         border-radius: 0; 
 }
 
-div[data-display="0"]{
+div[data-display="0"], input[data-display="0"]{
 	max-height:0;
 	opacity: 0;  /* прозрачность почти невидно*/
 	overflow-y: hidden;
@@ -318,7 +318,12 @@ div[data-click='staff_dell'], div[data-picture='staff_dell'] {
 div[data-click='staff_dell_all'], div[data-picture='staff_dell_all'] {
     background: url(/png/clear.png) no-repeat;
 }
-
+div[data-click='typical_o'], div[data-picture='typical_o'] {
+    background: url(/png/typical_o.png) no-repeat;
+}
+div[data-click='calendar'], div[data-picture='calendar'] {
+    background: url(/png/calendar.png) no-repeat;
+}
 
 
 div[data-click] {

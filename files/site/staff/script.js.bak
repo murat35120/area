@@ -11,12 +11,8 @@ arrs={
         role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
 		new_passkey:{out:['session','role','name'], in:['key','session']},
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name']},
-<<<<<<< HEAD
         settings_calc_read:{out:['session'], in:['key',"[{},{},{}]"]},
-        settings_calc_edit:{out:['session','settings_obj', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']},
-=======
         settings_calc_edit:{out:['session', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']}, 
->>>>>>> c0c35ef75d07aa3cc3855c058d2e6e778063d7ee
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -44,15 +40,6 @@ arrs={
 
         staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
         staff_dell_all:{out:['key','session'], in:['key']},
-
-  
-        
-<<<<<<< HEAD
- 
-=======
-        settings_calc_read:{out:['session'], in:['key',"[{},{},{}]"]},
->>>>>>> c0c35ef75d07aa3cc3855c058d2e6e778063d7ee
-        
 
 	},
 	list_right:[
@@ -135,7 +122,6 @@ arrs={
 	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
 	],
 
-
     count_set:[
 		[
 			['Единица времения', 'мин', 'unit_time' ],
@@ -168,12 +154,12 @@ arrs={
     ],
 
     price_list:[		
-		['Серебрянный', '14:00:12', '14.55','check_out', 'petk', 'time', 'cost' ],
-		['Золотой', '14:01:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Новый', '14:02:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Серебрянный', '15:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Золотой', '16:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Новый', '17:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
+		['Серебрянный', '14:00:12', '14.55','right_out', 'petk', 'time', 'cost' ],
+		['Золотой', '14:01:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Новый', '14:02:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Серебрянный', '15:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Золотой', '16:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
     ],
     price_list_format:[
 		['Статус','input', 'list', 4, 'perk'],
@@ -183,29 +169,13 @@ arrs={
     ],
  // cost_add, пароль сеанса, date, times:[{},{},{}] 
  
-
     calendar:{
-        '01012020': [
+        '02022020': [
             [
-                    ['00:00:00', 10.01],
-                    ['10:00:00', 5.01], 
-                    ['20:00:00', 20.01],              
+				['Серебрянный', '14:00:12', '14.55' ],
+				['Золотой', '14:01:12', '14.55' ],
+				['Новый', '14:02:12', '14.55' ],            
             ],
-            [
-                    ['00:00:00', 20.01],
-                    ['10:00:00', 10.01], 
-                    ['20:00:00', 40.01],              
-            ],
-            [
-                    ['00:00:00', 5.01],
-                    ['10:00:00', 2.01], 
-                    ['20:00:00', 10.01],              
-            ],
-            [
-                    ['00:00:00', 5.01],
-                    ['10:00:00', 2.01], 
-                    ['20:00:00', 10.01],              
-            ]
         ]
     },
     perk_list:[
@@ -385,11 +355,8 @@ arrs={
 	},
 };
 
-
-
 let abonent={
 };  //new
-
 
 let comm={ //new
 
@@ -629,40 +596,27 @@ let click={		//new
     },
 	count_set_open(link){	
 		console.log('count_set_open');
-<<<<<<< HEAD
 		control.on_on(['price_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.price.dataset.choose=1;
 		temp={};
 		control.check_comand('settings_calc_read');
-=======
-		control.on_on(['price_menu', 'main_menu', 'table_centre', 'buttons_line' ], link);  //, 'login_manual',  'main_manual'
-		link.dataset.choose=1;
-		links.main_menu.price.dataset.choose=1;
-		temp={};
-		control.check_comand('settings_calc_edit');
->>>>>>> c0c35ef75d07aa3cc3855c058d2e6e778063d7ee
     },
 	price_list_open(link){	
-		console.log('price_list');
-		control.on_on(['price_menu', 'main_menu', 'table_centre', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
+		console.log('price_list_open');
+		control.on_on(['price_menu', 'main_menu', 'table_centre', 'copy', 'buttons_line', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.price.dataset.choose=1;
+		links.titles.centre.innerText='Стоимость от времени';
 		temp={};
 		if(!arrs.price[links.felds.date.value]){
 			arrs.price[links.felds.date.value]=[];
 		}
-		control.write_arr(arrs.price[links.felds.date.value], arrs.price_list_format, links.table.centre, 'price', 0);
+		control.write_arr(arrs.price_list, arrs.price_list_format, links.table.centre, 'price', 0);
 		links.click.send.dataset.many='price_list';
 		control.write_temp_table(links.table.centre);
     },
-	past(){
-		let date=links.felds.date.value;
-			if(!arrs.price[date]){
-				arrs.price[date]=[];
-			}
-		arrs.price[date]=control.past(links.price);
-	},
+
 	role_open(link){	
 		console.log('role');
 		control.on_on(['staff_menu', 'main_menu', 'table_two'], link);  //, 'login_manual',  'main_manual'
@@ -674,7 +628,20 @@ let click={		//new
 		}
 		links.click.send.dataset.many='role_write';
     },
-	
+	typical_o(link){	
+		console.log('typical_o');
+		links.group.typical_day.dataset.display=1;
+		links.felds.date.dataset.display=0;
+		link.dataset.click='calendar';
+		link.dataset.title='Календарь';
+    },
+	calendar(link){	
+		console.log('calendar');
+		links.group.typical_day.dataset.display=0;
+		links.felds.date.dataset.display=1;
+		link.dataset.click='typical_o';
+		link.dataset.title='Типовой день';
+    },
     role(link){		//new
 		console.log('role');
 		let blk=links.tables.centre;
@@ -749,7 +716,6 @@ let click={		//new
 		comm.write_ls('abonent', abonent);
 		control.check_comand('write_file');
     },
-
 	
     check_in(link){
 		let list=link.parentNode.parentNode.parentNode.querySelectorAll('div[data-click=check_in]');
@@ -938,7 +904,6 @@ let answer={  //new
 		links.click.send.dataset.many='detail_write';
 		control.write_temp_table(links.table.centre);
 	},
-<<<<<<< HEAD
 	settings_calc_read(e){
 		let obj=comm.show_ax(e);
 		if(obj){
@@ -947,30 +912,13 @@ let answer={  //new
 					if(obj[arrs.count_set[i][j][2]]!=undefined){
 						arrs.count_set[i][j][1]=obj[arrs.count_set[i][j][2]];
 					}					
-=======
-
-	settings_calc_edit(e){
-		let obj=comm.show_ax(e);
-		if(obj){
-			for(let i=0; i<arrs.count_set.length; i++){
-				for(let j=0; j<arrs.count_set[i].length; j++){
-					if(obj[arrs.count_set[i][j][2]]){
-						arrs.count_set[i][j][1]=obj[arrs.count_set[i][j][2]];
-					}
->>>>>>> c0c35ef75d07aa3cc3855c058d2e6e778063d7ee
 				}
 			}
 		}
 		control.write_arr(arrs.count_set, arrs.count_set_format, links.table.centre, 'count_set', 1);
 		links.click.send.dataset.many='settings_calc_edit';
 		control.write_temp_table(links.table.centre);
-<<<<<<< HEAD
-		//abonent.settings_obj={};
 	},
-
-=======
-	},
->>>>>>> c0c35ef75d07aa3cc3855c058d2e6e778063d7ee
 
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
@@ -1401,8 +1349,7 @@ let control={
 		}
 		return groop;
 	},
-	
-	
+		
     count_set(link){
 		console.log('count_set');
 		let blk=links.blocks.count_set.querySelector('table');
@@ -1456,7 +1403,7 @@ let control={
 		link.dataset.choose=1;
 		control.write_arr(arrs.detail_list, arrs.detail_list_format, blk, 'detail');
     },
-    // ----
+
     check_in(link){
         link.dataset.click='check_out';
         if(link.parentNode.dataset.right){
@@ -1835,10 +1782,6 @@ function start(){
 	control.on_on(['main_menu']);
 	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
 }
-
-//var root = document.querySelector(':root');
-//var rootStyles = getComputedStyle(root);
-//var mainColor = rootStyles.getPropertyValue('--main-color');
 
 start();
 
