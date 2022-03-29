@@ -154,12 +154,12 @@ arrs={
     ],
 
     price_list:[		
-		['Серебрянный', '14:00:12', '14.55','check_out', 'petk', 'time', 'cost' ],
-		['Золотой', '14:01:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Новый', '14:02:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Серебрянный', '15:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Золотой', '16:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-		['Новый', '17:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
+		['Серебрянный', '14:00:12', '14.55','right_out', 'petk', 'time', 'cost' ],
+		['Золотой', '14:01:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Новый', '14:02:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Серебрянный', '15:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Золотой', '16:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+		['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
     ],
     price_list_format:[
 		['Статус','input', 'list', 4, 'perk'],
@@ -170,27 +170,12 @@ arrs={
  // cost_add, пароль сеанса, date, times:[{},{},{}] 
  
     calendar:{
-        '01012020': [
+        '02022020': [
             [
-                    ['00:00:00', 10.01],
-                    ['10:00:00', 5.01], 
-                    ['20:00:00', 20.01],              
+				['Серебрянный', '14:00:12', '14.55' ],
+				['Золотой', '14:01:12', '14.55' ],
+				['Новый', '14:02:12', '14.55' ],            
             ],
-            [
-                    ['00:00:00', 20.01],
-                    ['10:00:00', 10.01], 
-                    ['20:00:00', 40.01],              
-            ],
-            [
-                    ['00:00:00', 5.01],
-                    ['10:00:00', 2.01], 
-                    ['20:00:00', 10.01],              
-            ],
-            [
-                    ['00:00:00', 5.01],
-                    ['10:00:00', 2.01], 
-                    ['20:00:00', 10.01],              
-            ]
         ]
     },
     perk_list:[
@@ -618,15 +603,16 @@ let click={		//new
 		control.check_comand('settings_calc_read');
     },
 	price_list_open(link){	
-		console.log('price_list');
-		control.on_on(['price_menu', 'main_menu', 'table_centre', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
+		console.log('price_list_open');
+		control.on_on(['price_menu', 'main_menu', 'table_centre', 'buttons_line', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.price.dataset.choose=1;
+		links.titles.centre.innerText='Стоимость от времени';
 		temp={};
 		if(!arrs.price[links.felds.date.value]){
 			arrs.price[links.felds.date.value]=[];
 		}
-		control.write_arr(arrs.price[links.felds.date.value], arrs.price_list_format, links.table.centre, 'price', 0);
+		control.write_arr(arrs.price_list, arrs.price_list_format, links.table.centre, 'price', 0);
 		links.click.send.dataset.many='price_list';
 		control.write_temp_table(links.table.centre);
     },
