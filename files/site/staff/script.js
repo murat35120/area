@@ -610,7 +610,8 @@ let click={		//new
 		temp={};
 		links.felds.date.dataset.display=0;
 		temp.date="2020.01.01";
-		control.check_comand('cost_read');//читаем типовой день  и открываем его
+		click.cost_show(temp.date);
+		//control.check_comand('cost_read');//читаем типовой день  и открываем его
     },
 
 	role_open(link){	
@@ -631,7 +632,7 @@ let click={		//new
 		link.dataset.click='calendar';
 		link.title='Календарь';
 		temp.date="2020-01-01";
-		control.check_comand('cost_read');
+		click.cost_show(temp.date);
     },
 	calendar(link){	
 		console.log('calendar');
@@ -640,8 +641,20 @@ let click={		//new
 		link.dataset.click='typical_o';
 		link.title='Типовой день';
 		temp.date=links.felds.date.value;
-		control.check_comand('cost_read');
+		click.cost_show(temp.date);
     },
+	cost_show(date){
+		let arr=arrs.price[date];
+		if(!arr){
+			arr=[];
+		}
+		links.price=arr;
+		control.sort_price(arr);
+		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
+	},
+	recovery(){
+		control.check_comand('cost_read');
+	},
     role(link){		//new
 		console.log('role');
 		let blk=links.tables.centre;
@@ -785,7 +798,7 @@ let click={		//new
 		links.price=arr;
 		control.sort_price(arr);
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
-		console.log(arr);
+		//console.log(arr);
     },
     staff_open(link){		//new
 		console.log('staff_open');
@@ -829,7 +842,6 @@ let click={		//new
 	},
 	data_change(link){
 		temp.date=link.value;
-		control.check_comand('cost_read');
 	},
 
 };
@@ -937,18 +949,9 @@ let answer={  //new
 	cost_read(e){
 		let obj=comm.show_ax(e);
 		if(obj){
-			for(let i=0; i< arrs.count_set.length; i++){
-				for(let j=0; j<arrs.count_set[i].length; j++){
-					if(obj[arrs.count_set[i][j][2]]!=undefined){
-						arrs.count_set[i][j][1]=obj[arrs.count_set[i][j][2]];
-					}					
-				}
-			}
+			arrs.price[temp.date]=obj;
+			control.write_arr(obj, arrs.price_list_format, links.table.centre, 'price', 0);
 		}
-		//if(!arrs.price[links.felds.date.value]){
-		//	arrs.price[links.felds.date.value]=[];
-		//}
-		control.write_arr(obj, arrs.price_list_format, links.table.centre, 'price', 0);
 		//links.click.send.dataset.many='price_list';
 		//control.write_temp_table(links.table.centre);
 	},

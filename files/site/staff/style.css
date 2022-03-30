@@ -324,7 +324,9 @@ div[data-click='typical_o'], div[data-picture='typical_o'] {
 div[data-click='calendar'], div[data-picture='calendar'] {
     background: url(/png/calendar.png) no-repeat;
 }
-
+div[data-click='recovery'], div[data-picture='recovery'] {
+    background: url(/png/recovery.png) no-repeat;
+}
 
 div[data-click] {
   width: 2em;

@@ -131,7 +131,7 @@ select{
     appearance: none;
 }
 
-.line>select, div[data-group='typical_day']{
+.line>select, div[data-group='typical_day'], input[data-id='date']{
     font-size:  1.4em; 
 }
 
