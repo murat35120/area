@@ -13,6 +13,10 @@ arrs={
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name']},
         settings_calc_read:{out:['session'], in:['key',"[{},{},{}]"]},
         settings_calc_edit:{out:['session', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']}, 
+		cost_read:{out:['session', 'date'], in:['key',"[{},{},{}]"]},	
+        cost_dell:{out:['session', 'date'], in:['key','date']},
+        cost_add:{out:['session', 'date', 'cost_obj'], in:['key','date']},
+		
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -26,10 +30,6 @@ arrs={
 		
 		read_msgs:{out:['key','session'], in:['key',"[{},{},{}]"]},	
 		write_msg:{out:['key','session', 'to', 'title', 'message'], in:['key','msg_num']},
-		
-		cost_read:{out:['key','session', 'date'], in:['key',"[{},{},{}]"]},	
-        cost_dell:{out:['key','session', 'date'], in:['key','date']},
-        cost_add:{out:['key','session', 'date', 'cost_obj'], in:['key','date']},
         
         log_read:{out:['key','session', 'date'], in:['key',"[{},{},{}]"]},
         
@@ -166,8 +166,7 @@ arrs={
 		['время','input', 'time', 5],
 		['цена','input', 'number', 6],
 		['выбрать',  'div', 'dataset','click'],
-    ],
- // cost_add, пароль сеанса, date, times:[{},{},{}] 
+    ], 
  
     calendar:{
         '02022020': [
@@ -604,17 +603,14 @@ let click={		//new
     },
 	price_list_open(link){	
 		console.log('price_list_open');
-		control.on_on(['price_menu', 'main_menu', 'table_centre', 'copy', 'buttons_line', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
+		control.on_on(['price_menu', 'main_menu', 'table_centre', 'typical_day', 'copy', 'buttons_line', 'delete', 'insert', 'price_date'], link);  //, 'login_manual',  'main_manual'
 		link.dataset.choose=1;
 		links.main_menu.price.dataset.choose=1;
 		links.titles.centre.innerText='Стоимость от времени';
 		temp={};
-		if(!arrs.price[links.felds.date.value]){
-			arrs.price[links.felds.date.value]=[];
-		}
-		control.write_arr(arrs.price_list, arrs.price_list_format, links.table.centre, 'price', 0);
-		links.click.send.dataset.many='price_list';
-		control.write_temp_table(links.table.centre);
+		links.felds.date.dataset.display=0;
+		temp.date="2020.01.01";
+		control.check_comand('cost_read');//читаем типовой день  и открываем его
     },
 
 	role_open(link){	
@@ -634,6 +630,8 @@ let click={		//new
 		links.felds.date.dataset.display=0;
 		link.dataset.click='calendar';
 		link.title='Календарь';
+		temp.date="2020-01-01";
+		control.check_comand('cost_read');
     },
 	calendar(link){	
 		console.log('calendar');
@@ -641,6 +639,8 @@ let click={		//new
 		links.felds.date.dataset.display=1;
 		link.dataset.click='typical_o';
 		link.title='Типовой день';
+		temp.date=links.felds.date.value;
+		control.check_comand('cost_read');
     },
     role(link){		//new
 		console.log('role');
@@ -759,7 +759,12 @@ let click={		//new
 		return right;
 	},
 	delete(link){
-		let date=links.felds.date.value;
+		let date;
+		if(+links.felds.date.dataset.display){
+			date=links.felds.date.value;
+		} else{
+			date='2020-01-01';
+		}
 		let arr=links.price;
 		arrs.price[date]=control.edit_arr(arr, 'dell', control.take_select(links.table.centre),'');
 		arr=arrs.price[date];
@@ -767,8 +772,13 @@ let click={		//new
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
     },
 	insert(link){
-		let date=links.felds.date.value;
-		let item=['Новый', '17:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ];
+		let date;
+		if(+links.felds.date.dataset.display){
+			date=links.felds.date.value;
+		} else{
+			date='2020-01-01';
+		}
+		let item=['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ];
 		let arr=links.price;
 		arrs.price[date]=control.edit_arr(arr, 'insert', control.take_select(links.table.centre), item);
 		arr=arrs.price[date];
@@ -816,6 +826,10 @@ let click={		//new
 		abonent.name=link.parentNode.parentNode.children[0].children[0].value;
 		abonent.role=link.parentNode.parentNode.children[1].children[0].value;
 		control.check_comand('new_passkey');
+	},
+	data_change(link){
+		temp.date=link.value;
+		control.check_comand('cost_read');
 	},
 
 };
@@ -920,6 +934,25 @@ let answer={  //new
 		control.write_temp_table(links.table.centre);
 	},
 
+	cost_read(e){
+		let obj=comm.show_ax(e);
+		if(obj){
+			for(let i=0; i< arrs.count_set.length; i++){
+				for(let j=0; j<arrs.count_set[i].length; j++){
+					if(obj[arrs.count_set[i][j][2]]!=undefined){
+						arrs.count_set[i][j][1]=obj[arrs.count_set[i][j][2]];
+					}					
+				}
+			}
+		}
+		//if(!arrs.price[links.felds.date.value]){
+		//	arrs.price[links.felds.date.value]=[];
+		//}
+		control.write_arr(obj, arrs.price_list_format, links.table.centre, 'price', 0);
+		//links.click.send.dataset.many='price_list';
+		//control.write_temp_table(links.table.centre);
+	},
+
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
 		if(Array.isArray(obj)){
@@ -981,6 +1014,7 @@ let answer={  //new
 		control.check_comand('staff_list_read');
 	},
 };
+
 let control={
 	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
 		let list=table.querySelectorAll('input');
@@ -1183,7 +1217,7 @@ let control={
 
 	take_select(obj){		//new
 		let rows=[];
-		let list=obj.querySelectorAll('div[data-click="check_in"]')
+		let list=obj.querySelectorAll('div[data-click="right_in"]')
 		for(let i=0; i<list.length; i++){
 			rows[i]=list[i].parentNode.parentNode.dataset.row;
 		}
@@ -1780,7 +1814,7 @@ function start(){
 	}
 	comm.ax_get('read_seting', '../settings.json');
 	control.on_on(['main_menu']);
-	links.felds.date.value=new Date().toLocaleDateString().split('.').reverse().join('-');
+	links.felds.date.value=new Date().toLocaleDateString('en-GB').split('/').reverse().join('-');
 }
 
 start();
