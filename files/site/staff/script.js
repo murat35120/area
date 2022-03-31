@@ -15,7 +15,7 @@ arrs={
         settings_calc_edit:{out:['session', 'rounding','unit_time','cost_in','min_cost','vat','currency'], in:['key']}, 
 		cost_read:{out:['session', 'date'], in:['key',"[{},{},{}]"]},	
         cost_dell:{out:['session', 'date'], in:['key','date']},
-        cost_add:{out:['session', 'date', 'cost_obj'], in:['key','date']},
+        cost_add:{out:['session', 'date', 'times'], in:['key','date']},
 		
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
@@ -344,14 +344,16 @@ arrs={
 	
 	price:{
 		"2020-01-01":[
-			['Серебрянный', '14:00:12', '14.55','check_out', 'petk', 'time', 'cost' ],
-			['Золотой', '14:01:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-			['Новый', '14:02:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-			['Серебрянный', '15:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-			['Золотой', '16:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
-			['Новый', '17:00:12', '14.55', 'check_out', 'petk', 'time', 'cost' ],
+			['Серебрянный', '14:00:12', '14.55','right_out', 'petk', 'time', 'cost' ],
+			['Золотой', '14:01:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+			['Новый', '14:02:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+			['Серебрянный', '15:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+			['Золотой', '16:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+			['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
 		]
 	},
+	
+	temp_price:[],
 };
 
 let abonent={
@@ -609,8 +611,9 @@ let click={		//new
 		links.titles.centre.innerText='Стоимость от времени';
 		temp={};
 		links.felds.date.dataset.display=0;
-		temp.date="2020.01.01";
+		temp.date="2020-01-01";
 		click.cost_show(temp.date);
+		links.click.send.dataset.many='price_list_send';
 		//control.check_comand('cost_read');//читаем типовой день  и открываем его
     },
 
@@ -701,7 +704,11 @@ let click={		//new
 		//чтение роли после ее выбора и распаковка  (если нет в темпе), показываем шаблон с флагами
 		//отдельная функции сборки и разборки
 	},	
-	
+	price_list_send(){
+		temp.date=temp.date.split("-").join('.');
+		temp.times=links.price;
+		control.check_comand('cost_add');	
+	},
 	detail(link){	
 		console.log('detail');
 		control.on_on(['service_menu', 'main_menu', 'buttons_line', 'table_centre'], link);  //, 'login_manual',  'main_manual'
@@ -791,15 +798,25 @@ let click={		//new
 		} else{
 			date='2020-01-01';
 		}
-		let item=['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ];
-		let arr=links.price;
-		arrs.price[date]=control.edit_arr(arr, 'insert', control.take_select(links.table.centre), item);
-		arr=arrs.price[date];
+		let arr=[];
+		if(!arrs.temp_price.length){
+			let item=['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ];
+			arr=links.price;
+			arrs.price[date]=control.edit_arr(arr, 'insert', control.take_select(links.table.centre), item);
+			arr=arrs.price[date];
+		}else {
+			arr=arrs.temp_price;
+			arrs.temp_price=[];
+		}
 		links.price=arr;
 		control.sort_price(arr);
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 		//console.log(arr);
     },
+	copy(link){
+		arrs.temp_price=control.edit_arr(links.price, 'copy', control.take_select(links.table.centre));
+	},
+	
     staff_open(link){		//new
 		console.log('staff_open');
 		let blk=links.table.centre;
@@ -1236,8 +1253,13 @@ let control={
 						new_arr.push(arr[i]);
 						new_arr.push(arr[i]);
 					}
+					if(doing=='copy'){
+						new_arr.push(arr[i]);
+					}
 				} else {
-					new_arr.push(arr[i]);
+					if(doing!='copy'){
+						new_arr.push(arr[i]);
+					}
 				}
 			}
 		}else{
@@ -1440,6 +1462,8 @@ let control={
 		link.dataset.choose=1;
 		control.write_arr(arrs.detail_list, arrs.detail_list_format, blk, 'detail');
     },
+
+
 
     check_in(link){
         link.dataset.click='check_out';
@@ -1665,8 +1689,7 @@ let control={
 			}
 		}
 	},
-	off_off(link){					//new
-		
+	off_off(link){					//new		
 		for(let i in links.group){
 			links.group[i].dataset.display=0;	
 		}
