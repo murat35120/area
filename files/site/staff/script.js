@@ -706,7 +706,10 @@ let click={		//new
 	},	
 	price_list_send(){
 		temp.date=temp.date.split("-").join('.');
-		temp.times=links.price;
+		temp.times=[];
+		for(let i=0; i<links.price.length; i++){
+			temp.times[i]={perk:links.price[i][0], time:links.price[i][1], cost:links.price[i][2]};
+		}
 		control.check_comand('cost_add');	
 	},
 	detail(link){	

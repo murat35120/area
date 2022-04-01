@@ -9,13 +9,13 @@ router.post("/cost_add", async function (req, res) {
         const splitedDate = req.body.date.split(".").map(v => Number(v));
         for(const time of req.body.times){
             const splitedTime = time.time.split(":").map(v => Number(v));
-            const date = new Date(splitedDate[2], splitedDate[1] - 1, splitedDate[0], splitedTime[0], splitedTime[1], 0, 0);
-            await PriceModel.create({domain: companies.indexOf(req.params.domain) + 1, date: req.body.date, time: date, perk: time.perk, cost: time.cost});
+            const date = new Date(splitedDate[0], (+splitedDate[1] - 1), splitedDate[2], splitedTime[0], splitedTime[1], splitedTime[2], 0);
+            await PriceModel.create({domain: companies.indexOf(req.params.domain) + 1, date: req.body.date, time: date, perk: 0, cost: time.cost });
         }
         res.sendStatus(200);
     } catch(err){
+		console.log(err);
         res.status(500).send("Error on server");
     }
 });
-
 module.exports = router;
