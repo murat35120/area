@@ -18,6 +18,7 @@ arrs={
         cost_add:{out:['session', 'date', 'times'], in:['key','date']},
 		perk:{out:['session','key_user', 'perk'], in:['key','key_user','perk','name_user']},
 		perk_n:{out:['session', 'perk'], in:['key','key_user','perk','name_user']},
+		perk_list_read:{out:['session'], in:['key','key_user','perk','name_user']},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -46,7 +47,7 @@ arrs={
 	list_right:[
 	        {name:'new_staff', description:'Регистрация сотрудника (себя)', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
 	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
-	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk','perk_n']}, 
+	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk','perk_n', 'perk_list_read']}, 
 	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
 	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
 	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
@@ -374,6 +375,10 @@ let comm={ //new
 		if(data.status!=200){
 			if(data.status>399){
 				console.log(data.status);
+				if(data.response=="Wrong login or password"){
+					console.log("Wrong login or password");
+					control.on_on(['login_menu', 'main_menu', 'buttons_line', 'table_centre']);  //, 'login_manual',  'main_manual'
+				}
 			}		
 		}
 	},
@@ -473,9 +478,11 @@ let links={ //связываем действия пользователя с ф
 			}
 			control.write_temp_table(link.parentNode.parentNode.parentNode); //пишем в temp значение всех полей таблицы
 			let value_name=link.dataset.name; 
-			if(value_name.slice(0,2)=="--"){
-				document.documentElement.style.setProperty(value_name, link.value);
-				control.style_to_file(temp);
+			if(value_name){
+				if(value_name.slice(0,2)=="--"){
+					document.documentElement.style.setProperty(value_name, link.value);
+					control.style_to_file(temp);
+				}
 			}
 		}
     }

@@ -5,6 +5,7 @@ const router = express.Router({ mergeParams: true });
 
 router.post("/role_list_read", function (req, res) {
     RoleModel.findAll({where: {domain: companies.indexOf(req.params.domain) + 1}}).then((models) => {
+		if(!models) throw 400;
         res.send(models.map(v => {
             return {id: v.id, name: v.name, list: v.list}
         }));
