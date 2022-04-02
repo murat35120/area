@@ -59,6 +59,7 @@ router.use("/:domain/", [
         require("./domain/ok"),
         require("./domain/noOk"),
         require("./domain/perk"),
+        require("./domain/perkN"),		
         require("./domain/balance"),
         require("./domain/readMsgs"),
         require("./domain/writeMsg"),

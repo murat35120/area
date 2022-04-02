@@ -16,7 +16,8 @@ arrs={
 		cost_read:{out:['session', 'date'], in:['key',"[{},{},{}]"]},	
         cost_dell:{out:['session', 'date'], in:['key','date']},
         cost_add:{out:['session', 'date', 'times'], in:['key','date']},
-		
+		perk:{out:['session','key_user', 'perk'], in:['key','key_user','perk','name_user']},
+		perk_n:{out:['session', 'perk'], in:['key','key_user','perk','name_user']},
 		
 		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
@@ -24,7 +25,7 @@ arrs={
 		list_in:{out:['key','session'], in:['key',"[{},{},{}]"]}, 
 		
 		
-		perk:{out:['key','session','key_user', 'perk'], in:['key','key_user','perk','name_user']},
+
 		
 		balance:{out:['key','session'], in:['key','count','balance_old','cost', 'limit']},	
 		
@@ -43,9 +44,9 @@ arrs={
 
 	},
 	list_right:[
-	        {name:'new_staff', description:'Регистрация сотрудника', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
+	        {name:'new_staff', description:'Регистрация сотрудника (себя)', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
 	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
-	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk']}, 
+	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk','perk_n']}, 
 	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
 	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
 	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
@@ -53,7 +54,7 @@ arrs={
 	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
 	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
 	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
-	        {name:'write_file', description:'Писать файлы', right:['write_file']}
+	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
 	],
 	bill:[
 	    {type:'names', data:['Операция','Начало','Окончание','Цена','Сумма']},
@@ -108,19 +109,7 @@ arrs={
 		['Права','div','',2],
 		['Добавить', 'div', 'dataset','click'], 			
     ],
-	list_right:[
-	        {name:'new_staff', description:'Регистрация сотрудника (себя)', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
-	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
-	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk']}, 
-	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
-	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
-	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
-	        {name:'log_read', description:'Читать историю посещений', right:['log_read']},
-	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
-	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
-	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
-	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
-	],
+
 
     count_set:[
 		[
