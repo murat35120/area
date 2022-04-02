@@ -13,7 +13,7 @@ router.post("/perk", function (req, res) {
         const perkId = perkModel.id;
         model.setDataValue("perk", perkId);
         await model.save();
-        res.send({ perk: model.perk, name: model.name});
+        res.send({id: model.id, perk: model.perk, name: model.name});
     }).catch((err) => {
         if(!Number.isInteger(err)) console.log(err);
         res.status( Number.isInteger(err) ? err : 500).send(err == 400 ? "Wrong perk" : "Error on server");
