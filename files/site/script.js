@@ -145,7 +145,7 @@ arrs={
 	list_right:[
 	        {name:'new_staff', description:'Регистрация сотрудника (себя)', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
 	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
-	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk']}, 
+	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk','perk_n', 'perk_list_read']}, 
 	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
 	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
 	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},

@@ -8,7 +8,7 @@ arrs={
         read_file:{out:['session', 'name_file'], in:['key','name_file','txt_file']},
         write_file:{out:['session', 'name_file','txt_file'], in:['key','name_file']}, 
         staff_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
-        role_list_read:{out:['session', 'key', 'count'], in:['key',"[{},{},{}]"]},
+        role_list_read:{out:['session'], in:['key',"[{},{},{}]"]},
 		new_passkey:{out:['session','role','name'], in:['key','session']},
         role_write:{out:['session', 'title', 'rights'], in:['key','role_name']},
         settings_calc_read:{out:['session'], in:['key',"[{},{},{}]"]},
@@ -53,7 +53,7 @@ arrs={
 	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
 	        {name:'log_read', description:'Читать историю посещений', right:['log_read']},
 	        {name:'user_list_read', description:'Управлять списоком пользователей', right:['user_list_read', 'user_dell', 'user_dell_all']},  
-	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
+	        {name:'staff_list_read', description:'Управлять списком сотрудников', right:['staff_list_read', 'new_passkey', 'staff_dell', 'staff_dell_all', 'role_list_read', 'role_write']},  
 	        {name:'settings_calc_edit', description:'Редактировать настройки стоимости', right:['settings_calc_read', 'settings_calc_edit']},
 	        {name:'write_file', description:'Сохранять файлы на сервере', right:['write_file']}
 	],
@@ -1020,6 +1020,8 @@ let answer={  //new
 	role_write(e){
 		let obj=comm.show_ax(e);
 		if(obj.title){
+			//abonent.key=0;
+			//abonent.count=1000;
 			control.check_comand('role_list_read');
 		} 
 	},
