@@ -633,11 +633,7 @@ let click={		//new
 		links.titles.centre_list.innerText='Уровни обслуживания';
 		blk=links.table.centre_list;
 		if(abonent.setting.perk_list.length){
-			let perk_arr=[];
-			for(let i=0; i<abonent.setting.perk_list.length;i++){
-				perk_arr.push([abonent.setting.perk_list[i].id, abonent.setting.perk_list[i].perk]);
-			}
-			control.write_arr(perk_arr, arrs.perk_format, blk, 'perk_list');
+			control.write_arr(abonent.setting.perk_list, arrs.perk_format, blk, 'perk_list');
 		}else{
 			blk.innerHTML="";
 		}
@@ -682,8 +678,8 @@ let click={		//new
 		let arr_select_0=[];
 		let arr_select_1=[];
 		for(let i=0; i<abonent.setting.perk_list.length; i++ ){
-			arr_select_0.push(abonent.setting.perk_list[i].id);
-			arr_select_1.push(abonent.setting.perk_list[i].perk);
+			arr_select_0.push(abonent.setting.perk_list[i][0]);
+			arr_select_1.push(abonent.setting.perk_list[i][1]);
 		}
 		arrs.price_list_format[0][3]=[arr_select_0, arr_select_1];
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
@@ -871,6 +867,7 @@ let click={		//new
 				obj=control.inser_role(obj, abonent.role_list_all);
 			}
 			control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+			control.make_list();
 		}else{
 			blk.innerHTML="";
 		}
@@ -1067,41 +1064,26 @@ let answer={  //new
 	perk_list_read(e){		//new
 		let obj=comm.show_ax(e);
 		console.log('perk list read');
-		if(obj){
-			abonent.setting.perk_list=obj;
-		}
 		let blk=links.table.centre;
-
 		blk=links.table.centre_list;
-		if(abonent.setting.perk_list.length){
-			let perk_arr=[];
-			for(let i=0; i<obj.length;i++){
-				perk_arr.push([obj[i].id, obj[i].perk]);
-			}
-			control.write_arr(perk_arr, arrs.perk_format, blk, 'perk_list');
-		}else{
-			blk.innerHTML="";
+		abonent.setting.perk_list=[];
+		for(let i=0; i<obj.length;i++){
+			abonent.setting.perk_list.push([obj[i].id, obj[i].perk]);
 		}
+		control.write_arr(abonent.setting.perk_list, arrs.perk_format, blk, 'perk_list');
+		comm.write_setting();
 	},
 	perk_n(e){
 		let obj=comm.show_ax(e);
 		console.log('perk_n');
 		if(obj){
 			blk=links.table.centre_list;
-			let k=0;
 			let perk_arr=[];
-			for(let i=0; i<abonent.setting.perk_list.length;i++){
-				perk_arr.push([abonent.setting.perk_list[i].id, abonent.setting.perk_list[i].perk]);
-				if(abonent.setting.perk_list[i].id==obj.id){
-					k=1;
-				}
+			if(!abonent.setting.perk_list){
+				abonent.setting.perk_list=[];
+			} else{
+				control.check_comand('perk_list_read');
 			}
-			if(k==0){
-				abonent.setting.perk_list.push(obj);
-				perk_arr.push([obj.id, obj.perk]);
-			}
-			control.write_arr(perk_arr, arrs.perk_format, blk, 'perk_list');
-			comm.write_setting();
 		}
 	},
 	
@@ -1165,6 +1147,7 @@ let control={
 	    parent.innerHTML='';
 	    parent.dataset.name=name;
 	    let fnk=function(obj, format, parent){ 
+			let list_flag=0;
     		if(!format.length){ //создаем формат, если его нет
     			for (let i=0; i<obj[0].length; i++){
     				format[i]=['','div'];
@@ -1205,6 +1188,7 @@ let control={
     				}
     				if(format[i][2]){
     				    if(format[i][2]=='list'){
+							list_flag=1;
                             kol_blk.setAttribute('list',format[i][4]);
                             links.sets[format[i][4]].add(obj[j][i]);
     				    }else{
@@ -1254,16 +1238,18 @@ let control={
     			}
     			parent.append(row);				
     		}
-    		for(let i in links.sets){
-    		    let lst=document.createElement('datalist');
-    		    lst.id=i;
-    		    for (let value of links.sets[i]){
-    		        let op=document.createElement('option');
-    		        op.value=value;
-    		        lst.append(op);
-    		    }
-    		    parent.append(lst);
-    		}
+			if(list_flag==1){
+				for(let i in links.sets){
+					let lst=document.createElement('datalist');
+					lst.id=i;
+					for (let value of links.sets[i]){
+						let op=document.createElement('option');
+						op.value=value;
+						lst.append(op);
+					}
+					parent.append(lst);
+				}
+			}
 	    };
 	    let obj;
 	    let format;
@@ -1283,6 +1269,14 @@ let control={
 	    links[name].arr=name_obj;
 	    links[name].format=name_format;
 	    links[name].multi=multi;
+	},
+	make_list(){
+		role_list_option.innerHTML='';
+		for (let i=0; i<abonent.role_list.length; i++){
+			let op=document.createElement('option');
+			op.value=abonent.role_list[i][0];
+			role_list_option.append(op);
+		}
 	},
 	answer(obj){			//new
 		let table_temp={};

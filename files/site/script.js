@@ -319,6 +319,7 @@ let control={
 	    parent.innerHTML='';
 	    parent.dataset.name=name;
 	    let fnk=function(obj, format, parent){ 
+			let list_flag=0;
     		if(!format.length){ //создаем формат, если его нет
     			for (let i=0; i<obj[0].length; i++){
     				format[i]=['','div'];
@@ -359,6 +360,7 @@ let control={
     				}
     				if(format[i][2]){
     				    if(format[i][2]=='list'){
+							list_flag=1;
                             kol_blk.setAttribute('list',format[i][4]);
                             links.sets[format[i][4]].add(obj[j][i]);
     				    }else{
@@ -405,16 +407,18 @@ let control={
     			}
     			parent.append(row);				
     		}
-    		for(let i in links.sets){
-    		    let lst=document.createElement('datalist');
-    		    lst.id=i;
-    		    for (let value of links.sets[i]){
-    		        let op=document.createElement('option');
-    		        op.value=value;
-    		        lst.append(op);
-    		    }
-    		    parent.append(lst);
-    		}
+			if(list_flag==1){
+				for(let i in links.sets){
+					let lst=document.createElement('datalist');
+					lst.id=i;
+					for (let value of links.sets[i]){
+						let op=document.createElement('option');
+						op.value=value;
+						lst.append(op);
+					}
+					parent.append(lst);
+				}
+			}
 	    };
 	    let obj;
 	    let format;
@@ -434,6 +438,14 @@ let control={
 	    links[name].arr=name_obj;
 	    links[name].format=name_format;
 	    links[name].multi=multi;
+	},
+	make_list(){
+		role_list_option.innerHTML='';
+		for (let i=0; i<abonent.role_list.length; i++){
+			let op=document.createElement('option');
+			op.value=abonent.role_list[i][0];
+			role_list_option.append(op);
+		}
 	},
     //open - close  block
 	first_login(){
@@ -574,6 +586,7 @@ let control={
 					obj=control.inser_role(obj, abonent.role_list_all);
 				}
 				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+				control.make_list();
 			}else{
 				blk.innerHTML="";
 			}
