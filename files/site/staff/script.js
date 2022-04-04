@@ -152,12 +152,12 @@ arrs={
 		['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
     ],
     price_list_format:[
-		['Статус','input', 'list', 4, 'perk'],
+		['Статус','select','', [[0],["Золотой"]]],
 		['время','input', 'time', 5],
 		['цена','input', 'number', 6],
 		['выбрать',  'div', 'dataset','click'],
     ], 
- 
+
     calendar:{
         '02022020': [
             [
@@ -167,12 +167,19 @@ arrs={
             ],
         ]
     },
-    perk_list:[
-        "золотой",
-        "серебрянный",
-        "ВИП",
-        "новый"
-    ],
+	
+	perk_control:[
+		['','add' ]
+	],
+	perk_control_format:[
+			['Название','input', 'list', '', 'role_list_option'],
+			['Создать', 'div', 'dataset','click'] 
+		],	
+	perk_format:[
+			['Номер','div'],
+			['Имя', 'div'] 
+	],
+	
     decor_list:[
         [
             ['Размер названия', '22' ],
@@ -334,12 +341,7 @@ arrs={
 	
 	price:{
 		"2020-01-01":[
-			['Серебрянный', '14:00:12', '14.55','right_out', 'petk', 'time', 'cost' ],
-			['Золотой', '14:01:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
-			['Новый', '14:02:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
-			['Серебрянный', '15:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
-			['Золотой', '16:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
-			['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
+			[0, '14:00:12', '14.55','right_out', 'petk', 'time', 'cost' ],
 		]
 	},
 	
@@ -412,6 +414,14 @@ let comm={ //new
 		}else{
 			return {};
 		}
+	},
+	write_setting(){
+		let settings={};
+		settings.company_name = abonent.company_name;
+		settings.setting = abonent.setting;
+		temp.name_file="settings.json";
+		temp.txt_file=JSON.stringify(settings);
+		control.check_comand('write_file');
 	}
 
 };
@@ -612,7 +622,27 @@ let click={		//new
 		links.click.send.dataset.many='price_list_send';
 		//control.check_comand('cost_read');//читаем типовой день  и открываем его
     },
-
+	
+	perk_list_open(link){		//new
+		let blk=links.table.centre;
+		control.on_on(['main_menu','table_centre', 'price_menu', 'table_list']);
+		links.click.price.dataset.choose=1;
+		links.click.perk_list_open.dataset.choose=1;
+		control.write_arr(arrs.perk_control, arrs.perk_control_format, blk, 'perks');
+		links.titles.centre.innerText='Управление привелегиями';	
+		links.titles.centre_list.innerText='Уровни обслуживания';
+		blk=links.table.centre_list;
+		if(abonent.setting.perk_list.length){
+			let perk_arr=[];
+			for(let i=0; i<abonent.setting.perk_list.length;i++){
+				perk_arr.push([abonent.setting.perk_list[i].id, abonent.setting.perk_list[i].perk]);
+			}
+			control.write_arr(perk_arr, arrs.perk_format, blk, 'perk_list');
+		}else{
+			blk.innerHTML="";
+		}
+	},
+	
 	role_open(link){	
 		console.log('role');
 		control.on_on(['staff_menu', 'main_menu', 'table_two'], link);  //, 'login_manual',  'main_manual'
@@ -649,6 +679,13 @@ let click={		//new
 		}
 		links.price=arr;
 		control.sort_price(arr);
+		let arr_select_0=[];
+		let arr_select_1=[];
+		for(let i=0; i<abonent.setting.perk_list.length; i++ ){
+			arr_select_0.push(abonent.setting.perk_list[i].id);
+			arr_select_1.push(abonent.setting.perk_list[i].perk);
+		}
+		arrs.price_list_format[0][3]=[arr_select_0, arr_select_1];
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 	},
 	recovery(){
@@ -799,7 +836,7 @@ let click={		//new
 		}
 		let arr=[];
 		if(!arrs.temp_price.length){
-			let item=['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ];
+			let item=[0, '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ];
 			arr=links.price;
 			arrs.price[date]=control.edit_arr(arr, 'insert', control.take_select(links.table.centre), item);
 			arr=arrs.price[date];
@@ -824,38 +861,31 @@ let click={		//new
 		links.click.stafs.dataset.choose=1;
 		control.write_arr(arrs.staff_control, arrs.staff_control_format, blk, 'stafs', 1);
 		links.titles.centre.innerText='Управление Персоналом';
-		//links.titles.domain.innerText='Выберите домен';
-		//links.click.send.dataset.many='staff_dell';
-		//temp.key=0;
 		abonent.key=0;
 		abonent.count=1000;		
-		//control.check_comand('staff_list_read');
-		//control.write_select_list_1(abonent.domain_list, links.selects.domain_select);
 		links.titles.centre_list.innerText='Сотрудники';
-		//if(abonent.domain){
-			//links.selects.domain_select.value=abonent.domain;
-			//if(!abonent.domain_list){
-			//	control.check_comand('staff_list_read');
-			//}
-			//links.click.send.dataset.many='take_domain';
-			let asd=[];
-			blk=links.table.centre_list;
-			if(abonent.staff_list_write){
-				let obj=abonent.staff_list_write;
-				if(abonent.role_list_all){
-					obj=control.inser_role(obj, abonent.role_list_all);
-				}
-				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
-			}else{
-				blk.innerHTML="";
+		blk=links.table.centre_list;
+		if(abonent.staff_list_write){
+			let obj=abonent.staff_list_write;
+			if(abonent.role_list_all){
+				obj=control.inser_role(obj, abonent.role_list_all);
 			}
-		//}
+			control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+		}else{
+			blk.innerHTML="";
+		}
     },
 	add(link){
+		if(link.parentNode.parentNode.parentNode.dataset.name=='perks'){
+			abonent.perk=link.parentNode.parentNode.children[0].children[0].value;
+			control.check_comand('perk_n');
+			return;
+		}
 		abonent.name=link.parentNode.parentNode.children[0].children[0].value;
 		abonent.role=link.parentNode.parentNode.children[1].children[0].value;
 		control.check_comand('new_passkey');
 	},
+	
 	data_change(link){
 		temp.date=link.value;
 	},
@@ -1034,6 +1064,47 @@ let answer={  //new
 		abonent.count=1000;
 		control.check_comand('staff_list_read');
 	},
+	perk_list_read(e){		//new
+		let obj=comm.show_ax(e);
+		console.log('perk list read');
+		if(obj){
+			abonent.setting.perk_list=obj;
+		}
+		let blk=links.table.centre;
+
+		blk=links.table.centre_list;
+		if(abonent.setting.perk_list.length){
+			let perk_arr=[];
+			for(let i=0; i<obj.length;i++){
+				perk_arr.push([obj[i].id, obj[i].perk]);
+			}
+			control.write_arr(perk_arr, arrs.perk_format, blk, 'perk_list');
+		}else{
+			blk.innerHTML="";
+		}
+	},
+	perk_n(e){
+		let obj=comm.show_ax(e);
+		console.log('perk_n');
+		if(obj){
+			blk=links.table.centre_list;
+			let k=0;
+			let perk_arr=[];
+			for(let i=0; i<abonent.setting.perk_list.length;i++){
+				perk_arr.push([abonent.setting.perk_list[i].id, abonent.setting.perk_list[i].perk]);
+				if(abonent.setting.perk_list[i].id==obj.id){
+					k=1;
+				}
+			}
+			if(k==0){
+				abonent.setting.perk_list.push(obj);
+				perk_arr.push([obj.id, obj.perk]);
+			}
+			control.write_arr(perk_arr, arrs.perk_format, blk, 'perk_list');
+			comm.write_setting();
+		}
+	},
+	
 };
 
 let control={
