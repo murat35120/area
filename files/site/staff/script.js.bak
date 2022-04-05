@@ -152,7 +152,7 @@ arrs={
 		['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
     ],
     price_list_format:[
-		['Статус','select','', [[0],["Золотой"]]],
+		['Статус','select',4, [[0],["Золотой"]]],
 		['время','input', 'time', 5],
 		['цена','input', 'number', 6],
 		['выбрать',  'div', 'dataset','click'],
@@ -341,7 +341,7 @@ arrs={
 	
 	price:{
 		"2020-01-01":[
-			[0, '14:00:12', '14.55','right_out', 'petk', 'time', 'cost' ],
+			[0, '14:00:12', '14.55','right_out', 'perk', 'time', 'cost' ],
 		]
 	},
 	
@@ -678,13 +678,14 @@ let click={		//new
 		let arr_select_0=[];
 		let arr_select_1=[];
 		for(let i=0; i<abonent.setting.perk_list.length; i++ ){
-			arr_select_0.push(abonent.setting.perk_list[i].id);
-			arr_select_1.push(abonent.setting.perk_list[i].perk);
+			arr_select_0.push(abonent.setting.perk_list[i][0]);
+			arr_select_1.push(abonent.setting.perk_list[i][1]);
 		}
 		arrs.price_list_format[0][3]=[arr_select_0, arr_select_1];
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 	},
 	recovery(){
+		temp.date=temp.date.split("-").join('.');
 		control.check_comand('cost_read');
 	},
     role(link){		//new
@@ -739,7 +740,8 @@ let click={		//new
 		for(let i=0; i<links.price.length; i++){
 			temp.times[i]={perk:links.price[i][0], time:links.price[i][1], cost:links.price[i][2]};
 		}
-		control.check_comand('cost_add');	
+		//control.check_comand('cost_add');
+		control.check_comand('cost_dell');
 	},
 	detail(link){	
 		console.log('detail');
@@ -990,14 +992,38 @@ let answer={  //new
 	},
 
 	cost_read(e){
+		console.log('cost_read');
 		let obj=comm.show_ax(e);
 		if(obj){
+			//изменить массив  			[0, '14:00:12', '14.55','right_out', 'perk', 'time', 'cost' ],
+			for(let i=0; i<obj.length; i++){
+				obj[i].splice(3, 1, 'right_out', 'perk', 'time', 'cost');
+			}
 			arrs.price[temp.date]=obj;
-			control.write_arr(obj, arrs.price_list_format, links.table.centre, 'price', 0);
+			control.write_arr(obj, arrs.price_list_format, links.table.centre, 'count_set', 0);
+			control.write_temp_table(links.table.centre);
+			temp.date=temp.date.split("-").join('.');
+			temp.times=[];
+			for(let i=0; i<obj.length; i++){
+				temp.times[i]={perk:obj[i][0], time:obj[i][1], cost:obj[i][2]};
+			}
 		}
-		//links.click.send.dataset.many='price_list';
-		//control.write_temp_table(links.table.centre);
 	},
+	cost_dell(e){
+		console.log('cost_dell');
+		//let obj=comm.show_ax(e);
+		//if(obj){
+		control.check_comand('cost_add');
+		//}
+	},
+	cost_add(e){
+		console.log('cost_add');
+		//let obj=comm.show_ax(e);
+		//if(obj){
+		control.check_comand('cost_read');
+		//}
+	},
+
 
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
@@ -1090,7 +1116,7 @@ let answer={  //new
 };
 
 let control={
-	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
+	write_temp_table_old(table){ //пишем в temp значение всех полей таблицы	
 		let list=table.querySelectorAll('input');
 		for(let i=0; i<list.length; i++){
 			temp[list[i].dataset.name]=list[i].value;
@@ -1100,6 +1126,34 @@ let control={
 			temp[list[i].dataset.name]=list[i].value;
 		}
 	},
+	
+	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
+		let rows=table.querySelectorAll('tr');
+		for(let j=0; j<rows.length; j++){
+			temp[j]={};
+			let list=rows[j].querySelectorAll('input');
+			for(let i=0; i<list.length; i++){
+				temp[j][list[i].dataset.name]=list[i].value;
+			}
+			list=rows[j].querySelectorAll('select');
+			for(let i=0; i<list.length; i++){
+				temp[j][list[i].dataset.name]=list[i].value;
+			}
+		}
+		if(!rows.length){
+			let list=table.querySelectorAll('input');
+			for(let i=0; i<list.length; i++){
+				temp[list[i].dataset.name]=list[i].value;
+			}
+			list=table.querySelectorAll('select');
+			for(let i=0; i<list.length; i++){
+				temp[list[i].dataset.name]=list[i].value;
+			}
+		}
+	},
+	
+	
+	
 	fon_move(){  			//new
         let rand_x=Math.floor(Math.random() * 40) +30;
         let rand_y=Math.floor(Math.random() * 40) -20;

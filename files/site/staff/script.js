@@ -341,7 +341,7 @@ arrs={
 	
 	price:{
 		"2020-01-01":[
-			[0, '14:00:12', '14.55','right_out', 'petk', 'time', 'cost' ],
+			[0, '14:00:12', '14.55','right_out', 'perk', 'time', 'cost' ],
 		]
 	},
 	
@@ -685,6 +685,7 @@ let click={		//new
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 	},
 	recovery(){
+		temp.date=temp.date.split("-").join('.');
 		control.check_comand('cost_read');
 	},
     role(link){		//new
@@ -994,11 +995,21 @@ let answer={  //new
 		console.log('cost_read');
 		let obj=comm.show_ax(e);
 		if(obj){
+			//изменить массив  			[0, '14:00:12', '14.55','right_out', 'perk', 'time', 'cost' ],
+			for(let i=0; i<obj.length; i++){
+				obj[i].splice(3, 1, 'right_out', 'perk', 'time', 'cost');
+			}
 			arrs.price[temp.date]=obj;
-			control.write_arr(obj, arrs.price_list_format, links.table.centre, 'price', 0);
+			control.write_arr(obj, arrs.price_list_format, links.table.centre, 'count_set', 0);
+			control.write_temp_table(links.table.centre);
+			temp.date=temp.date.split("-").join('.');
+			temp.times=[];
+			links.price=[];
+			for(let i=0; i<obj.length; i++){
+				links.price.push(obj[i]);
+				temp.times[i]={perk:obj[i][0], time:obj[i][1], cost:obj[i][2]};
+			}
 		}
-		//links.click.send.dataset.many='price_list';
-		//control.write_temp_table(links.table.centre);
 	},
 	cost_dell(e){
 		console.log('cost_dell');
