@@ -152,7 +152,7 @@ arrs={
 		['Новый', '17:00:12', '14.55', 'right_out', 'petk', 'time', 'cost' ],
     ],
     price_list_format:[
-		['Статус','select','', [[0],["Золотой"]]],
+		['Статус','select',4, [[0],["Золотой"]]],
 		['время','input', 'time', 5],
 		['цена','input', 'number', 6],
 		['выбрать',  'div', 'dataset','click'],
@@ -739,7 +739,8 @@ let click={		//new
 		for(let i=0; i<links.price.length; i++){
 			temp.times[i]={perk:links.price[i][0], time:links.price[i][1], cost:links.price[i][2]};
 		}
-		control.check_comand('cost_add');	
+		//control.check_comand('cost_add');
+		control.check_comand('cost_dell');
 	},
 	detail(link){	
 		console.log('detail');
@@ -990,6 +991,7 @@ let answer={  //new
 	},
 
 	cost_read(e){
+		console.log('cost_read');
 		let obj=comm.show_ax(e);
 		if(obj){
 			arrs.price[temp.date]=obj;
@@ -998,6 +1000,21 @@ let answer={  //new
 		//links.click.send.dataset.many='price_list';
 		//control.write_temp_table(links.table.centre);
 	},
+	cost_dell(e){
+		console.log('cost_dell');
+		//let obj=comm.show_ax(e);
+		//if(obj){
+		control.check_comand('cost_add');
+		//}
+	},
+	cost_add(e){
+		console.log('cost_add');
+		//let obj=comm.show_ax(e);
+		//if(obj){
+		control.check_comand('cost_read');
+		//}
+	},
+
 
 	staff_list_read(e){
 		let obj=comm.show_ax(e);
@@ -1090,7 +1107,7 @@ let answer={  //new
 };
 
 let control={
-	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
+	write_temp_table_old(table){ //пишем в temp значение всех полей таблицы	
 		let list=table.querySelectorAll('input');
 		for(let i=0; i<list.length; i++){
 			temp[list[i].dataset.name]=list[i].value;
@@ -1100,6 +1117,34 @@ let control={
 			temp[list[i].dataset.name]=list[i].value;
 		}
 	},
+	
+	write_temp_table(table){ //пишем в temp значение всех полей таблицы		new
+		let rows=table.querySelectorAll('tr');
+		for(let j=0; j<rows.length; j++){
+			temp[j]={};
+			let list=rows[j].querySelectorAll('input');
+			for(let i=0; i<list.length; i++){
+				temp[j][list[i].dataset.name]=list[i].value;
+			}
+			list=rows[j].querySelectorAll('select');
+			for(let i=0; i<list.length; i++){
+				temp[j][list[i].dataset.name]=list[i].value;
+			}
+		}
+		if(!rows.length){
+			let list=table.querySelectorAll('input');
+			for(let i=0; i<list.length; i++){
+				temp[list[i].dataset.name]=list[i].value;
+			}
+			list=table.querySelectorAll('select');
+			for(let i=0; i<list.length; i++){
+				temp[list[i].dataset.name]=list[i].value;
+			}
+		}
+	},
+	
+	
+	
 	fon_move(){  			//new
         let rand_x=Math.floor(Math.random() * 40) +30;
         let rand_y=Math.floor(Math.random() * 40) -20;
