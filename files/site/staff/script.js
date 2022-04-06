@@ -396,16 +396,17 @@ let comm={ //new
     },
 	
 	write_ls(name, obj){ //пишем в locolstorage 
+	let temp;
 		if(typeof obj =="object"){
-			obj=JSON.stringify(obj);
+			temp=JSON.stringify(obj);
 		}
 		let pth=abonent.domain+'_user_'+name;
-		localStorage[pth]=obj;
+		localStorage[pth]=temp;
 	},
 	
 	read_ls(name, type=1){ //читаем из  locolstorage
 		let pth=abonent.domain+'_user_'+name;
-		if(localStorage[pth]){
+		if(localStorage[pth]!=undefined){
 			if(type){
 				return JSON.parse(localStorage[pth]);	
 			}else{
@@ -668,10 +669,34 @@ let click={		//new
 		temp.date=links.felds.date.value;
 		click.cost_show(temp.date);
     },
+	cost_show_old(date){
+		let arr=arrs.price[date];
+		if(!arr){
+			arr=[];
+		}
+		links.price=arr;
+		control.sort_price(arr);
+		let arr_select_0=[];
+		let arr_select_1=[];
+		for(let i=0; i<abonent.setting.perk_list.length; i++ ){
+			arr_select_0.push(abonent.setting.perk_list[i][0]);
+			arr_select_1.push(abonent.setting.perk_list[i][1]);
+		}
+		arrs.price_list_format[0][3]=[arr_select_0, arr_select_1];
+		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
+	},
 	cost_show(date){
 		let arr=arrs.price[date];
 		if(!arr){
 			arr=[];
+		}
+		asd=comm.read_ls(date);
+		console.log('date '+date);
+		//if(asd.length){
+		if(0){	
+			console.log('asd '+asd);
+			control.write_arr(asd, arrs.price_list_format, links.table.centre, 'count_set', 0);
+			return;
 		}
 		links.price=arr;
 		control.sort_price(arr);
@@ -1002,13 +1027,16 @@ let answer={  //new
 			arrs.price[temp.date]=obj;
 			control.write_arr(obj, arrs.price_list_format, links.table.centre, 'count_set', 0);
 			control.write_temp_table(links.table.centre);
-			temp.date=temp.date.split("-").join('.');
+			//temp.date=temp.date.split("-").join('.');
+			date=temp.date.split('.').join('-');
+			console.log(date);
 			temp.times=[];
 			links.price=[];
 			for(let i=0; i<obj.length; i++){
 				links.price.push(obj[i]);
 				temp.times[i]={perk:obj[i][0], time:obj[i][1], cost:obj[i][2]};
 			}
+			comm.write_ls(date, links.price);
 		}
 	},
 	cost_dell(e){
@@ -1142,7 +1170,7 @@ let control={
 				temp[j][list[i].dataset.name]=list[i].value;
 			}
 		}
-		if(!rows.length){
+		if(1){
 			let list=table.querySelectorAll('input');
 			for(let i=0; i<list.length; i++){
 				temp[list[i].dataset.name]=list[i].value;
