@@ -686,20 +686,6 @@ let click={		//new
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 	},
 	cost_show(date){
-		let arr=arrs.price[date];
-		if(!arr){
-			arr=[];
-		}
-		asd=comm.read_ls(date);
-		console.log('date '+date);
-		//if(asd.length){
-		if(0){	
-			console.log('asd '+asd);
-			control.write_arr(asd, arrs.price_list_format, links.table.centre, 'count_set', 0);
-			return;
-		}
-		links.price=arr;
-		control.sort_price(arr);
 		let arr_select_0=[];
 		let arr_select_1=[];
 		for(let i=0; i<abonent.setting.perk_list.length; i++ ){
@@ -707,6 +693,21 @@ let click={		//new
 			arr_select_1.push(abonent.setting.perk_list[i][1]);
 		}
 		arrs.price_list_format[0][3]=[arr_select_0, arr_select_1];
+		let arr=arrs.price[date];
+		if(!arr){
+			arr=[];
+		}
+		asd=comm.read_ls(date);
+		//console.log('date '+date);
+		if(asd.length){	
+		//if(0){	
+			//console.log('asd '+asd);
+			links.price=asd;
+			control.write_arr(asd, arrs.price_list_format, links.table.centre, 'count_set', 0);
+			return;
+		}
+		links.price=arr;
+		control.sort_price(arr);
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 	},
 	recovery(){
@@ -910,9 +911,7 @@ let click={		//new
 		control.check_comand('new_passkey');
 	},
 	
-	data_change(link){
-		temp.date=link.value;
-	},
+
 
 };
 
@@ -1935,6 +1934,12 @@ let control={
 			}
 		}
 	},
+	data_change(link){
+		temp.date=link.value;
+		click.cost_show(temp.date);
+	},
+	
+	
 };
 
 function start(){
