@@ -1936,6 +1936,7 @@ let control={
 	},
 	data_change(link){
 		temp.date=link.value;
+		click.cost_show(temp.date);
 	},
 	
 	
