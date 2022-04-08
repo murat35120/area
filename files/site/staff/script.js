@@ -873,8 +873,8 @@ let click={		//new
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 		//console.log(arr);
     },
-	copy(link){
-		arrs.temp_price=control.edit_arr(links.price, 'copy', control.take_select(links.table.centre));
+	copy(){
+		arrs.temp_price=links.price;
 	},
 	
     staff_open(link){		//new
