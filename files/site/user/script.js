@@ -37,12 +37,13 @@ let abonent={
 
 let comm={
 	
-	ax(obj, func){//стандартная функция отправки сообщения
+	ax(obj, func, name){//стандартная функция отправки сообщения
 	    //let url="../"+abonent.domain+"/";
-	    let url="../cfg/";
+	    let url="../"+name+"/";
 		let req=new XMLHttpRequest();
 		req.addEventListener('load', func);//привязали контекст
 		req.open('POST', url, true);
+		req.setRequestHeader('Content-Type', 'application/json');
 		req.responseType = 'text';
 		let str_obj=JSON.stringify(obj);
 		//console.log(str_obj);
@@ -77,7 +78,7 @@ let links={ //связываем действия пользователя с ф
         if(name){ //функции по клику
 			if(name in arrs.commands){
 				let felds=arrs.commands[name].out;
-				obj.type=name;
+				//obj.type=name;
 				for(let i in felds){
 					if(abonent[felds[i]]){
 						obj[felds[i]]=abonent[felds[i]];
@@ -91,7 +92,7 @@ let links={ //связываем действия пользователя с ф
 				}
 				//дополняем дату
 				
-				comm.ax(obj, control[name]);
+				comm.ax(obj, control[name], name);
 			} else {
 				control[name](); 
 			}
@@ -160,14 +161,20 @@ let control={
 		com.ax("ghj");
 	},
 	new_user(e){
-		abonent.key=12345;
-		abonent.session=45678;
-		localStorage.abonent=JSON.stringify(abonent);
-		control.on_off({in_user:0, check:1, out_user:1});
+
+		//control.on_off({in_user:0, check:1, out_user:1});
 	    let asd=comm.show_ax(e);
-	    let str_obj=JSON.stringify(asd);
-		console.log(str_obj);
-		//control.on_off({login:0, color:1, bill:0, btns:1,story:0});
+		if(asd){
+			//let str_obj=JSON.stringify(asd);
+			//abonent.name=str_obj.name;
+			abonent.session=asd.session;
+			//localStorage.abonent=JSON.stringify(abonent);
+			abonent.color=asd.color;
+			abonent.colorName=asd.colorName;
+			abonent.code=asd.code;
+			//console.log(str_obj);
+			control.on_off({login:0, color:1, bill:0, btns:1,story:0});
+		}
 	},
 	recovery(e){//
 		abonent.key=65478;
