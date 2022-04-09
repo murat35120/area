@@ -7,35 +7,35 @@ body{
 }
 
 div[data-action='in_user'] {
-    background: url(../png/user_in.png) no-repeat #80ff80;
+    background: url(/png/in.png) no-repeat #80ff80;
     position: relative; 
 }
 div[data-action='out_user'] {
-    background: url(../png/user_out.png) no-repeat #ff8080;
+    background: url(/png/out.png) no-repeat #ff8080;
      position: relative; 
 }
 div[data-action='check'] {
-    background: url(../png/check.png) no-repeat #8080ff;
+    background: url(/png/request.png) no-repeat #8080ff;
     position: relative; 
 }
 div[data-action='story'] {
-    background: url(../png/story.png) no-repeat #ff80ff;
+    background: url(/png/story.png) no-repeat #ff80ff;
     position: relative; 
 }
 div[data-action='read'] {
-    background: url(../png/read.png) no-repeat #80ffff;
+    background: url(/png/recovery_staff.png) no-repeat #80ffff;
     position: relative;
 }
 div[data-action='bill'] {
-    background: url(../png/bill.png) no-repeat #ffff80;
+    background: url(/png/bill.png) no-repeat #ffff80;
     position: relative;
 }
 div[data-action='recovery'], div[data-gif='recovery'] {
-    background: url(../png/recovery.png) no-repeat #ffff40;
+    background: url(/png/recovery.png) no-repeat #ffff40;
     position: relative;
 }
 div[data-action='new_user'], div[data-gif='new_user'] {
-    background: url(../png/new_user.png) no-repeat #80ff80;
+    background: url(/png/new_user.png) no-repeat #80ff80;
     position: relative;
 }
 div[data-action] {

@@ -5,10 +5,9 @@
     <TITLE>Рога и Копыта</TITLE>
     <link rel="stylesheet" href="flex.css">
     <link rel="stylesheet" href="wars.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="imgs.css">
     <link rel="stylesheet" href="animals.css">
-	
-	
  </head>
  <body>
  <div class='main first'>
@@ -98,6 +97,11 @@
 </div>
 <div class='main next' data-table='bill'  data-block='bill'> </div>
 <div class='main next'  data-table='story' data-block='story'> </div>
-<script src="script.js"></script>
+<script defer src="answer.js"></script>
+<script defer src="arrs.js"></script>
+<script defer src="click.js"></script>
+<script defer src="comm.js"></script>
+<script defer src="manager.js"></script>
+<script defer src="start.js"></script>
  </body>
 </html>

@@ -1,0 +1,69 @@
+
+let control={
+
+	btn(e){
+		let btn=e.target.parentNode;
+		com.ax("ghj");
+	},
+	new_user(e){
+
+		//control.on_off({in_user:0, check:1, out_user:1});
+	    let asd=comm.show_ax(e);
+		if(asd){
+			//let str_obj=JSON.stringify(asd);
+			//abonent.name=str_obj.name;
+			abonent.session=asd.session;
+			//localStorage.abonent=JSON.stringify(abonent);
+			abonent.color=asd.color;
+			abonent.colorName=asd.colorName;
+			abonent.code=asd.code;
+			//console.log(str_obj);
+			control.on_off({login:0, color:1, bill:0, btns:1,story:0});
+		}
+	},
+	recovery(e){//
+		abonent.key=65478;
+		abonent.session=9876;
+		localStorage.abonent=JSON.stringify(abonent);
+	    let asd=comm.show_ax(e);
+	    let str_obj=JSON.stringify(asd);
+		console.log(str_obj);
+		//control.on_off({login:0, color:1, bill:0, btns:1,story:0});
+	},
+
+	read(e){//
+	    let asd=comm.show_ax(e);
+	    let str_obj=JSON.stringify(asd);
+		console.log(str_obj);
+		control.on_off({login:0, color:0, bill:0, btns:1,story:0,status:1});
+		//нужно получить объект по названию
+		//comm.ax("ghj",control.read_show);
+	},
+	in_user(e){
+	    let asd=comm.show_ax(e);
+	    let str_obj=JSON.stringify(asd);
+		console.log(str_obj);
+		control.on_off({login:0, color:1, bill:0, btns:1,story:0,status:0,in_user:0, check:1, out_user:1});
+		//control.on_off_btn({in_user:0, check:1, out_user:1});
+	},
+	out_user(e){//
+	    let asd=comm.show_ax(e);
+	    let str_obj=JSON.stringify(asd);
+		console.log(str_obj);
+		control.on_off({login:0, color:1, bill:0, btns:1,story:0,status:0,in_user:1, check:0, out_user:0});
+		//control.on_off_btn({in_user:1, check:0, out_user:0});
+	},	
+	check(e){
+	    let asd=comm.show_ax(e);
+	    let str_obj=JSON.stringify(asd);
+		console.log(str_obj);
+		control.on_off({login:0, color:1, bill:0, btns:1,story:0,status:0});
+	},
+	bill(e){//
+	    let asd=comm.show_ax(e);
+	    let str_obj=JSON.stringify(asd);
+		//console.log(str_obj);
+		control.write_bill(arrs.bill, links.table.bill);
+		control.on_off({login:0, color:0, bill:1, btns:1,story:0,status:0});
+	},	
+};

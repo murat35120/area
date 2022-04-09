@@ -1,0 +1,6 @@
+let abonent={
+	key:'',
+	session:'',	
+	domain:''
+};
+
