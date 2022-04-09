@@ -1,0 +1,53 @@
+
+
+body{
+    background: url(fon.jpg) repeat 0 0; /* Параметры фона */  
+    background-position:  var(--position_fon) 0;
+    transition: 5s; /* время трансформации*/
+}
+
+div[data-action='in_user'] {
+    background: url(/png/user_in.png) no-repeat #80ff80;
+    position: relative; 
+}
+div[data-action='out_user'] {
+    background: url(/png/user_out.png) no-repeat #ff8080;
+     position: relative; 
+}
+div[data-action='check'] {
+    background: url(/png/check.png) no-repeat #8080ff;
+    position: relative; 
+}
+div[data-action='story'] {
+    background: url(/png/story.png) no-repeat #ff80ff;
+    position: relative; 
+}
+div[data-action='read'] {
+    background: url(/png/read.png) no-repeat #80ffff;
+    position: relative;
+}
+div[data-action='bill'] {
+    background: url(/png/bill.png) no-repeat #ffff80;
+    position: relative;
+}
+div[data-action='recovery'], div[data-gif='recovery'] {
+    background: url(/png/recovery.png) no-repeat #ffff40;
+    position: relative;
+}
+div[data-action='new_user'], div[data-gif='new_user'] {
+    background: url(/png/new_user.png) no-repeat #80ff80;
+    position: relative;
+}
+div[data-action] {
+  width: 4em;
+  height: 4em;
+  background-size: 70%;
+  background-position: center;
+}
+
+div[data-gif] {
+  width: 1em;
+  height: 1em;
+  background-size: 70%;
+  background-position: center;
+}

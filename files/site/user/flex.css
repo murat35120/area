@@ -1,0 +1,32 @@
+
+div{  /* значения по умолчанию */
+    display: flex;  /* включили гибкое форматирование */
+	max-height:100%;
+}
+
+ /*  делим  на колонки */
+.main, .one, .three {
+    flex-direction: column; /* направление главнеой оси в колонку */
+}
+.two, .five {
+	flex-direction: row; /* направление главнеой оси в ряд*/
+}
+
+.one, .buttons {
+    justify-content: space-between; /* распределение содержимого  по главной оси */ 
+}
+.main, .line, .one>.kod, .three>div, .btn{
+    justify-content: center; /* распределение содержимого  по главной оси */ 
+}
+
+ /* общий размер листа - во весь экран, делим его на колонки */
+
+.main{
+    align-items:center  ; /* выравнивание в поперечной оси */  
+}
+
+.two, .one{
+    flex-wrap:wrap; /* перенос блоков */ 
+}
+
+

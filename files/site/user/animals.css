@@ -1,0 +1,53 @@
+
+
+.btn{
+    border-style: outset;
+    background-color: rgb(8, 241, 241);
+    border-radius: 10px; 
+	padding: 5px 10px; 	
+}
+.btn:active {
+    border-style:inset;
+    user-select: none;
+    background-color: rgb(240, 240, 240);
+    color: rgb(255, 255, 255);
+}
+
+
+.hiden, .hiden1 {
+/*	position: absolute;  готовим перемещение блока*/
+	opacity: 0;  /* прозрачность почти невидно*/
+/*	top:0;  совмещаем по высоте с родителем*/
+	border-radius: 10px; 
+	border: solid;
+	border-color: rgb(4, 120, 120);
+	max-width:40ex;
+	max-height:0;
+	overflow-y: hidden;
+}
+.one:focus-within .hiden, .one:hover .hiden1, .kod:hover+.hiden{
+	opacity: 1;  /* прозрачность полностью непрозрачный*/
+	max-height:30ex;
+	margin:7px 10px;
+	padding:7px 10px;
+	max-width:35ex;
+}
+
+div[data-display="0"]{
+	max-height:0;
+	opacity: 0;  /* прозрачность почти невидно*/
+	overflow-y: hidden;
+	padding:0;
+}
+
+
+
+div[data-action]:hover::after {
+    content:attr(data-title);
+    position: absolute; /* Абсолютное позиционирование */
+    left: 100%; top:1%;  /* Положение подсказки */
+    color:#ffffff;
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    font-size: 3em; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+}
