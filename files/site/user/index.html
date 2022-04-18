@@ -12,7 +12,7 @@
  <body>
  <div class='content'>
 	<div class='centre'> 
-		<div class='section' data-bolck='login'> 
+		<div class='section' data-block='login'> 
 			<div class='line'> 
 				<div class='desc'>Логин</div>
 				<input data-id='login'  type=text   placeholder="Введите Логин" >		
@@ -30,62 +30,37 @@
 				<div class='btn'  data-action="new_user"   title = "Регистрация"></div>		
 			</div>
 		</div>
-		<div class='section' data-bolck='color'> 
+		<div class='section' data-block='color'> 
 			<div class='desc' data-write='code' >3215</div>
 		</div>
-		
-		
-		
+		<div class='table' data-table='bill'  data-block='bill'> </div>
+		<div class='section' data-block='status'> 
+			<div class='line'> 
+				<div class='desc' data-write='status'>Вход</div>
+				<div class='desc' data-write='time'>12:45:31</div>	
+			</div>
+		</div>
+		<div class='section' data-block='buttons'> 
+			<div class='line'>
+			    <div class='btn' data-action="in_user" data-block='in_user' data-title='Вход' ></div>	
+			    <div class='btn' data-action="check" data-block="check" data-title='Проверка' ></div>
+			    <div class='btn' data-action="out_user"  data-block="out_user" data-title='Выход' ></div>
+			    <div class='btn' data-action="story"  data-block="story"   data-title='История' ></div>	
+			    <div class='btn' data-action="read"  data-block="read"  data-title='Состояние' ></div>
+			    <div class='btn' data-action="bill"  data-block="bill"  data-title='Счет' ></div>
+			</div>
+		</div>
 		<div class='page_name'>Рога и Копыта</div>	
 	</div>
 	<div class='manual'>Справка</div>	
 </div>
 
-
-<div class='main next' data-block='color'>
-	<div class='two'> 
-		<div class='one'> 
-			<div class='buttons kod'> 
-				<div class='desc'>3215</div>
-			</div>
-			<div class='buttons hiden'> 
-				<div class='desc'>Сообщите цвет блока и код (покажите экран) менеджеру. После подтверждения нажмите кнопку Вход.</div>	
-			</div>
-		</div>
-	</div>
-</div>
-<div class='main next' data-block='status' data-display="0">
-	<div class='two'> 
-		<div class='one'> 
-			<div class='buttons'> 
-				<div class='desc' data-write='status'>Вход</div>
-				<div class='desc' data-write='time'>12:45:31</div>	
-			</div>
-		</div>
-	</div>
-</div>
-<div class='main next' data-block='btns'>
-	<div class='two'> 
-		<div class='one'> 
-			<div class='one'>
-			    <div class='btn' data-action="in_user" data-block='in_user' data-title='Вход' ></div>	
-			    <div class='btn' data-action="check" data-block="check" data-title='Проверка' ></div>
-			    <div class='btn' data-action="out_user"  data-block="out_user" data-title='Выход' ></div>
-			    <div class='btn' data-action="story"  data-title='История' ></div>	
-			    <div class='btn' data-action="read" data-title='Состояние' ></div>
-			    <div class='btn' data-action="bill" data-title='Счет' ></div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class='main next' data-table='bill'  data-block='bill'> </div>
-<div class='main next'  data-table='story' data-block='story'> </div>
 <script defer src="answer.js"></script>
 <script defer src="arrs.js"></script>
 <script defer src="commands.js"></script>
 <script defer src="click.js"></script>
 <script defer src="comm.js"></script>
-<script defer src="manager.js"></script>
+<script defer src="library.js"></script>
 <script defer src="control.js"></script>
 <script defer src="start.js"></script>
  </body>

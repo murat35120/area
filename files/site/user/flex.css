@@ -5,27 +5,27 @@ div{  /* значения по умолчанию */
 }
 
  /*  делим  на колонки */
-.main, .one, .three {
+.centre, .section {
     flex-direction: column; /* направление главнеой оси в колонку */
 }
-.two, .five {
+.content, .line {
 	flex-direction: row; /* направление главнеой оси в ряд*/
 }
 
-.one, .buttons {
-    justify-content: space-between; /* распределение содержимого  по главной оси */ 
+.content, .centre {
+    justify-content: space-around; /* распределение содержимого  по главной оси */ 
 }
-.main, .line, .one>.kod, .three>div, .btn{
+.line{
     justify-content: center; /* распределение содержимого  по главной оси */ 
 }
 
  /* общий размер листа - во весь экран, делим его на колонки */
 
-.main{
+.line, .centre{
     align-items:center  ; /* выравнивание в поперечной оси */  
 }
 
-.two, .one{
+.content, .line{
     flex-wrap:wrap; /* перенос блоков */ 
 }
 

@@ -3,14 +3,18 @@ let abonent={
 	session:'',	
 	domain:''
 };
+let manager={
+	key:'',
+	session:'',	
+	domain:''
+};
 let links={ //связываем действия пользователя с функциями
 	blocks:{}, //блоки информации показать/скрыть
 	btn:{}, //кнопки
 	table:{}, //место для вывода таблиц
 	felds:{},  //поля для ручного ввода данных
     call_func (e){
-        let rand=Math.floor(Math.random() * 20) +40;
-        document.documentElement.style.setProperty('--position_fon', rand+'%');
+		control.fon_move();
         let link=e.target;
         let name=link.dataset.action;
 		let obj={};
@@ -40,6 +44,7 @@ let links={ //связываем действия пользователя с ф
 };
 
 function start(){
+	abonent.domain=document.location.pathname.split("/")[1]; //new
 	let list=document.querySelectorAll('div[data-block]');
 	for(let i=0; i<list.length; i++){
 		links.blocks[list[i].dataset.block]=list[i];
@@ -57,14 +62,15 @@ function start(){
 		links.felds[list[i].dataset.id]=list[i];
 	}
 	
-	if(localStorage.abonent){
-		abonent=JSON.parse(localStorage.abonent);
+	abonent=comm.read_ls('abonent');
+	if(abonent.setting){
+		control.apply_setting();
 	}
+	
 	if(abonent.key||abonent.session){
-		control.on_off({login:0, color:0, bill:0, btns:1,story:0,in_user:1, check:0, out_user:0});
-		//control.on_off_btn({in_user:1, check:0, out_user:0});
+		control.on_on(['login']);
 	} else {
-		control.on_off({login:1, color:0, bill:0, btns:0,story:0});		
+		control.on_on(['buttons', 'in_user', 'check']);
 	}
 	abonent.domain=document.location.pathname.split("/")[1];
 }
