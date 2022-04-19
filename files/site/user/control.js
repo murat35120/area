@@ -29,4 +29,34 @@ let control={
 			}
 		}
 	},
+	check_comand(name){  //new
+		let obj={};
+		let url='../'+name;
+		let felds=commands[name].out;
+		if(felds.includes('temp')){
+			obj.session=abonent.session;
+			obj.name_file=name;
+			let asd={};
+			for(let i in temp){
+				asd[i]=temp[i];
+			}
+			obj.txt_file=JSON.stringify(asd);
+		} else{
+			for(let i in felds){
+				if(felds[i] in links.felds){//дописываем поля из felds = страница
+					obj[felds[i]]=links.felds[felds[i]].value;
+				}
+				if(felds[i] in abonent){//дописываем поля из abonent
+					obj[felds[i]]=abonent[felds[i]];
+				}
+			}
+		}
+		if(name=="read_file"){
+			if(temp[commands.read_file.out[1]]){
+				comm.ax(obj, temp[commands.read_file.out[1]].slice(0,-5), url);
+			}
+		} else{
+			comm.ax(obj, name, url);
+		}
+	},
 };

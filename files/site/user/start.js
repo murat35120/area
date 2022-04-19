@@ -13,34 +13,50 @@ let links={ //связываем действия пользователя с ф
 	btn:{}, //кнопки
 	table:{}, //место для вывода таблиц
 	felds:{},  //поля для ручного ввода данных
-    call_func (e){
+    call_func (e){ 			//new
 		control.fon_move();
         let link=e.target;
-        let name=link.dataset.action;
-		let obj={};
-        if(name){ //функции по клику
-			if(name in arrs.commands){
-				let felds=arrs.commands[name].out;
-				//obj.type=name;
-				for(let i in felds){
-					if(abonent[felds[i]]){
-						obj[felds[i]]=abonent[felds[i]];
-					}
-				}
-				//дописываем поля из felds
-				for(let i in felds){
-					if(links.felds[felds[i]]){
-						obj[felds[i]]=links.felds[felds[i]].value;
-					}
-				}
-				//дополняем дату
-				
-				comm.ax(obj, control[name], name);
-			} else {
-				control[name](); 
+		let nodeName_patent=link.parentNode.nodeName; // таблица
+		if(nodeName_patent=='TD'){
+			let name=link.parentNode.parentNode.parentNode.dataset.name;
+			if(name=='role_list'){ //функции по изменению
+				click[name](link);
 			}
+		}
+        name=link.dataset.action;
+        if(name!='undefined'){ //функции по клику
+			if(name in commands){
+				control.check_comand(name);
+				return;
+			}
+			if(link.dataset.many){
+				name=link.dataset.many;
+				if(name in commands){
+					control.check_comand(name);
+				} else {
+					click[name](link);	
+				}
+				return;
+			}
+			click[name](link); 
         }
-    }	
+    },
+    call_func_chng (e){		//new
+		//если тип passvord то не сохранять
+		control.fon_move();
+        let link=e.target;
+		let name_func=link.dataset.name_func;
+		if(name_func){  // указана функция
+			control[name_func](link); 
+			return;
+		}
+		let obj=link.dataset.save;
+		if(obj=='abonent'){  // указана функция
+			abonent[link.dataset.id]=link.value; 
+			return;
+		}
+
+    },
 };
 
 function start(){
@@ -63,9 +79,7 @@ function start(){
 	}
 	
 	abonent=comm.read_ls('abonent');
-	if(abonent.setting){
-		control.apply_setting();
-	}
+
 	
 	if(abonent.key||abonent.session){
 		control.on_on(['login']);
@@ -73,10 +87,16 @@ function start(){
 		control.on_on(['buttons', 'in_user', 'check']);
 	}
 	abonent.domain=document.location.pathname.split("/")[1];
+	comm.ax_get('read_seting', '../settings.json');
+	//control.on_on(['main_menu']);
+	//links.felds.date.value=new Date().toLocaleDateString('en-GB').split('/').reverse().join('-');
+	if(abonent.setting){
+		control.apply_setting();
+	}
 }
 
 link_window_all=document.querySelector('body');
 link_window_all.addEventListener('click', links.call_func);  
-//link_window_all.addEventListener('change', control.description);  //onchange
+link_window_all.addEventListener('change', links.call_func_chng);  //onchange
 
 start();

@@ -32,12 +32,13 @@ input{
     max-width:25ex;
 }
 
-.page_name{
-    font-size:  30px;
+.page_name{ 
+    font-size:  var(--name_size, 50px);
+    color:  var(--name_color, #800080);
+    font-family:  var(--name_font, arial);
 	text-align: center;
 	padding: 20px;
-}
-
+} 
 
 .desc, .page_name{
         border-radius: 10px; 
