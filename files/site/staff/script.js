@@ -400,12 +400,12 @@ let comm={ //new
 		if(typeof obj =="object"){
 			temp=JSON.stringify(obj);
 		}
-		let pth=abonent.domain+'_user_'+name;
+		let pth=abonent.domain+'_staff_'+name;
 		localStorage[pth]=temp;
 	},
 	
 	read_ls(name, type=1){ //читаем из  locolstorage
-		let pth=abonent.domain+'_user_'+name;
+		let pth=abonent.domain+'_staff_'+name;
 		if(localStorage[pth]!=undefined){
 			if(type){
 				return JSON.parse(localStorage[pth]);	

@@ -40,11 +40,14 @@ input{
 	padding: 20px;
 } 
 
-.desc, .page_name{
+.desc, .page_name, div[data-block='color']{
         border-radius: 10px; 
 }
 
-
+div[data-write="code"]{
+	font-size:  var(--name_size);
+	font-family:  var(--name_font, arial);
+}
 div[data-display="0"]{
 	display: none;
 	/*	max-height:0;

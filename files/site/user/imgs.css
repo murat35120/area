@@ -38,6 +38,10 @@ div[data-action='new_user'], div[data-gif='new_user'] {
     background: url(/png/new_user.png) no-repeat;
     position: relative;
 }
+div[data-action='login'], div[data-gif='login'] {
+    background: url(/png/login.png) no-repeat;
+    position: relative;
+}
 div[data-action] {
   width: 2em;
   height: 2em;

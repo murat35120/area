@@ -59,4 +59,13 @@ let control={
 			comm.ax(obj, name, url);
 		}
 	},
+	check_color(color){
+	   let new_color=Number('0x'+color.slice(1,3))+2*Number('0x'+color.slice(3,5))+Number('0x'+color.slice(5,7));
+	   if(new_color>380){
+	       new_color='#000000';
+	   }else{
+	       new_color='#ffffff';
+	   }
+	   return new_color;
+	},
 };

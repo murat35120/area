@@ -4,15 +4,15 @@ let abonent={
 	domain:''
 };
 let manager={
-	key:'',
-	session:'',	
-	domain:''
+
 };
 let links={ //связываем действия пользователя с функциями
 	blocks:{}, //блоки информации показать/скрыть
 	btn:{}, //кнопки
 	table:{}, //место для вывода таблиц
 	felds:{},  //поля для ручного ввода данных
+	objects:{}, //ссылки на базовые объекты
+	writes:{}, //ссылки на поля вывода
     call_func (e){ 			//new
 		control.fon_move();
         let link=e.target;
@@ -51,8 +51,8 @@ let links={ //связываем действия пользователя с ф
 			return;
 		}
 		let obj=link.dataset.save;
-		if(obj=='abonent'){  // указана функция
-			abonent[link.dataset.id]=link.value; 
+		if(obj){  // указана функция
+			links.objects[obj][link.dataset.id]=link.value; 
 			return;
 		}
 
@@ -77,14 +77,21 @@ function start(){
 	for(let i=0; i<list.length; i++){
 		links.felds[list[i].dataset.id]=list[i];
 	}
-	
+	list=document.querySelectorAll('div[data-write]');
+	for(let i=0; i<list.length; i++){
+		links.writes[list[i].dataset.write]=list[i];
+	}
 	abonent=comm.read_ls('abonent');
-
+	links.objects.abonent=abonent;
+	links.objects.links=links;
+	links.objects.arrs=arrs;
+	links.objects.manager=manager;
 	
-	if(abonent.key||abonent.session){
+	if(!abonent.session){
 		control.on_on(['login']);
 	} else {
-		control.on_on(['buttons', 'in_user', 'check']);
+		//control.on_on(['buttons', 'in_user', 'check']);
+		control.check_comand('read');
 	}
 	abonent.domain=document.location.pathname.split("/")[1];
 	comm.ax_get('read_seting', '../settings.json');

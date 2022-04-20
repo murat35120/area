@@ -14,4 +14,48 @@ let answer={ //new
 			comm.write_ls('abonent', abonent);
 		}
 	},
+	
+	new_user(e){
+	    let asd=comm.show_ax(e);
+		if(asd){
+			abonent.session=asd.session;
+			abonent.color=asd.color;
+			links.blocks.color.style.backgroundColor=asd.color;
+			abonent.colorName=asd.colorName;
+			links.writes.color_name.innerText=asd.colorName;
+			links.writes.color_name.style.color=control.check_color(asd.color);
+			abonent.code=asd.code;
+			links.writes.code.innerText=asd.code;
+			links.writes.code.style.color=control.check_color(asd.color);
+			control.on_on(['color', 'buttons', 'read']);
+			comm.write_ls('abonent', abonent);
+		}
+	},
+	
+	read(e){
+	    let asd=comm.show_ax(e);
+		if (asd && typeof asd === "object") {
+			abonent.session=asd.session;
+			abonent.color=asd.color;
+			links.blocks.color.style.backgroundColor=asd.color;
+			abonent.colorName=asd.colorName;
+			links.writes.color_name.innerText=asd.colorName;
+			links.writes.color_name.style.color=control.check_color(asd.color);
+			abonent.code=asd.code;
+			links.writes.code.innerText=asd.code;
+			links.writes.code.style.color=control.check_color(asd.color);
+			control.on_on(['color', 'buttons', 'read']);
+			comm.write_ls('abonent', abonent);
+		} else{
+			if(asd=='wait'){
+				links.blocks.color.style.backgroundColor=abonent.color;
+				links.writes.color_name.innerText=abonent.colorName;
+				links.writes.color_name.style.color=control.check_color(abonent.color);
+				links.writes.code.style.color=control.check_color(abonent.color);
+				control.on_on(['color', 'buttons', 'read', 'login']);
+			} else{
+				control.on_on(['login_blk']);
+			}
+		}
+	},	
 }

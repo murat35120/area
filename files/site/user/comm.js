@@ -34,8 +34,14 @@ let comm={ //new
     show_ax(e) {//стандартная функция получения сообщения
         let data=e.target;
         if(data.status==200){
-            let obj=JSON.parse(data.response);
-			return obj;
+			let obj;
+			try {
+				obj=JSON.parse(data.response);
+				if (obj && typeof obj === "object") {
+					return obj;
+				}
+			}
+			catch (e) {return data.response;}
 		}
         if(data.status>399){
 
