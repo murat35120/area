@@ -88,7 +88,7 @@ function start(){
 	links.objects.manager=manager;
 	
 	if(!abonent.session){
-		control.on_on(['login']);
+		control.on_on(['login_blk']);
 	} else {
 		//control.on_on(['buttons', 'in_user', 'check']);
 		control.check_comand('read');
