@@ -20,7 +20,7 @@ arrs={
 		perk_n:{out:['session', 'perk'], in:['key','key_user','perk','name_user']},
 		perk_list_read:{out:['session'], in:['key','key_user','perk','name_user']},
 		
-		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
+		read_staff:{out:['session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
 		no_ok:{out:['key','session','key_user', 'action'], in:['key','key_user']},
 		list_in:{out:['key','session'], in:['key',"[{},{},{}]"]}, 
@@ -345,7 +345,14 @@ arrs={
 		]
 	},
 	
-	temp_price:[],
+	//[2, "in", "#800000", "темно-бордовый", "2402"]
+	//"темно-бордовый", "in", "no_ok", "ok",  "#800000", 2402", 2
+	request_format:[
+		['Цвет',  'div', '', 4],
+		['Тип',  'div', '', 5],
+		['No OK',  'div', 'dataset', 'click', 6],	
+		['OK',  'div', 'dataset', 'click', 6],	
+	],
 };
 
 let abonent={
@@ -910,7 +917,10 @@ let click={		//new
 		abonent.role=link.parentNode.parentNode.children[1].children[0].value;
 		control.check_comand('new_passkey');
 	},
-	
+	request(link){
+		console.log('request');
+		control.check_comand('read_staff');
+	},
 
 
 };
@@ -1141,6 +1151,22 @@ let answer={  //new
 			}
 		}
 	},
+	read_staff(e){
+		let obj=comm.show_ax(e);
+		console.log('read_staff');
+		let temp=[];
+		if(obj){
+			for(let i=0; i<obj.length; i++){
+	//[2, "in", "#800000", "темно-бордовый", "2402"]
+	//"темно-бордовый", "in", "no_ok", "ok",  "#800000", 2402", 2
+				temp[i]=[obj[i][3], obj[i][1],  "no_ok", "ok", obj[i][2], obj[i][4],  obj[i][0] ];
+			}
+			blk=links.table.centre_list
+			blk.dataset.display=1;
+			links.group.table_list.dataset.display=1;
+			control.write_arr(temp, arrs.request_format, blk, 'request_list');
+		}
+	},
 	
 };
 
@@ -1301,7 +1327,10 @@ let control={
     				}
     				if(format[i][1]=='div'){
     				    if(format[i][2]=='dataset'&&format[i][3]){
-    				       kol_blk.dataset[format[i][3]]=obj[j][i]; 
+    				       kol_blk.dataset[format[i][3]]=obj[j][i];
+							if(format[i][4]){
+								kol_blk.dataset.name= obj[j][format[i][4]];
+							}
     				    } else{
     				        kol_blk.innerText=obj[j][i];
 							if(format[i][3]){
