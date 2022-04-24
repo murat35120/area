@@ -20,7 +20,7 @@ arrs={
 		perk_n:{out:['session', 'perk'], in:['key','key_user','perk','name_user']},
 		perk_list_read:{out:['session'], in:['key','key_user','perk','name_user']},
 		
-		read_staff:{out:['key','session'], in:['key',"[{},{},{}]"]},
+		read_staff:{out:['session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
 		no_ok:{out:['key','session','key_user', 'action'], in:['key','key_user']},
 		list_in:{out:['key','session'], in:['key',"[{},{},{}]"]}, 
@@ -345,7 +345,12 @@ arrs={
 		]
 	},
 	
-	temp_price:[],
+	request_format:[
+		['',  'div', '', 4],
+		['',  'div', 'dataset', 'click', 6],
+		['',  'div', '', 5],
+		['',  'div', 'dataset', 'click', 6],	
+	],
 };
 
 let abonent={
@@ -400,12 +405,12 @@ let comm={ //new
 		if(typeof obj =="object"){
 			temp=JSON.stringify(obj);
 		}
-		let pth=abonent.domain+'_user_'+name;
+		let pth=abonent.domain+'_staff_'+name;
 		localStorage[pth]=temp;
 	},
 	
 	read_ls(name, type=1){ //читаем из  locolstorage
-		let pth=abonent.domain+'_user_'+name;
+		let pth=abonent.domain+'_staff_'+name;
 		if(localStorage[pth]!=undefined){
 			if(type){
 				return JSON.parse(localStorage[pth]);	
@@ -873,8 +878,8 @@ let click={		//new
 		control.write_arr(arr, arrs.price_list_format, links.table.centre, 'count_set', 0);
 		//console.log(arr);
     },
-	copy(link){
-		arrs.temp_price=control.edit_arr(links.price, 'copy', control.take_select(links.table.centre));
+	copy(){
+		arrs.temp_price=links.price;
 	},
 	
     staff_open(link){		//new
@@ -910,8 +915,18 @@ let click={		//new
 		abonent.role=link.parentNode.parentNode.children[1].children[0].value;
 		control.check_comand('new_passkey');
 	},
-	
-
+	request(link){
+		console.log('request');
+		control.check_comand('read_staff');
+	},
+	check_domain(link){
+		console.log('check_domain');
+		link.dataset.click='no_ok';
+		let parent=link.parentNode.parentNode.children;
+		parent[3].dataset.click='ok';
+		parent[3].style.display='block';
+		parent[0].innerText=parent[2].children[0].dataset.name;
+	},
 
 };
 
@@ -1112,7 +1127,7 @@ let answer={  //new
 		if(obj){
 			links.table.centre.children[0].children[2].innerText=obj.passkey;
 		}
-		abonent.key=0;
+		abonent.key='0';
 		abonent.count=1000;
 		control.check_comand('staff_list_read');
 	},
@@ -1141,10 +1156,45 @@ let answer={  //new
 			}
 		}
 	},
+	read_staff(e){
+		let obj=comm.show_ax(e);
+		console.log('read_staff');
+		let temp=[];
+		if(obj){
+			for(let i=0; i<obj.length; i++){
+	//[2, "in", "#800000", "темно-бордовый", "2402"]
+	//"темно-бордовый", "no_ok", "in", "ok",  "#800000", 2402", 2
+				temp[i]=[obj[i][3],   "check_domain", obj[i][1], "ok", obj[i][2], obj[i][4],  obj[i][0] ];
+			}
+			let blk=links.table.centre_list;
+			blk.style.fontSize= "40px";
+			blk.dataset.display=1;
+			links.group.table_list.dataset.display=1;
+			links.titles.centre_list.innerText="Список Запросов";
+			control.write_arr(temp, arrs.request_format, blk, 'request_list');
+			control.edit_table(blk, temp);
+		}
+	},
 	
 };
 
 let control={
+	edit_table(link, arr){
+		for(let i=0; i<arr.length; i++){
+			links.table.centre_list.childNodes[i].childNodes[0].style.backgroundColor=arr[i][4];
+			links.table.centre_list.childNodes[i].childNodes[0].style.color=control.check_color(arr[i][4]);	
+			links.table.centre_list.childNodes[i].childNodes[3].style.display='none';	
+		}
+	},
+	check_color(color){
+	   let new_color=Number('0x'+color.slice(1,3))+2*Number('0x'+color.slice(3,5))+Number('0x'+color.slice(5,7));
+	   if(new_color>380){
+	       new_color='#000000';
+	   }else{
+	       new_color='#ffffff';
+	   }
+	   return new_color;
+	},
 	write_temp_table_old(table){ //пишем в temp значение всех полей таблицы	
 		let list=table.querySelectorAll('input');
 		for(let i=0; i<list.length; i++){
@@ -1301,7 +1351,10 @@ let control={
     				}
     				if(format[i][1]=='div'){
     				    if(format[i][2]=='dataset'&&format[i][3]){
-    				       kol_blk.dataset[format[i][3]]=obj[j][i]; 
+    				       kol_blk.dataset[format[i][3]]=obj[j][i];
+							if(format[i][4]){
+								kol_blk.dataset.name= obj[j][format[i][4]];
+							}
     				    } else{
     				        kol_blk.innerText=obj[j][i];
 							if(format[i][3]){

@@ -345,13 +345,11 @@ arrs={
 		]
 	},
 	
-	//[2, "in", "#800000", "темно-бордовый", "2402"]
-	//"темно-бордовый", "in", "no_ok", "ok",  "#800000", 2402", 2
 	request_format:[
-		['Цвет',  'div', '', 4],
-		['Тип',  'div', '', 5],
-		['No OK',  'div', 'dataset', 'click', 6],	
-		['OK',  'div', 'dataset', 'click', 6],	
+		['',  'div', '', 4],
+		['',  'div', 'dataset', 'click', 6],
+		['',  'div', '', 5],
+		['',  'div', 'dataset', 'click', 6],	
 	],
 };
 
@@ -921,7 +919,14 @@ let click={		//new
 		console.log('request');
 		control.check_comand('read_staff');
 	},
-
+	check_domain(link){
+		console.log('check_domain');
+		link.dataset.click='no_ok';
+		let parent=link.parentNode.parentNode.children;
+		parent[3].dataset.click='ok';
+		parent[3].style.display='block';
+		parent[0].innerText=parent[2].children[0].dataset.name;
+	},
 
 };
 
@@ -1158,19 +1163,38 @@ let answer={  //new
 		if(obj){
 			for(let i=0; i<obj.length; i++){
 	//[2, "in", "#800000", "темно-бордовый", "2402"]
-	//"темно-бордовый", "in", "no_ok", "ok",  "#800000", 2402", 2
-				temp[i]=[obj[i][3], obj[i][1],  "no_ok", "ok", obj[i][2], obj[i][4],  obj[i][0] ];
+	//"темно-бордовый", "no_ok", "in", "ok",  "#800000", 2402", 2
+				temp[i]=[obj[i][3],   "check_domain", obj[i][1], "ok", obj[i][2], obj[i][4],  obj[i][0] ];
 			}
-			blk=links.table.centre_list
+			let blk=links.table.centre_list;
+			//blk.style.fontSize= "40px";
 			blk.dataset.display=1;
 			links.group.table_list.dataset.display=1;
+			links.titles.centre_list.innerText="Список Запросов";
 			control.write_arr(temp, arrs.request_format, blk, 'request_list');
+			control.edit_table(blk, temp);
 		}
 	},
 	
 };
 
 let control={
+	edit_table(link, arr){
+		for(let i=0; i<arr.length; i++){
+			links.table.centre_list.childNodes[i].childNodes[0].style.backgroundColor=arr[i][4];
+			links.table.centre_list.childNodes[i].childNodes[0].style.color=control.check_color(arr[i][4]);	
+			links.table.centre_list.childNodes[i].childNodes[3].style.display='none';	
+		}
+	},
+	check_color(color){
+	   let new_color=Number('0x'+color.slice(1,3))+2*Number('0x'+color.slice(3,5))+Number('0x'+color.slice(5,7));
+	   if(new_color>380){
+	       new_color='#000000';
+	   }else{
+	       new_color='#ffffff';
+	   }
+	   return new_color;
+	},
 	write_temp_table_old(table){ //пишем в temp значение всех полей таблицы	
 		let list=table.querySelectorAll('input');
 		for(let i=0; i<list.length; i++){
