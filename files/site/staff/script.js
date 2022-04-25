@@ -21,9 +21,9 @@ arrs={
 		perk_list_read:{out:['session'], in:['key','key_user','perk','name_user']},
 		
 		read_staff:{out:['session'], in:['key',"[{},{},{}]"]},
-		ok:{out:['key','session','key_user', 'action'], in:['key','key_user','perk','name_user']},		
-		no_ok:{out:['key','session','key_user', 'action'], in:['key','key_user']},
-		list_in:{out:['key','session'], in:['key',"[{},{},{}]"]}, 
+		ok:{out:['session','id'], in:['key','key_user','perk','name_user']},		
+		no_ok:{out:['session','id'], in:['key','key_user']},
+		list_in:{out:['session'], in:['key',"[{},{},{}]"]}, 
 		
 		
 
@@ -921,13 +921,24 @@ let click={		//new
 	},
 	check_domain(link){
 		console.log('check_domain');
-		link.dataset.click='no_ok';
+		link.dataset.click='no_ok_0';
 		let parent=link.parentNode.parentNode.children;
-		parent[3].dataset.click='ok';
+		parent[3].children[0].dataset.click='ok_0';
 		parent[3].style.display='block';
 		parent[0].innerText=parent[2].children[0].dataset.name;
 	},
-
+	no_ok_0(link){
+		console.log('no_ok_0');
+		temp.id=link.dataset.name;
+		//temp.link=link;
+		control.check_comand('no_ok');
+	},
+	ok_0(link){
+		console.log('ok_0');
+		temp.id=link.dataset.name;
+		//temp.link=link;
+		control.check_comand('ok');
+	},
 };
 
 let answer={  //new
@@ -1167,7 +1178,6 @@ let answer={  //new
 				temp[i]=[obj[i][3],   "check_domain", obj[i][1], "ok", obj[i][2], obj[i][4],  obj[i][0] ];
 			}
 			let blk=links.table.centre_list;
-			//blk.style.fontSize= "40px";
 			blk.dataset.display=1;
 			links.group.table_list.dataset.display=1;
 			links.titles.centre_list.innerText="Список Запросов";
@@ -1175,7 +1185,30 @@ let answer={  //new
 			control.edit_table(blk, temp);
 		}
 	},
-	
+	ok(e){
+		let obj=comm.show_ax(e);
+		console.log('ok');
+		if(obj.user){
+			arr=links.request_list.arr;
+			let number = arr.findIndex(item => item[6] == obj.user);
+			arr.splice(number, 1);
+			let blk=links.table.centre_list;
+			control.write_arr(arr, arrs.request_format, blk, 'request_list');
+			control.edit_table(blk, arr);
+		}
+	},	
+	no_ok(e){
+		let obj=comm.show_ax(e);
+		console.log('no_ok');
+		if(obj.user){
+			arr=links.request_list.arr;
+			let number = arr.findIndex(item => item[6] == obj.user);
+			arr.splice(number, 1);
+			let blk=links.table.centre_list;
+			control.write_arr(arr, arrs.request_format, blk, 'request_list');
+			control.edit_table(blk, arr);
+		}
+	},
 };
 
 let control={
@@ -1230,9 +1263,7 @@ let control={
 			}
 		}
 	},
-	
-	
-	
+		
 	fon_move(){  			//new
         let rand_x=Math.floor(Math.random() * 40) +30;
         let rand_y=Math.floor(Math.random() * 40) -20;

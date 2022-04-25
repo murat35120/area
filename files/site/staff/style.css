@@ -330,10 +330,10 @@ div[data-click='recovery'], div[data-picture='recovery'] {
 div[data-click='check_domain'], div[data-picture='check_domain'] {
     background: url(/png/check_domain.png) no-repeat;
 }
-div[data-click='ok'], div[data-picture='ok'] {
+div[data-click='ok_0'], div[data-picture='ok_0'] {
     background: url(/png/ok.png) no-repeat;
 }
-div[data-click='no_ok'], div[data-picture='no_ok'] {
+div[data-click='no_ok_0'], div[data-picture='no_ok_0'] {
     background: url(/png/no_ok.png) no-repeat;
 }
 
