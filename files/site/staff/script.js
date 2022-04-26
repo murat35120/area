@@ -917,6 +917,7 @@ let click={		//new
 	},
 	request(link){
 		console.log('request');
+		link.dataset.choose=1;
 		control.check_comand('read_staff');
 	},
 	check_domain(link){
@@ -936,7 +937,7 @@ let click={		//new
 	ok_0(link){
 		console.log('ok_0');
 		temp.id=link.dataset.name;
-		//temp.link=link;
+		temp.link=link;
 		control.check_comand('ok');
 	},
 };
@@ -1188,13 +1189,13 @@ let answer={  //new
 	ok(e){
 		let obj=comm.show_ax(e);
 		console.log('ok');
-		if(obj.user){
+		if(obj.id){
 			arr=links.request_list.arr;
-			let number = arr.findIndex(item => item[6] == obj.user);
+			let number = arr.findIndex(item => item[6] == obj.id);
 			arr.splice(number, 1);
-			let blk=links.table.centre_list;
-			control.write_arr(arr, arrs.request_format, blk, 'request_list');
-			control.edit_table(blk, arr);
+			let parent=temp.link.parentNode.parentNode.children;
+			parent[3].style.display='none';
+			parent[1].style.display='none';
 		}
 	},	
 	no_ok(e){
@@ -1220,7 +1221,7 @@ let control={
 		}
 	},
 	check_color(color){
-	   let new_color=Number('0x'+color.slice(1,3))+2*Number('0x'+color.slice(3,5))+Number('0x'+color.slice(5,7));
+	   let new_color=1.3*Number('0x'+color.slice(1,3))+1.6*Number('0x'+color.slice(3,5))+0.5*Number('0x'+color.slice(5,7));
 	   if(new_color>380){
 	       new_color='#000000';
 	   }else{

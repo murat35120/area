@@ -10,7 +10,7 @@ div[data-action='in_user'] {
     background: url(/png/in.png) no-repeat ;
     position: relative; 
 }
-div[data-action='out_user'] {
+div[data-action='out'] {
     background: url(/png/out.png) no-repeat;
      position: relative; 
 }

@@ -1,46 +1,50 @@
 
 
 body{
-    background: url(fon.jpg) repeat 0 0; /* Параметры фона */  
-    background-position:  var(--position_fon) 0;
+    background: url(/png/fon.jpg) repeat; /* Параметры фона */ 
+    background-position:  var(--position_fon_x) var(--position_fon_y);
     transition: 5s; /* время трансформации*/
 }
 
 div[data-action='in_user'] {
-    background: url(/png/in.png) no-repeat #80ff80;
+    background: url(/png/in.png) no-repeat ;
     position: relative; 
 }
 div[data-action='out_user'] {
-    background: url(/png/out.png) no-repeat #ff8080;
+    background: url(/png/out.png) no-repeat;
      position: relative; 
 }
 div[data-action='check'] {
-    background: url(/png/request.png) no-repeat #8080ff;
+    background: url(/png/request.png) no-repeat;
     position: relative; 
 }
 div[data-action='story'] {
-    background: url(/png/story.png) no-repeat #ff80ff;
+    background: url(/png/story.png) no-repeat;
     position: relative; 
 }
 div[data-action='read'] {
-    background: url(/png/recovery_staff.png) no-repeat #80ffff;
+    background: url(/png/recovery_staff.png) no-repeat;
     position: relative;
 }
 div[data-action='bill'] {
-    background: url(/png/bill.png) no-repeat #ffff80;
+    background: url(/png/bill.png) no-repeat;
     position: relative;
 }
 div[data-action='recovery'], div[data-gif='recovery'] {
-    background: url(/png/recovery.png) no-repeat #ffff40;
+    background: url(/png/recovery.png) no-repeat;
     position: relative;
 }
 div[data-action='new_user'], div[data-gif='new_user'] {
-    background: url(/png/new_user.png) no-repeat #80ff80;
+    background: url(/png/new_user.png) no-repeat;
+    position: relative;
+}
+div[data-action='login'], div[data-gif='login'] {
+    background: url(/png/login.png) no-repeat;
     position: relative;
 }
 div[data-action] {
-  width: 4em;
-  height: 4em;
+  width: 2em;
+  height: 2em;
   background-size: 70%;
   background-position: center;
 }

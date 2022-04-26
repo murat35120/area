@@ -60,12 +60,24 @@ let control={
 		}
 	},
 	check_color(color){
-	   let new_color=Number('0x'+color.slice(1,3))+2*Number('0x'+color.slice(3,5))+Number('0x'+color.slice(5,7));
+	   let new_color=1.3*Number('0x'+color.slice(1,3))+1.6*Number('0x'+color.slice(3,5))+0.5*Number('0x'+color.slice(5,7));
 	   if(new_color>380){
 	       new_color='#000000';
 	   }else{
 	       new_color='#ffffff';
 	   }
 	   return new_color;
+	},
+	write_color_block(asd){
+			abonent.color=asd.color;
+			links.blocks.color.style.backgroundColor=asd.color;
+			abonent.colorName=asd.colorName;
+			links.writes.color_name.innerText=asd.colorName;
+			links.writes.color_name.style.color=control.check_color(asd.color);
+			abonent.code=asd.code;
+			links.writes.code.innerText=asd.code;
+			links.writes.code.style.color=control.check_color(asd.color);
+			control.on_on(['color', 'buttons', 'read']);
+			comm.write_ls('abonent', abonent);
 	},
 };

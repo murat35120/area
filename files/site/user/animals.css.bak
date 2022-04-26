@@ -44,7 +44,7 @@ div[data-display="0"]{
 div[data-action]:hover::after {
     content:attr(data-title);
     position: absolute; /* Абсолютное позиционирование */
-    left: -20%; top:100%;  /* Положение подсказки */
+    left: -50%; top:100%;  /* Положение подсказки */
     z-index: 1; /* Отображаем подсказку поверх других элементов */
     padding: 5px 10px; /* Поля */
 }
