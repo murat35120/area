@@ -17,7 +17,7 @@ router.post("/out", function (req, res) {
     UserModel.findOne({where : {session: req.body.session}}).then(async function(model) {
         if(!model) throw 400;
         model.setDataValue("time", new Date());
-        //model.setDataValue("sessionExpired", new Date(0));
+        model.setDataValue("sessionExpired", new Date(0));
         await model.save();
         const color = getRandomColor();
         const code = generateCode();

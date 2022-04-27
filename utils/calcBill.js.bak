@@ -10,7 +10,6 @@ const devideMap = {
 
 module.exports = function(pricesModels, domainModel){
     const timesMap = {};
-	console.log('pricesModels - '+pricesModels);
     const times = pricesModels
     .map(value => {
         const parsedTime = parseTimeToMS(value.time);
@@ -18,7 +17,6 @@ module.exports = function(pricesModels, domainModel){
         return parsedTime;
     })
     .sort((a,b) => a - b);
-	console.log('times - '+times);
     const bill = [];
     const currentTimeMS = getCurrentTimeMS();
     times.forEach((element, index) => {
@@ -31,6 +29,5 @@ module.exports = function(pricesModels, domainModel){
             bill.push({type: 'item', data:[startTime, endTime, timesMap[element].cost, endPrice]});
         }
     });
-	console.log('bill - '+bill);
     return bill;
 }

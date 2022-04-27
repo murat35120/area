@@ -31,6 +31,7 @@ let answer={ //new
 	in_user(e){
 	    let asd=comm.show_ax(e);
 		if(asd){
+			abonent.session=asd.session;
 			control.write_color_block(asd);
 		}
 	},
@@ -70,7 +71,11 @@ let answer={ //new
 				links.writes.code.style.color=control.check_color(abonent.color);
 				control.on_on(['color', 'buttons', 'read', 'login']);
 			} else{
-				control.on_on(['status', 'buttons', 'check', 'out', 'story', 'bill', 'login'] );
+				//if(asd=='out'){
+					control.on_on(['status', 'buttons', 'check', 'in_user', 'out', 'story', 'bill', 'login'] );	
+				//}else{
+				//	control.on_on(['status', 'buttons', 'check', 'out', 'story', 'bill', 'login'] );
+				//}
 				links.writes.status.innerText=asd;
 				links.writes.time.innerText=new Date().toLocaleTimeString('en-GB');				
 			}
