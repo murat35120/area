@@ -25,20 +25,16 @@ arrs={
 		no_ok:{out:['session','id'], in:['key','key_user']},
 		list_in:{out:['session'], in:['key',"[{},{},{}]"]}, 
 		
+        user_list_read:{out:['key','session', 'count'], in:['key',"[{},{},{}]"]},
+        user_dell:{out:['session', 'key_user'], in:['key', 'key_user']},
+        user_dell_all:{out:['session'], in:['key']}, 
 		
-
+        log_read:{out:['session', 'date'], in:['key',"[{},{},{}]"]},
 		
 		balance:{out:['key','session'], in:['key','count','balance_old','cost', 'limit']},	
 		
 		read_msgs:{out:['key','session'], in:['key',"[{},{},{}]"]},	
 		write_msg:{out:['key','session', 'to', 'title', 'message'], in:['key','msg_num']},
-        
-        log_read:{out:['key','session', 'date'], in:['key',"[{},{},{}]"]},
-        
-        user_list_read:{out:['key','session', 'number'], in:['key',"[{},{},{}]"]},
-        user_dell:{out:['key','session', 'key_user'], in:['key', 'key_user']},
-        user_dell_all:{out:['key','session'], in:['key']}, 
-        
 
         staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
         staff_dell_all:{out:['key','session'], in:['key']},
@@ -351,6 +347,15 @@ arrs={
 		['',  'div', '', 5],
 		['',  'div', 'dataset', 'click', 6],	
 	],
+	
+	users_control:[
+        ['Начало', 1, 'key' ],
+        ['Количество', 1000, 'count' ],
+	],
+	users_control_format:[
+		['',  'div'],
+        ['','input', 'number', 2],
+    ],
 };
 
 let abonent={
@@ -940,6 +945,17 @@ let click={		//new
 		temp.link=link;
 		control.check_comand('ok');
 	},
+    user(link){		//new
+		console.log('user');
+		let blk=links.tables.centre;
+		control.on_on(['main_menu', 'clients_menu', 'table_centre', 'buttons_line'], link);
+		link.dataset.choose=1;
+		links.click.clients.dataset.choose=1;
+		abonent.key=1;
+		links.titles.centre_two.innerText='Управление пользователями';
+		links.click.send.dataset.many='user_list_read';
+		control.write_arr(arrs.users_control, arrs.users_control_format, links.table.centre, 'users_control', 0);
+    },
 };
 
 let answer={  //new

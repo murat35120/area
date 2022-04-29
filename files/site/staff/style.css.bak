@@ -242,13 +242,13 @@ div[data-click='count_set_open'], div[data-picture='count_set_open'] {
 div[data-click='price_list_open'], div[data-picture='price_list_open'] {
     background: url(/png/price_list.png) no-repeat;
 }
-div[data-click='user'], div[data-picture='user'] {
+div[data-click='user_list_read'], div[data-picture='user_list_read'] {
     background: url(/png/user.png) no-repeat;
 }
 div[data-click='indoor'], div[data-picture='indoor'] {
     background: url(/png/indoor.png) no-repeat;
 }
-div[data-click='log'], div[data-picture='log'] {
+div[data-click='log_read'], div[data-picture='log_read'] {
     background: url(/png/log.png) no-repeat;
 }
 div[data-click='request'], div[data-picture='request'] {
@@ -326,6 +326,15 @@ div[data-click='calendar'], div[data-picture='calendar'] {
 }
 div[data-click='recovery'], div[data-picture='recovery'] {
     background: url(/png/recovery.png) no-repeat;
+}
+div[data-click='check_domain'], div[data-picture='check_domain'] {
+    background: url(/png/check_domain.png) no-repeat;
+}
+div[data-click='ok_0'], div[data-picture='ok_0'] {
+    background: url(/png/ok.png) no-repeat;
+}
+div[data-click='no_ok_0'], div[data-picture='no_ok_0'] {
+    background: url(/png/no_ok.png) no-repeat;
 }
 
 div[data-click] {

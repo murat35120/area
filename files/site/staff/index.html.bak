@@ -38,6 +38,7 @@
                 </div>
                 <div class='menu' data-group='price_menu'>
                     <div data-click='count_set_open' title='Настройки расчета'></div>
+                    <div data-click='perk_list_open' title='Список уровней обслуживания'></div>
                     <div data-click='price_list_open' title='Стоимость от времени'></div>
                 </div>
                 <div class='menu' data-group='manager_menu'>
@@ -46,9 +47,9 @@
                     <div data-click='bill' title='Счет'></div>
                 </div>
                 <div class='menu' data-group='clients_menu'>
-                    <div data-click='user' title='Пользователи'></div>
+                    <div data-click='user_list_read' title='Пользователи'></div>
                     <div data-click='indoor' title='Внутри сейчас'></div>
-                    <div data-click='log' title='Лог событий'></div>
+                    <div data-click='log_read' title='Лог событий'></div>
                 </div>
                 
                 <div class='article' data-group='table_centre'>
@@ -57,6 +58,7 @@
         				<input  type='date' data-display='0' data-id='date' data-name_func='data_change' title='Дата'>
 						<div  data-group='typical_day'>Типовой день</div>
         				<div  data-click="calendar"  title='Календарь'></div>	
+						<div  data-click="recovery"   title='Получить'></div>
         			</div>
         			<table data-table='centre'> </table>
         			<div class='line' data-group='buttons_line'> 
@@ -76,7 +78,7 @@
         			<div class='line' data-group='table_buttons_two'> 
         				<div  data-click="send_two" data-many='centre' title='Отправить'></div>	
         			</div>
-                </div> 
+                </div>  
                 <div class='article' data-group='table_list'>
 					<div data-title='centre_list'></div>
         			<div class='menu' data-group='list_buttons'> 

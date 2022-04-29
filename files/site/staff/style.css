@@ -248,7 +248,7 @@ div[data-click='user'], div[data-picture='user'] {
 div[data-click='indoor'], div[data-picture='indoor'] {
     background: url(/png/indoor.png) no-repeat;
 }
-div[data-click='log'], div[data-picture='log'] {
+div[data-click='log_read'], div[data-picture='log_read'] {
     background: url(/png/log.png) no-repeat;
 }
 div[data-click='request'], div[data-picture='request'] {
