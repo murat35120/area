@@ -356,6 +356,13 @@ arrs={
 		['',  'div'],
         ['','input', 'number', 2],
     ],
+	user_list_format:[
+		['ID',  'div', '', 0],
+		['Имя',  'div'],
+        ['Привелегии', 'select','', [[],[]]],
+		['Дата',  'div'],
+		['выбрать',  'div', 'dataset','click'],
+    ],
 };
 
 let abonent={
@@ -952,7 +959,7 @@ let click={		//new
 		link.dataset.choose=1;
 		links.click.clients.dataset.choose=1;
 		abonent.key=1;
-		links.titles.centre_two.innerText='Управление пользователями';
+		links.titles.centre.innerText='Управление пользователями';
 		links.click.send.dataset.many='user_list_read';
 		control.write_arr(arrs.users_control, arrs.users_control_format, links.table.centre, 'users_control', 0);
     },
@@ -1224,6 +1231,26 @@ let answer={  //new
 			let blk=links.table.centre_list;
 			control.write_arr(arr, arrs.request_format, blk, 'request_list');
 			control.edit_table(blk, arr);
+		}
+	},
+	user_list_read(e){
+		let obj=comm.show_ax(e);
+		console.log('user_list_rea');
+		let temp=[];
+		if(obj){
+			for(let i=0; i<obj.length; i++){
+				temp[i]=[obj[i][0], obj[i][1], String(obj[i][2]), obj[i][3], "check_out"];
+			}
+			let blk=links.table.centre_list;
+			blk.dataset.display=1;
+			links.group.table_list.dataset.display=1;
+			links.titles.centre_list.innerText="Список Запросов";
+			selects_arr=arrs.user_list_format[2][3];
+			for(let i=0; i<abonent.setting.perk_list.length; i++){
+				selects_arr[0].push(abonent.setting.perk_list[i][0]);
+				selects_arr[1].push(abonent.setting.perk_list[i][1]);
+			}
+			control.write_arr(temp, arrs.user_list_format, blk, 'user_list');
 		}
 	},
 };
