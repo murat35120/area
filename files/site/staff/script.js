@@ -955,7 +955,7 @@ let click={		//new
     user(link){		//new
 		console.log('user');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu', 'clients_menu', 'table_centre', 'buttons_line'], link);
+		control.on_on(['main_menu', 'clients_menu', 'table_centre', 'list_buttons', 'send_list',  'buttons_line'], link);
 		link.dataset.choose=1;
 		links.click.clients.dataset.choose=1;
 		abonent.key=1;

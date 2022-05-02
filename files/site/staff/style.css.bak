@@ -242,7 +242,7 @@ div[data-click='count_set_open'], div[data-picture='count_set_open'] {
 div[data-click='price_list_open'], div[data-picture='price_list_open'] {
     background: url(/png/price_list.png) no-repeat;
 }
-div[data-click='user_list_read'], div[data-picture='user_list_read'] {
+div[data-click='user'], div[data-picture='user'] {
     background: url(/png/user.png) no-repeat;
 }
 div[data-click='indoor'], div[data-picture='indoor'] {
