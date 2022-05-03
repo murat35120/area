@@ -260,7 +260,7 @@ div[data-click='story'], div[data-picture='story'] {
 div[data-click='bill'], div[data-picture='bill'] {
     background: url(/png/bill.png) no-repeat;
 }
-div[data-click='send'], div[data-picture='send'] {
+div[data-click='send'], div[data-click='send_list'], div[data-picture='send'] { 
     background: url(/png/send.png) no-repeat;
 }
 div[data-click='send_two'], div[data-picture='send_two'] {

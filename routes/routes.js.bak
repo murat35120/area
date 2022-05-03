@@ -59,7 +59,8 @@ router.use("/:domain/", [
         require("./domain/ok"),
         require("./domain/noOk"),
         require("./domain/perk"),
-        require("./domain/perkN"),		
+        require("./domain/perkN"),
+        require("./domain/perkListRead"),		
         require("./domain/balance"),
         require("./domain/readMsgs"),
         require("./domain/writeMsg"),
@@ -79,7 +80,9 @@ router.use("/:domain/", [
         require("./domain/writeFile"),
         require("./domain/listIn"),
         require("./domain/logRead"),
-        require("./domain/newPasskey")
+        require("./domain/newPasskey"),
+        require("./domain/user_dell"),
+        require("./domain/user_dell_all")
     ])
 ])
 

@@ -80,7 +80,9 @@ router.use("/:domain/", [
         require("./domain/writeFile"),
         require("./domain/listIn"),
         require("./domain/logRead"),
-        require("./domain/newPasskey")
+        require("./domain/newPasskey"),
+        require("./domain/userDell"),
+        require("./domain/userDellAll")
     ])
 ])
 

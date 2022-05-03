@@ -312,10 +312,10 @@ div[data-click='past'], div[data-picture='past']  {
 div[data-click='add'], div[data-picture='add']  {
     background: url(/png/add.png) no-repeat;
 }
-div[data-click='staff_dell'], div[data-picture='staff_dell'] {
+div[data-click='dell_list'], div[data-picture='dell_list'] {
     background: url(/png/delete.png) no-repeat;
 }
-div[data-click='staff_dell_all'], div[data-picture='staff_dell_all'] {
+div[data-click='dell_all_list'], div[data-picture='dell_all_list'] {
     background: url(/png/clear.png) no-repeat;
 }
 div[data-click='typical_o'], div[data-picture='typical_o'] {

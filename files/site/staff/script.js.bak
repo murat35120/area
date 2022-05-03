@@ -905,6 +905,8 @@ let click={		//new
 		abonent.key=0;
 		abonent.count=1000;		
 		links.titles.centre_list.innerText='Сотрудники';
+		links.click.dell_list.dataset.many='staff_dell';
+		links.click.dell_all_list.dataset.many='staff_dell_all';
 		blk=links.table.centre_list;
 		if(abonent.staff_list_write){
 			let obj=abonent.staff_list_write;
@@ -955,11 +957,11 @@ let click={		//new
     user(link){		//new
 		console.log('user');
 		let blk=links.tables.centre;
-		control.on_on(['main_menu', 'clients_menu', 'table_centre', 'list_buttons', 'buttons_line'], link);
+		control.on_on(['main_menu', 'clients_menu', 'table_centre', 'list_buttons',  'buttons_line'], link);
 		link.dataset.choose=1;
 		links.click.clients.dataset.choose=1;
 		abonent.key=1;
-		links.titles.centre.innerText='Управление пользователями';
+		links.titles.centre.innerText='Получить список пользователей';
 		links.click.send.dataset.many='user_list_read';
 		control.write_arr(arrs.users_control, arrs.users_control_format, links.table.centre, 'users_control', 0);
     },
@@ -1244,7 +1246,7 @@ let answer={  //new
 			let blk=links.table.centre_list;
 			blk.dataset.display=1;
 			links.group.table_list.dataset.display=1;
-			links.titles.centre_list.innerText="Список Запросов";
+			links.titles.centre_list.innerText='Управление пользователями';
 			selects_arr=arrs.user_list_format[2][3];
 			for(let i=0; i<abonent.setting.perk_list.length; i++){
 				selects_arr[0].push(abonent.setting.perk_list[i][0]);
