@@ -26,7 +26,7 @@ arrs={
 		list_in:{out:['session'], in:['key',"[{},{},{}]"]}, 
 		
         user_list_read:{out:['key','session', 'count'], in:['key',"[{},{},{}]"]},
-        user_dell:{out:['session', 'key_user'], in:['key', 'key_user']},
+        user_dell:{out:['session', 'key'], in:['key', 'key_user']},
         user_dell_all:{out:['session'], in:['key']}, 
 		
         log_read:{out:['session', 'date'], in:['key',"[{},{},{}]"]},
