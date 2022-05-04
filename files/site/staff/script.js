@@ -16,7 +16,7 @@ arrs={
 		cost_read:{out:['session', 'date'], in:['key',"[{},{},{}]"]},	
         cost_dell:{out:['session', 'date'], in:['key','date']},
         cost_add:{out:['session', 'date', 'times'], in:['key','date']},
-		perk:{out:['session','key_user', 'perk'], in:['key','key_user','perk','name_user']},
+		perk:{out:['session','id', 'perk'], in:['key','key_user','perk','name_user']},
 		perk_n:{out:['session', 'perk'], in:['key','key_user','perk','name_user']},
 		perk_list_read:{out:['session'], in:['key','key_user','perk','name_user']},
 		
@@ -359,7 +359,7 @@ arrs={
 	user_list_format:[
 		['ID',  'div', '', 0],
 		['Имя',  'div'],
-        ['Привелегии', 'select','', [[],[]]],
+        ['Привелегии', 'select',5, [[],[]]],
 		['Дата',  'div'],
 		['выбрать',  'div', 'dataset','click'],
     ],
@@ -404,8 +404,15 @@ let comm={ //new
     show_ax(e) {//стандартная функция получения сообщения
         let data=e.target;
         if(data.status==200){
-            let obj=JSON.parse(data.response);
-			return obj;
+			let obj;
+			try {
+				obj=JSON.parse(data.response);
+				if (obj && typeof obj === "object") {
+					return obj;
+				}
+			}
+			catch (e) {return data.response;}
+			
 		}
         if(data.status>399){
 
@@ -510,6 +517,9 @@ let links={ //связываем действия пользователя с ф
 				if(value_name.slice(0,2)=="--"){
 					document.documentElement.style.setProperty(value_name, link.value);
 					control.style_to_file(temp);
+				}
+				if(click[value_name]){
+					click[value_name](link);
 				}
 			}
 		}
@@ -805,6 +815,12 @@ let click={		//new
 		comm.write_ls('abonent', abonent);
 		control.check_comand('write_file');
     },
+	select_perk(link){
+		console.log('detail_write');
+		temp.id=link.parentNode.parentNode.children[0].children[0].innerText;
+		temp.perk=link.options[link.selectedIndex].text;
+		control.check_comand('perk');
+	},	
 	settings_calc_write(link){	 //  это не нужно!!!!!
 		console.log('settings_calc_write');
 		abonent.detail = temp;
@@ -961,6 +977,7 @@ let click={		//new
 		link.dataset.choose=1;
 		links.click.clients.dataset.choose=1;
 		abonent.key=1;
+		temp.key=1;
 		links.titles.centre.innerText='Получить список пользователей';
 		links.click.send.dataset.many='user_list_read';
 		control.write_arr(arrs.users_control, arrs.users_control_format, links.table.centre, 'users_control', 0);
@@ -1165,9 +1182,18 @@ let answer={  //new
 			links.table.centre.children[0].children[2].innerText=obj.passkey;
 		}
 		abonent.key='0';
+		temp.key='0';
 		abonent.count=1000;
 		control.check_comand('staff_list_read');
 	},
+	staff_dell(e){		//new
+		let obj=comm.show_ax(e);
+		abonent.key='0';
+		temp.key='0';
+		abonent.count=1000;
+		control.check_comand('staff_list_read');
+	},
+	
 	perk_list_read(e){		//new
 		let obj=comm.show_ax(e);
 		console.log('perk list read');
@@ -1241,7 +1267,7 @@ let answer={  //new
 		let temp=[];
 		if(obj){
 			for(let i=0; i<obj.length; i++){
-				temp[i]=[obj[i][0], obj[i][1], String(obj[i][2]), obj[i][3], "check_out"];
+				temp[i]=[obj[i][0], obj[i][1], String(obj[i][2]), obj[i][3], "check_out", "select_perk"];
 			}
 			let blk=links.table.centre_list;
 			blk.dataset.display=1;
@@ -1249,7 +1275,8 @@ let answer={  //new
 			links.titles.centre_list.innerText='Управление пользователями';
 			links.click.dell_list.dataset.many='user_dell';
 			links.click.dell_all_list.dataset.many='user_dell_all';
-			selects_arr=arrs.user_list_format[2][3];
+			arrs.user_list_format[2][3]=[[],[]];
+			let selects_arr=arrs.user_list_format[2][3];
 			for(let i=0; i<abonent.setting.perk_list.length; i++){
 				selects_arr[0].push(abonent.setting.perk_list[i][0]);
 				selects_arr[1].push(abonent.setting.perk_list[i][1]);
@@ -1257,6 +1284,14 @@ let answer={  //new
 			control.write_arr(temp, arrs.user_list_format, blk, 'user_list');
 		}
 	},
+	user_dell(e){
+		let obj=comm.show_ax(e);
+		console.log('user_dell');
+		abonent.key=1;
+		temp.key=1;
+		abonent.count=1000;
+		control.check_comand('user_list_read');
+	}
 };
 
 let control={
