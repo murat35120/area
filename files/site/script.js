@@ -528,13 +528,13 @@ let control={
 			if(!abonent.domain_list.includes(abonent.domain)){
 				abonent.domain=abonent.domain_list[0];
 				//abonent.company_name=abonent.domain_list[0];
-				document.querySelector('.main>.top').innerText=abonent.domain;		
-				document.title=abonent.domain;
-				control.check_comand('role_list_read');
-				abonent.key=0;
-				abonent.count=1000;
-				//control.check_comand('staff_list_read');
 			}
+			document.querySelector('.main>.top').innerText=abonent.domain;		
+			document.title=abonent.domain;
+			control.check_comand('role_list_read');
+			abonent.key=0;
+			abonent.count=1000;
+			//control.check_comand('staff_list_read');
 		}
 	},
 	

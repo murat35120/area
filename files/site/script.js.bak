@@ -586,6 +586,7 @@ let control={
 					obj=control.inser_role(obj, abonent.role_list_all);
 				}
 				control.write_arr(obj, arrs.staff_list_format, blk, 'staff_list');
+				control.make_list();
 			}else{
 				blk.innerHTML="";
 			}
