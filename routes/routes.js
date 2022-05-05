@@ -55,7 +55,8 @@ router.use("/:domain/", [
     //]),
 
     useMiddlewareForRoutes([checkSession(ManagerModel, OwnerModel), checkManagerAccess], [
-        require("./domain/readStaff"),
+        require("./domain/readStaff"), 
+        require("./domain/indoor"),
         require("./domain/ok"),
         require("./domain/noOk"),
         require("./domain/perk"),

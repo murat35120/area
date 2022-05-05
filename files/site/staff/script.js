@@ -19,7 +19,8 @@ arrs={
 		perk:{out:['session','id', 'perk'], in:['key','key_user','perk','name_user']},
 		perk_n:{out:['session', 'perk'], in:['key','key_user','perk','name_user']},
 		perk_list_read:{out:['session'], in:['key','key_user','perk','name_user']},
-		
+
+		indoor:{out:['session'], in:['key',"[{},{},{}]"]},		
 		read_staff:{out:['session'], in:['key',"[{},{},{}]"]},
 		ok:{out:['session','id'], in:['key','key_user','perk','name_user']},		
 		no_ok:{out:['session','id'], in:['key','key_user']},
@@ -36,14 +37,14 @@ arrs={
 		read_msgs:{out:['key','session'], in:['key',"[{},{},{}]"]},	
 		write_msg:{out:['key','session', 'to', 'title', 'message'], in:['key','msg_num']},
 
-        staff_dell:{out:['key','session', 'key_staff'], in:['key', 'key_staff']},
-        staff_dell_all:{out:['key','session'], in:['key']},
+        staff_dell:{out:['session', 'key_staff'], in:['key', 'key_staff']},
+        staff_dell_all:{out:['session'], in:['key']},
 
 	},
 	list_right:[
 	        {name:'new_staff', description:'Регистрация сотрудника (себя)', right:['new_staff', 'recovery_staff', 'in_staff', 'out_staff', 'new_pass_staff', 'read_file']},
 	        {name:'read_staff', description:'Регистрация Входа(Выхода) пользователей', right:['read_staff', 'ok', 'no_ok', 'list_in']}, 
-	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk','perk_n', 'perk_list_read']}, 
+	        {name:'perk', description:'Менять уровень обслуживания пользователей', right:['perk','perk_n', 'indoor', 'perk_list_read']}, 
 	        {name:'balance', description:'Смотреть стоимость услуг сервиса', right:['balance']}, 
 	        {name:'write_msg', description:'Писать сообщения сервису', right:['write_msg', 'read_msgs']},
 	        {name:'cost_read', description:'Редактировать прайс лист', right:['cost_add', 'cost_dell', 'cost_read']},
@@ -342,10 +343,12 @@ arrs={
 	},
 	
 	request_format:[
-		['',  'div', '', 4],
-		['',  'div', 'dataset', 'click', 6],
-		['',  'div', '', 5],
-		['',  'div', 'dataset', 'click', 6],	
+		['',  'div', '', 6],
+		['',  'div', 'dataset', 'click', 8],
+		['',  'div', '', 7],
+		['',  'div', 'dataset', 'click', 8],
+		['',  'div', 'dataset', 'click', 8],
+		['',  'div', 'dataset', 'click', 8],		
 	],
 	
 	users_control:[
@@ -1227,7 +1230,7 @@ let answer={  //new
 			for(let i=0; i<obj.length; i++){
 	//[2, "in", "#800000", "темно-бордовый", "2402"]
 	//"темно-бордовый", "no_ok", "in", "ok",  "#800000", 2402", 2
-				temp[i]=[obj[i][3],   "check_domain", obj[i][1], "ok", obj[i][2], obj[i][4],  obj[i][0] ];
+				temp[i]=[obj[i][3],   "check_domain", obj[i][1], "ok", "story", "bill", obj[i][2], obj[i][4],  obj[i][0]];
 			}
 			let blk=links.table.centre_list;
 			blk.dataset.display=1;
@@ -1297,8 +1300,8 @@ let answer={  //new
 let control={
 	edit_table(link, arr){
 		for(let i=0; i<arr.length; i++){
-			links.table.centre_list.childNodes[i].childNodes[0].style.backgroundColor=arr[i][4];
-			links.table.centre_list.childNodes[i].childNodes[0].style.color=control.check_color(arr[i][4]);	
+			links.table.centre_list.childNodes[i].childNodes[0].style.backgroundColor=arr[i][6];
+			links.table.centre_list.childNodes[i].childNodes[0].style.color=control.check_color(arr[i][6]);	
 			links.table.centre_list.childNodes[i].childNodes[3].style.display='none';	
 		}
 	},
