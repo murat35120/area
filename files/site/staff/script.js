@@ -366,6 +366,14 @@ arrs={
 		['Дата',  'div'],
 		['выбрать',  'div', 'dataset','click'],
     ],
+	indoor:[
+		['ID',  'div'],
+		['Key',  'div'],
+		['Direct',  'div'],
+		['Status',  'div'],
+		['Code',  'div'],
+	],
+	funk:['as1', 'sd2', 'df3', 'gh4'],
 };
 
 let abonent={
@@ -490,7 +498,12 @@ let links={ //связываем действия пользователя с ф
 				return;
 			}
 			click[name](link); 
-        }
+        } else{
+			if(link.dataset.many){
+				name=link.dataset.many;
+				click[name](link);	
+			}
+		}
     },
     call_func_chng (e){		//new
 		//если тип passvord то не сохранять
@@ -1240,6 +1253,17 @@ let answer={  //new
 			control.edit_table(blk, temp);
 		}
 	},
+	indoor(e){
+		let obj=comm.show_ax(e);
+		console.log('indoor');
+			let blk=links.table.centre_list;
+			let temp=[];
+			blk.dataset.display=1;
+			links.group.table_list.dataset.display=1;
+			links.titles.centre_list.innerText="Indoor";
+			control.write_arr(obj, arrs.indoor, blk, 'indoor',0, arrs.funk);	
+	},
+	
 	ok(e){
 		let obj=comm.show_ax(e);
 		console.log('ok');
@@ -1389,8 +1413,25 @@ let control={
 			comm.ax(obj, name, url);
 		}
 	},	
-	write_arr(name_obj, name_format, parent, name, multi=0){  //new
-	    //имя массива, формат массива, место вставки, имя ссылки, вложения
+	write_arr(name_obj, name_format, parent, name, multi=0, funk=0){  //new
+	    //имя массива, формат массива, место вставки, имя ссылки, вложения, data-many для названий колонок
+		if(name_obj=="help"){
+			let asd= "Функция заполняет таблицу - parent  это таблица,\
+			\r\n дополнительно создаетт объект name  в объекте link,\
+			\r\n он содержит ссылки на name_obj, name_format ,\
+			\r\n формат ['выбрать',  'div', 'dataset','click', 6],\
+			\r\n каждая строка определяет настройки колонок ,\
+			\r\n 'выбрать'- название колонки, 'div' - тип создаваемого элемента. Назначение друих элементов зависит от типа  ,\
+			\r\n Варианты:  div, input, select, img  ,\
+			\r\n div - 'dataset-click' = кнопка, функция соответствует тексту в name_obj, 6 = номер элемена из которого взять значение для 'dataset-name'   ,\
+			\r\n input - значение соответствует тексту в name_obj, 'text'= тип input, 6 = номер элемена из которого взять значение для 'dataset-name'  ,\
+			\r\n если тип = list - создается 'datalist', значение соответствует тексту в name_obj, варианты выбора собираются из всех полей колонки,   ,\
+			\r\n select - значение соответствует тексту в name_obj, 6 = номер элемена из которого взять значение для 'dataset-name', [[],[]] = значения и соотваетствующие тексты для выбора   ,\
+			\r\n img - вставляет картинку, текст в name_obj это адрес картинки src, dataset.name = значение берется из поля номер которого указан в поле 3 формата   ,\
+			";
+			console.log(asd);
+			return "";
+		}
 	    if(!links.sets){
 	        links.sets={};
 	    }
@@ -1418,6 +1459,11 @@ let control={
     				let name =document.createElement('th');
     				if(format[j][0]){
     				    name.innerText=format[j][0];
+						if(funk.length){
+							if(funk[j]){
+								name.dataset.many=funk[j];
+							}
+						}
     				} else{
     				    name.innerText='column '+j;
     				}
