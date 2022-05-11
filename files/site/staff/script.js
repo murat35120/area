@@ -1256,12 +1256,14 @@ let answer={  //new
 	indoor(e){
 		let obj=comm.show_ax(e);
 		console.log('indoor');
-			let blk=links.table.centre_list;
-			let temp=[];
-			blk.dataset.display=1;
-			links.group.table_list.dataset.display=1;
-			links.titles.centre_list.innerText="Indoor";
-			control.write_arr(obj, arrs.indoor, blk, 'indoor',0, arrs.funk);	
+		control.on_on(['main_menu',  'table_list', 'clients_menu'], 0);
+		let blk=links.table.centre_list;
+		let temp=[];
+		blk.dataset.display=1;
+		//links.group.table_list.dataset.display=1;
+		links.click.indoor.dataset.choose=1;
+		links.titles.centre_list.innerText="Внутри";
+		control.write_arr(obj, arrs.indoor, blk, 'indoor',0, arrs.funk);	
 	},
 	
 	ok(e){
