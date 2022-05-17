@@ -9,10 +9,9 @@ router.post("/indoor", function (req, res) {
 		attributes: [
 			[sequelize.fn('max', sequelize.col('id')), 'n_id'],
 			'type',
-			'key',
+			group: 'key',
 			'status'
-		],
-		group: 'key'
+		]
 	}).then((models) => { 
 		console.log(models);
     }).catch((err) => {
