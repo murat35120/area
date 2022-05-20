@@ -12,7 +12,10 @@ router.post("/indoor", function (req, res) {
 			'key',
 			'status'
 		],
-		group: 'key'
+		group: ['key', 'type'],
+		where: {
+			status: 3
+		 }
 	}).then((models) => { 
 		console.log(models);
     }).catch((err) => {
