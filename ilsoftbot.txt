@@ -1,9 +1,0 @@
-5378184070:AAE2IMmn1aTZYVriYFiHC63Y2tzHgRfAIVg
-
-https://api.telegram.org/bot5378184070:AAE2IMmn1aTZYVriYFiHC63Y2tzHgRfAIVg/getUpdates
-
-https://t.me/ilsoftbot?start=6758
-
-'{"chat_id":549079751,"text":"hello world"}'
-
-https://api.telegram.org/bot5378184070:AAE2IMmn1aTZYVriYFiHC63Y2tzHgRfAIVg/sendMessage?chat_id=549079751&text=hello world
