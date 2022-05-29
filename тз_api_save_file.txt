@@ -1,0 +1,150 @@
+Задачи
+
+По email получаем письма, в теме указан номер заказа = ключ (order)
+файлы получаем если адрес отправителя есть в базе
+если указанного заказа нет, то создаем его
+номер заказа начинается с префикса ( '##', напимер,  ##9876 или ##ab45  ),  в номере нет пробелов, префикс не часть номера
+если номер опознать не удалось, файлы не сохраняются 
+файлы храним со связью с заказом, по именам, если имя повторяется то файл перезаписываем
+файлы храним в базе mysql
+
+Таблицы 
+emails - список разрешенных адресов
+	email - первычный ключ
+
+api_keys - список разрешенных ключей
+	name - первычный ключ
+	api_key
+
+orders - список заказов
+	order - первычный ключ
+	
+files
+	order - связь с таблицей orders
+	files_name
+	file
+
+
+ПРОТОКОЛ
+
+добавить адрес отправителя
+объект запроса
+{
+	api_key:'2345678',
+	command:'new_email',
+	data: {
+		email: 'vasa@goga.ru'
+	}
+}
+обънект ответа
+{
+	command:'new_email',	
+	data: {
+		email: 'vasa@goga.ru',
+		result: 'new'
+	}
+}
+
+получить список адресов 
+объект запроса
+{
+	api_key:'2345678',
+	command:'read_email_list',
+	data: {}
+}
+обънект ответа
+{
+	command:'read_email_list',	
+	data: {
+		list: ['vasa@goga.ru', 'kola@goga.ru', 'vasa@nogi.ru']
+	}
+}
+
+получить список файлов 
+объект запроса
+{
+	api_key:'2345678',
+	command:'read_file_list',
+	data: {
+		order: '9876'
+	}
+}
+обънект ответа
+{
+	command:'read_file_list',	
+	data: {
+		order: '9876',
+		list: ['invoice.pdf', 'proforma.pdf', '4532.lic']
+	}
+}
+
+получить файл
+объект запроса
+{
+	api_key:'2345678',
+	command:'download_file',
+	data: {
+		order: '9876',
+		name: 'proforma.pdf'
+	}
+}
+ответ
+- файл
+
+добавить(изменить) разрешенный api_key 
+объект запроса
+{
+	admin_key:'74965',
+	command:'new_api_key',
+	data: {
+		name: 'vasa',
+		api_key: '5286'
+	}
+}
+обънект ответа
+{
+	command:'new_api_key',	
+	data: {
+		name: 'vasa',
+		result: 'edit', ('new')
+	}
+}
+
+удалить name 
+объект запроса
+{
+	admin_key:'74965',
+	command:'dell_name',
+	data: {
+		name: 'vasa',
+	}
+}
+обънект ответа
+{
+	command:'dell_name',	
+	data: {
+		name: 'vasa',
+		result: 'dell'
+	}
+}
+
+удалить email 
+объект запроса
+{
+	admin_key:'74965',
+	command:'dell_email',
+	data: {
+		email: 'kola@goga.ru',
+	}
+}
+обънект ответа
+{
+	command:'dell_email',
+	data: {
+		email: 'kola@goga.ru',
+		result: 'dell'
+	}
+}
+
+admin_key - хранится прямо в коде сервера в виде объявления переменной
+
