@@ -4,17 +4,27 @@
 - подписка на телеграмм канал 
 - отправка сообщений (трансляция)
 данные храним в базе mysql
+
 Порядок работы
 1) админ  добавляет разрешенные api_key, команда 'new_api_key'
 2) используя api_key экземпляр приложения получает личную session, команда 'new_app'
 3) используя session, приложение регистрирует абонента за 2 шага.  Первый шаг это получение chek_code, команда 'new_abonent'
+	по этой команде сервер создает случайное число chek_code  
+	сохраняет его в в таблицу abonents и отправляет его приложению.
+	приложение показывает chek_code  абоненту.
 4) абонент самостоятельно подписывается на телеграмм канал и отправляет chek_code
-5) от Telegramm  приходит сообщение chek_code от абонента chat_id. 2 варианта запрос и хук (нужны оба варианта),  на сервере Telegramm командой Update //https://tlgrm.ru/docs/bots/api#sendmessage
-6) сервер добавляет запись в таблицу abonents и  удаляет соответставующую из таблицы codes  (коды для которых получен ответ ) 
-7) Второй шаг. Приложение отправляет запрос серверу  read_abonent_list и получает chek_code  и chat_id
+5) от Telegramm  приходит сообщение chek_code от абонента с chat_id. 
+	для тестирования можно отправить запрос - на сервер Telegramm запрос https://api.telegram.org/bot <token> /getUpdates?offset=-2 удаляет все кроме двух последних
+	но  нужен Webhook - телеграм  сам отправляет тот же объект ответа  методом POST
+	ответ для getUpdates  и запрос для Webhook  -  json объект  {update_id: 3456, message: "345678"},  message: "345678"  -  это chek_code
+6) сервер добавляет chat_id в таблицу abonents соответствующую chek_code 
+7) Второй шаг. Приложение отправляет запрос серверу  read_abonent_list и получает пары  chek_code - chat_id
 8) приложение используя session  и chat_id   отправляет сообщение серверу
 9) сервер используя chat_id отправляет сообщение в Telegramm командой sendMessage
-везде используем post
+пример с  GET https://api.telegram.org/bot <token> /sendMessage?chat_id=549079751&text=hello world
+везде используем post  на адрес
+https://api.telegram.org/bot <token> /sendMessage
+информация  по работе с телеграмм API   https://tlgrm.ru/docs/bots/api#sendmessage
 
 Таблицы 
 
@@ -32,9 +42,6 @@ abonents - список абонентов
 	session
 	chek_code
 
-codes - список кодов для регистрации абонентов (данные хранятся до получения ответа - chat_id) 
-	chek_code
-	session
 
 ПРОТОКОЛ
 
@@ -152,10 +159,17 @@ codes - список кодов для регистрации абонентов
 }
 
 admin_key - хранится прямо в коде сервера в виде объявления переменной
+<token>  -  хранится прямо в коде сервера в виде объявления переменной
 
-отправка сообщений в телеграмм
-1)
-2)
+запрос - на сервер Telegramm запрос https://api.telegram.org/ <token> /getUpdates?offset=947952519  -  это "update_id":947952519 - последнее обработаное сообщение
+пример ответа, 2 сообщения 
+{"ok":true,"result":[{"update_id":947952519,
+"message":{"message_id":11,"from":{"id":549079751,"is_bot":false,"first_name":"\u041c\u0443\u0440\u0430\u0442","last_name":"\u0417\u0438\u0433\u0430\u043d\u0448\u0438\u043d","language_code":"ru"},"chat":{"id":549079751,"first_name":"\u041c\u0443\u0440\u0430\u0442","last_name":"\u0417\u0438\u0433\u0430\u043d\u0448\u0438\u043d","type":"private"},"date":1653940280,"text":"two"}},{"update_id":947952520,
+"message":{"message_id":12,"from":{"id":549079751,"is_bot":false,"first_name":"\u041c\u0443\u0440\u0430\u0442","last_name":"\u0417\u0438\u0433\u0430\u043d\u0448\u0438\u043d","language_code":"ru"},"chat":{"id":549079751,"first_name":"\u041c\u0443\u0440\u0430\u0442","last_name":"\u0417\u0438\u0433\u0430\u043d\u0448\u0438\u043d","type":"private"},"date":1653940323,"text":"three"}}]}
+
+"from":{"id":549079751  - абонент
+"chat":{"id":549079751  - бот
+
 
 регистрация сервера в телеграмм
-получение хук от телеграмм
+и получение хук от телеграмм
