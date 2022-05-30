@@ -11,11 +11,14 @@
 3) используя session, приложение регистрирует абонента за 2 шага.  Первый шаг это получение chek_code, команда 'new_abonent'
 4) абонент самостоятельно подписывается на телеграмм канал и отправляет chek_code
 5) от Telegramm  приходит сообщение chek_code от абонента chat_id. 2 варианта запрос и хук (нужны оба варианта),  на сервере Telegramm командой Update //https://tlgrm.ru/docs/bots/api#sendmessage
+	запрос https://api.telegram.org/ -ключ канала- /getUpdates
 6) сервер добавляет запись в таблицу abonents и  удаляет соответставующую из таблицы codes  (коды для которых получен ответ ) 
 7) Второй шаг. Приложение отправляет запрос серверу  read_abonent_list и получает chek_code  и chat_id
 8) приложение используя session  и chat_id   отправляет сообщение серверу
 9) сервер используя chat_id отправляет сообщение в Telegramm командой sendMessage
-везде используем post
+пример с  GET https://api.telegram.org/bot -ключ канала- /sendMessage?chat_id=549079751&text=hello world
+везде используем post  на адрес
+https://api.telegram.org/bot -ключ канала- /sendMessage
 
 Таблицы 
 
