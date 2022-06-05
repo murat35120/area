@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize").Sequelize;
-const sequelize = new Sequelize('saas', 'murat', '3512086', {
+const sequelize = new Sequelize('area', 'murat', '3512086', {
     host: 'localhost',
     port: 3306,
     dialect: 'mysql',
