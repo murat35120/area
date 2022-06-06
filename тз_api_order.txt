@@ -1,0 +1,165 @@
+Задачи
+
+Получение, отслеживание состояния и хранение заказа. 
+- получить заказ
+- внести изменение в состояние
+- вернуть текущее состояние
+- вернутрь список заказов за период (отчет)
+
+
+
+Порядок работы
+1) админ  добавляет разрешенные api_key, команда 'new_api_key'
+2) используя api_key заказчик создает заказ, команда 'new_order'
+3) по запросу отдаем информацию о заказе, команда 'order_info'
+4) по запросу меняем информацию о заказе, команда 'order_status_edit'
+5) по запросу отдаем массив заказов за период, команда 'order_list'
+
+
+Таблицы 
+
+api_keys - список разрешенных ключей
+	name - первычный ключ
+	api_key
+
+orders  - список заказов
+	key - номер заказа в этой таблице, первычный ключ
+	name  -  заказчик
+	order_number - номер заказа в системе заказчика
+	inn - ИНН компании
+	address
+	email
+	phone
+	device - устройство (номер изделия, номер программы, аккаунт облака)
+	order - JSON строка массива позиций заказа
+		order:[{code:'', piece:'', price:''},{},{}]
+	sum - общая сумма заказа
+	date_order - дата создания заказа
+	date_complete - дата завершения заказа
+	proforma - номер документа
+	invoice - номер документа 
+	license - номер документа 
+
+ПРОТОКОЛ
+
+добавить(изменить) разрешенный api_key 
+объект запроса
+{
+	admin_key:'74965',
+	command:'new_api_key',
+	data: {
+		name: 'vasa',
+		api_key: '5286'
+	}
+}
+объект ответа
+{
+	command:'new_api_key',	
+	data: {
+		name: 'vasa',
+		result: 'edit', ('new')
+	}
+}
+
+удалить name 
+объект запроса
+{
+	admin_key:'74965',
+	command:'dell_name',
+	data: {
+		name: 'vasa',
+	}
+}
+объект ответа
+{
+	command:'dell_name',	
+	data: {
+		name: 'vasa',
+		result: 'dell'
+	}
+}
+
+Создать заказ
+объект запроса
+{
+	api_key:'2345678',
+	command:'new_order',
+	data: {
+		inn: '',
+		order_number:'',
+		order:[{code:'',piece:'',price:''},{code:'',piece:'',price:''},{code:'',piece:'',price:''},],
+		email:'',
+		phone:'',
+		address:'',
+		device:''	
+	}
+}
+объект ответа
+{
+	command:'new_order',	
+	data: {
+		order_number:'',
+		result: 'new',
+		key:''
+	}
+}
+
+получить информацию о заказе
+объект запроса
+{
+	api_key:'2345678',
+	command:'order_info',
+	data: {
+		key: '',
+		order_number:''	
+	}
+}
+объект ответа
+{
+	command:'order_info',	
+	data: {
+		key: '',
+		order_number:'',
+		inn: '',
+		order_number:'',
+		order:[{code:'',piece:'',price:''},{code:'',piece:'',price:''},{code:'',piece:'',price:''},],
+		email:'',
+		phone:'',
+		address:'',
+		device:'',
+		sum:'',
+		date_order:'',
+		date_complete:'',
+		proforma:'',
+		invoice:'', 
+		license:'' 
+	}
+}
+
+Изменить статус заказа
+объект запроса
+{
+	api_key:'2345678',
+	command:'order_status_edit',
+	data: {
+		key: '',
+		order_number:''	
+		date_complete:'',
+		proforma:'',
+		invoice:'', 
+		license:'' 
+	}
+}
+объект ответа
+{
+	command:'order_status_edit',	
+	data: {
+		order_number:'',
+		key:'',
+		result: 'edit'
+	}
+}
+
+
+token к внешнему API  - хранится прямо в коде сервера в виде объявления переменной
+admin_key - хранится прямо в коде сервера в виде объявления переменной

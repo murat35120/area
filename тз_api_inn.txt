@@ -11,7 +11,7 @@
 Порядок работы
 1) админ  добавляет разрешенные api_key, команда 'new_api_key'
 2) используя api_key пользователь регистрирует группу  group (произвольное имя, групп можно создать неограниченное количество), команда 'new_group'
-3) используя api_key и  group, пользователь отправляет (добавляет к существующему) задание на печать.  массив пар значений, инн отправителя и инн получателя, команда 'add_task' (группа имеет только одно задание)
+3) используя api_key и  group, пользователь отправляет (добавляет к существующему) задание на печать.  массив пар значений, инн отправителя и инн получателя, команда 'add_task' (группа имеет только одно задание = массив )
 	по этой команде сервер проверяет инн в своей базе, если данных нет, то используя внешнее API получает информацию о компании по инн преобразует convert() и добапвляет ее в свою базу
 	информацию о компании отправителе и получателе сервер добавляет в массив задания 
 4)  используя api_key и  group, пользователь получает готовое задание на печать, команда 'read_task'
@@ -21,6 +21,8 @@
 6) абонент может получить все настройки группы для печати полей, команда 'read_setting'
 	по этой команде сервер отправляет массив объектов настроек для group
 7) абонент может получить список групп, команда 'read_list'
+	по этой команде сервер отправляет список групп для api_key
+8) абонент может редактировать информацию о компании, только почтовый адрес и контакты, команда 'edit_info'
 	по этой команде сервер отправляет список групп для api_key
 
 Таблицы 
@@ -37,6 +39,13 @@ settings
 	group
 	name
 	setting - JSON строка объекта настроек
+
+companies
+	inn
+	data - JSON строка объекта информации о компании
+	post_address 
+	contact - JSON строка объекта информации о контактных данных сотрудника
+	
 
 
 ПРОТОКОЛ
@@ -68,13 +77,14 @@ settings
 	command:'add_task',
 	data: {
 		group: 'helen',
-		task: '{......}',
+		task: [{},{},{}],
 	}
 }
 объект ответа
 {
 	command:'add_task',
 	data: {
+		group: 'helen',
 		result: 'add',
 	}
 }
@@ -93,7 +103,8 @@ settings
 {
 	command:'read_task',
 	data: {
-		task: '{......}',
+		full_task: [{},{},{}],
+		// full_task - это task + информация о компаниях
 	}
 }
 
@@ -153,7 +164,24 @@ settings
 	}
 }
 
-
+получить список групп
+объект запроса
+{
+	api_key:'2345678',
+	command:'edit_info',
+	data: {
+		inn:34567890,
+		post_address:'Москва, 3-я улица строителей, д. 15 кв. 15',
+		contact: '{}'
+	}  
+}
+объект ответа
+{
+	command:'edit_info',
+	data: {
+		inn:34567890
+	}
+}
 
 добавить(изменить) разрешенный api_key 
 объект запроса
@@ -192,4 +220,42 @@ settings
 	}
 }
 
+внешнее API
+var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
+var token = "204edbf3512158dda25c80a17936b2d44bb20b03";
+var options = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Token " + token
+    },
+    body: 0//JSON.stringify({query: query})
+}
+function asd(inn, fnk){
+	options.body=JSON.stringify({query: inn})
+	fetch(url, options)
+	.then(response => response.text())
+	.then(result => control[fnk](result))
+	.catch(error => console.log("error", error));
+}
+
+convert() функция - получает объект с информацией о компании и возвращает новый объект, список  свойств ниже
+
+входной объект
+obj - объект ответа с информацией  о компании
+dd=obj.suggestions[0].data
+
+свойства выходного обекта
+inn - ИНН из запроса
+name_company - dd.name.short_with_opf || dd.name.short || dd.name.full
+postal_code - dd.address.data.postal_code
+address - dd.address.value || dd.address.unrestricted_value || dd.address.data.source
+
+обозначение -  || - или, сначала первое значение, если его нет, то следующее за ||
+
+
+
+token к внешнему API  - хранится прямо в коде сервера в виде объявления переменной
 admin_key - хранится прямо в коде сервера в виде объявления переменной
