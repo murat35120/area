@@ -27,6 +27,18 @@
 12) получив список приложений, абонент может удалить его = удалить запись из таблицы abonents с соответствующими chat_id и session. Для этого абонент
 	в телеграмм нажимает на  кнопку c соответствующим type. В Webhook будет type приложения запись о котором нужно удалить.
 
+curl -L -X POST "http://192.168.0.6:8080" -H "Content-Type: application/json" --data-raw "{\"admin_key\":123123123,\"command\":\"new_api_key\",\"data\":{\"name\":\"vasa\",\"api_key\":528623}}"
+curl -L -X POST "http://192.168.0.6:8080" -H "Content-Type: application/json" --data-raw "{\"admin_key\":123123123,\"command\":\"dell_name\",\"data\":{\"name\":\"vasa4\"}}"
+
+curl -L -X POST "http://192.168.0.6:8080" -H "Content-Type: application/json" --data-raw "{\"api_key\":528623,\"command\":\"new_app\",\"data\":{\"id\":\"65476538\", \"type\":\"Guard Light\"}}"
+curl -L -X POST "http://192.168.0.6:8080" -H "Content-Type: application/json" --data-raw "{\"session\":\"dreVjG5CWo7nhGk1OqLARPsrX3NkQLLEQo6y\",\"command\":\"new_abonent\",\"data\":{}}"
+
+curl -L -X POST "http://192.168.0.6:8080" -H "Content-Type: application/json" --data-raw "{\"session\":\"dreVjG5CWo7nhGk1OqLARPsrX3NkQLLEQo6y\",\"command\":\"read_abonent_list\",\"data\":{\"list\":[\"052379\"]}}"
+curl -L -X POST "http://192.168.0.6:8080" -H "Content-Type: application/json" --data-raw "{\"session\":\"dreVjG5CWo7nhGk1OqLARPsrX3NkQLLEQo6y\",\"command\":\"send_msg\",\"data\":{\"key\":\"1\", \"text_msg\":\"hello!!!\" }}"
+
+
+{"command":"read_abonent_list","data":{"list":[{"check_code":238518,"key":2}]}}  -  ответ  до получения chat_id  не должен приходить
+
 Таблицы 
 
 api_keys - список разрешенных ключей
@@ -183,7 +195,7 @@ https://api.telegram.org/bot <token> /getUpdates
 
 отправить список приложений в телеграмм, в отает на команду абонента /delete
 https://api.telegram.org/bot <token> /sendMessage?chat_id=549079751&text=Какое приложение удалить?&reply_markup={"keyboard":[[{"text":"hello0"},{"text":"hello1"},{"text":"hello2"}],[{"text":"hello3"},{"text":"hello4"},{"text":"hello5"}]],"resize_keyboard":true,"one_time_keyboard":true}
-
+- не сделано
 ReplyKeyboardMarkup
 
 информация  по работе с телеграмм API   https://tlgrm.ru/docs/bots/api
