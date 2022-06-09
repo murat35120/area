@@ -19,26 +19,26 @@
 Таблицы 
 
 api_keys - список разрешенных ключей
-	name - первычный ключ
+	name - первычный ключ (название магазина)
 	api_key
 
 orders  - список заказов
-	key - номер заказа в этой таблице, первычный ключ
-	name  -  заказчик
+	id - номер заказа в этой таблице, первычный ключ
+	name  -  заказчик, из таблицы api_keys
 	order_number - номер заказа в системе заказчика
-	inn - ИНН компании
-	address
-	email
-	phone
-	device - устройство (номер изделия, номер программы, аккаунт облака)
+	inn - ИНН компании (клиент)
+	address - текст
+	email - текст
+	phone - текст
+	device - устройство (номер изделия, номер программы, аккаунт облака) - текст
 	order - JSON строка массива позиций заказа
 		order:[{code:'', piece:'', price:''},{},{}]
-	sum - общая сумма заказа
+	sum - общая сумма заказа - вычисляется при создании записи
 	date_order - дата создания заказа
 	date_complete - дата завершения заказа
-	proforma - номер документа
-	invoice - номер документа 
-	license - номер документа 
+	proforma - номер документа - текст
+	invoice - номер документа  - текст
+	license - номер документа  - текст
 
 ПРОТОКОЛ
 
@@ -100,7 +100,7 @@ orders  - список заказов
 	data: {
 		order_number:'',
 		result: 'new',
-		key:''
+		id:'38'
 	}
 }
 
@@ -110,15 +110,16 @@ orders  - список заказов
 	api_key:'2345678',
 	command:'order_info',
 	data: {
-		key: '',
-		order_number:''	
+		id: '',   // смотри *
+		order_number:''	 // смотри *
 	}
-}
+} 
+	//*  используем одно из полей, если заполнены оба, то ищем по id, если такого заказа нет, то ищем по order_number 
 объект ответа
 {
 	command:'order_info',	
 	data: {
-		key: '',
+		id: '',
 		order_number:'',
 		inn: '',
 		order_number:'',
@@ -142,8 +143,8 @@ orders  - список заказов
 	api_key:'2345678',
 	command:'order_status_edit',
 	data: {
-		key: '',
-		order_number:''	
+		id: '',  // смотри *  
+		order_number:''	 // смотри *  
 		date_complete:'',
 		proforma:'',
 		invoice:'', 
@@ -155,11 +156,64 @@ orders  - список заказов
 	command:'order_status_edit',	
 	data: {
 		order_number:'',
-		key:'',
+		id:'',
 		result: 'edit'
 	}
 }
 
+Получить список своих заказов за период (проверяем дату создания заказа)
+объект запроса
+{
+	api_key:'2345678',
+	command:'order_list',
+	data: {
+		from: '', 
+		to:''	
+	}
+}
+объект ответа
+{
+	command:'order_list',	
+	data: {
+		order_list:[] // массив объектов заказов
+	} 
+}
 
-token к внешнему API  - хранится прямо в коде сервера в виде объявления переменной
+Получить список всех заказов за период  (проверяем дату создания заказа)
+объект запроса
+{
+	admin_key:'74965',
+	command:'order_list_all',
+	data: {
+		from: '',
+		to:''	
+	}
+}
+объект ответа
+{
+	command:'order_list_all',	
+	data: {
+		order_list:[]
+	} 
+}
+
+объект заказа для order_list
+	{
+		id: '',
+		order_number:'',
+		inn: '',
+		order_number:'',
+		order:[{code:'',piece:'',price:''},{code:'',piece:'',price:''},{code:'',piece:'',price:''},],
+		email:'',
+		phone:'',
+		address:'',
+		device:'',
+		sum:'',
+		date_order:'',
+		date_complete:'',
+		proforma:'',
+		invoice:'', 
+		license:'' 
+	}
+
 admin_key - хранится прямо в коде сервера в виде объявления переменной
